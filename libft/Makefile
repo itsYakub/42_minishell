@@ -34,6 +34,8 @@ SRC = \
 	ft_striteri.c \
 	ft_arrsiz2d.c \
 	ft_free2d.c \
+	ft_wc.c \
+	ft_strdup2d.c \
 	ft_putchar_fd.c \
 	ft_putstr_fd.c \
 	ft_putnbr_fd.c \

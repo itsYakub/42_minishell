@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 SRCS= \
 	./minishell.c
 OBJS= \
@@ -17,7 +17,7 @@ NAME= \
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS) $(LFLAGS)
+	$(CC) $(CFLAGS) $(OBJS) -o $@ $(LDFLAGS) $(LFLAGS)
 
 $(OBJS): %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@

@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 15:45:33 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/01 11:21:33 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/06 12:44:13 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	fts_strcpy(result, s1);
 	fts_strcat(result, s2);
-	free((void *) s1);
 	return (result);
 }
 

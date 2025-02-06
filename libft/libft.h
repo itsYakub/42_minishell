@@ -6,7 +6,7 @@
 /*   By: joleksia <joleksia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 11:34:10 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/01 14:04:09 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:45:54 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,7 @@ void	ft_putnbr_fd(int n, int fd);
 /* SECTION: Function declarations (EXTANDED) */
 size_t	ft_arrsiz2d(void **arr);
 void	ft_free2d(void **arr);
+int		ft_wc(const char *s, char *c);
+char	**ft_strdup2d(char **ptr, size_t index, size_t count);
 
 #endif

@@ -1,41 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_wc.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/08 08:50:36 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/06 10:28:38 by joleksia         ###   ########.fr       */
+/*   Created: 2025/02/06 09:41:52 by joleksia          #+#    #+#             */
+/*   Updated: 2025/02/06 12:31:06 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	**ft_split(char const *s, char c)
+int	ft_wc(const char *s, char *delim)
 {
-	char	**warr;
-	int		tlen;
-	int		i;
+	int	res;
 
-	warr = (char **) malloc((ft_wc(s, &c) + 1) * sizeof(char *));
-	if (!warr)
-		return (NULL);
-	i = 0;
+	if (!s || !*s)
+		return (0);
+	res = 0;
 	while (*s)
 	{
-		while (*s == c)
+		while (ft_strchr(delim, *s))
 			s++;
-		if (*s)
-		{
-			if (ft_strchr(s, c))
-				tlen = ft_strchr(s, c) - s;
-			else if (!ft_strchr(s, c))
-				tlen = ft_strlen(s);
-			warr[i++] = ft_substr(s, 0, tlen);
-			s += tlen;
-		}
+		if (*s && !ft_strchr(delim, *s))
+			res++;
+		while (*s && !ft_strchr(delim, *s))
+			s++;
 	}
-	warr[i] = NULL;
-	return (warr);
+	return (res);
 }
