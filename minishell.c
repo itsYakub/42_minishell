@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/06 16:05:56 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/06 16:13:33 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,11 @@ int	msh_parse_commands(t_mini *mini, char **split)
 		split1 = ft_split(*split, ' ');
 		if (!split1)
 			return (0);
-		 mini->cmd->mini = mini;
-		 mini->cmd->exit = 0;
-		 mini->cmd->fd0 = 0;
+		mini->cmd->mini = mini;
+		mini->cmd->exit = 0;
+		mini->cmd->fd0 = 0;
 		mini->cmd[0].fd1 = 1;
-		 mini->cmd->cmd = ft_strdup2d(split1, 0, ft_arrsiz2d((void **) split1));
+		mini->cmd->cmd = ft_strdup2d(split1, 0, ft_arrsiz2d((void **) split1));
 		ft_free2d((void **) split1);
 		split++;
 	}
