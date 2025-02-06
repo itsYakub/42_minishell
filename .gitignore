@@ -1,0 +1,11 @@
+# vim files
+*.swp
+*.swo
+
+# binaries
+*.out
+*.exe
+*.app
+*.a
+*.so
+minishell
