@@ -9,7 +9,8 @@ LIBFT= \
 LDFLAGS= \
 	-L ./libft
 LFLAGS= \
-	-lft
+	-lft \
+	-lreadline
 NAME= \
 	minishell
 

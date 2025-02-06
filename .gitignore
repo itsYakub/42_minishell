@@ -8,4 +8,5 @@
 *.app
 *.a
 *.so
+*.o
 minishell
