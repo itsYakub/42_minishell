@@ -1,7 +1,8 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
+BUILTINS = $(addprefix ./builtins/, ms_cd.c ms_echo.c ms_env.c ms_exit.c ms_pwd.c)
 SRCS= \
-	./minishell.c
+	./minishell.c $(BUILTINS) lw.c vl_env.c
 OBJS= \
 	$(SRCS:.c=.o)
 LIBFT= \
