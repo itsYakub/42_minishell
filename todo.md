@@ -1,6 +1,7 @@
 Problems:
 -	history after echo -n value overwriting prompt
 	repro: use command, press up, press down
+-	builtin redirection
 
 To do:
 -	emulate zsh echo command?

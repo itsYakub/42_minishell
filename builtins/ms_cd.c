@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 12:22:21 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/06 15:20:36 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/07 11:18:58 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,23 @@ char	*lw_strjoin(char const *s1, char const *s2)
 	return (result);
 }
 
-void	update_pwd(t_env *env_vars)
+void	update_pwd(char **env_vars)
 {
-	t_env	*node;
-	
-	node = env_var_node("PWD=", env_vars);
-	node->var = lw_strjoin("PWD=", getcwd(NULL, 0));
+	int	pos;
+
+	pos = env_var_pos("PWD=", env_vars);
+	free(env_vars[pos]);	
+	env_vars[pos]= lw_strjoin("PWD=", getcwd(NULL, 0));
 }
 
-void	ms_cd(char *new_dir, t_env *env_vars)
+void	ms_cd(char *new_dir, char *env_vars[])
 {
 	char	*path;
-	t_env	*node;
-			
-	node = env_var_node("OLDPWD=", env_vars);
-	node->var = lw_strjoin("OLDPWD=", getcwd(NULL, 0));
+	int		pos;
+
+	pos = env_var_pos("OLDPWD=", env_vars);
+	free(env_vars[pos]);	
+	env_vars[pos]= lw_strjoin("OLDPWD=", getcwd(NULL, 0));
 	if (!new_dir)
 	{
 		path = env_var("HOME=", env_vars);

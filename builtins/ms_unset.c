@@ -6,13 +6,13 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:52:49 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/07 09:53:06 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/07 10:53:28 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ms_unset(t_cmd cmd, t_env *env_vars)
+void	ms_unset(t_cmd cmd, char *env_vars[])
 {
 	
 }
