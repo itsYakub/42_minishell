@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/07 12:29:56 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/07 15:00:26 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,22 +79,24 @@ int	msh_parse_cmd(t_cmd *cmd, char **split);
 
 // lw functions
 // builtins
-void	ms_cd(char *new_dir, char *env_vars[]);
-void	ms_env(char *env_vars[]);
-void	ms_echo(t_cmd cmd);
+void	ms_cd(t_mini *mini);
+void	ms_env(t_mini *mini);
+void	ms_echo(t_mini *mini);
 void	ms_exit(void);
-void	ms_export(t_cmd cmd, char *env_vars[]);
-void	ms_pwd(char *env_vars[]);
-void	ms_unset(t_cmd cmd, char *env_vars[]);
+void	ms_export(t_mini *mini);
+void	ms_pwd(t_mini *mini);
+void	ms_unset(t_mini *mini);
 
 // env_array
 int		cmd_equals(const char *cmd, char *param);
-char	**init_env_array(char *envp[]);
-void	copy_env_array(char *old[], char **new[]);
+char	**init_env_array(char **envp);
+void	copy_env_array(char **original, char ***copy);
 int		count_array(char **array);
 int		env_var_pos(char *var_name, char **env_var);
 char	*env_var(char *var_name, char **env_vars);
 int		empty_var(char *var_name, char **env_vars);
+char	*env_value(char *var_name, char **env_vars);
+void	free_stringlist(char **env_vars);
 
 int	msh_exec_single(t_mini *mini);
 int	msh_exec_pipeline(t_mini *mini);

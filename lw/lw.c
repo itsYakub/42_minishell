@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:35:52 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/07 12:24:47 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/07 16:42:10 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,51 +57,44 @@ int	cmd_equals(const char *cmd, char *param)
 	return (!result && ft_strlen(param) == cmd_len);
 }
 
-int	get_builtin(t_cmd cmd, char *env_vars[])
+int	get_builtin(t_mini *mini)
 {
 	// split string, check arguments
-	if (cmd_equals("pwd", cmd.cmd[0]))
+	if (cmd_equals("pwd", mini->cmd->cmd[0]))
 	{
-		ms_pwd(env_vars);
+		ms_pwd(mini);
 	}
-	if (cmd_equals("cd", cmd.cmd[0]))
+	if (cmd_equals("cd", mini->cmd->cmd[0]))
 	{
-		// no args = got home
-		ms_cd("..", env_vars);
+		ms_cd(mini);
 	}
-	if (cmd_equals("exit", cmd.cmd[0]))
+	if (cmd_equals("exit", mini->cmd->cmd[0]))
 	{
 		ms_exit();
 	}
-	if (cmd_equals("env", cmd.cmd[0]))
+	if (cmd_equals("env", mini->cmd->cmd[0]))
 	{
-		ms_env(env_vars);
+	
+		ms_env(mini);
 	}
-	if (cmd_equals("export", cmd.cmd[0]))
+	if (cmd_equals("export", mini->cmd->cmd[0]))
 	{
-		ms_export(cmd, env_vars);
+		ms_export(mini);
 	}
-	if (cmd_equals("echo", cmd.cmd[0]))
+	if (cmd_equals("echo", mini->cmd->cmd[0]))
 	{
-		ms_echo(cmd);
+		ms_echo(mini);
 	}
-	if (cmd_equals("unset", cmd.cmd[0]))
+	if (cmd_equals("unset", mini->cmd->cmd[0]))
 	{
-		ms_unset(cmd, env_vars);
+		ms_unset(mini);
 	}
 	return (0);
 }
 
-void	lw(int argc, char *argv[], char *env_vars[])
+void	lw(t_mini *mini)
 {	
-	// t_env	*env_vars;
-	
-	// env_vars = NULL;
-	// init_env_vars(&env_vars, envp);
 	char	*line_read = "";
-	
-	(void)argc;
-	(void)argv;
 	
 	init_g_signal();
 	
@@ -112,26 +105,28 @@ void	lw(int argc, char *argv[], char *env_vars[])
 	{
 		line_read = readline("Prompt > ");
 		add_history(line_read);
-		t_cmd cmd;
-		cmd.cmd = ft_split(line_read, ' ');
-		get_builtin(cmd, env_vars);
-	}
-
-	
+		mini->cmd->fd0 = 0;
+		mini->cmd->fd1 = 1;
+		mini->cmd->cmd = ft_split(line_read, ' ');
+		get_builtin(mini);
+	}	
 }
 
 int	main(int argc, char *argv[], char *envp[])
 {	
-	char	**env_vars;
-	
-	env_vars = init_env_array(envp);
-	if (!env_vars)
+	t_mini	mini;
+
+	(void)argc;
+	(void)argv;
+
+	mini.env = init_env_array(envp);
+	mini.cmd = malloc(sizeof(t_cmd));
+	if (!mini.env)
 	{
 		printf("Couldn't create env vars :(");
 		return (1);
 	}
-	//lw(argc, argv, env_vars);
-	empty_var("PWD", env_vars);
-	// free env_vars
+	lw(&mini);
+	free_stringlist(mini.env);
 	return 0;
 }
