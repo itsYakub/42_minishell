@@ -6,14 +6,12 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/07 12:30:21 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/07 16:07:05 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft/libft.h"
-
-static int	__msh_close_pipefd(int *fd, size_t c);
 
 int	main(int ac, char **av, char **ev)
 {
@@ -31,7 +29,7 @@ int	main(int ac, char **av, char **ev)
 		add_history(input);
 		if (msh_parse(&mini, input))
 		{
-			msh_exec(&mini);
+			msh_exec(mini.cmd);
 			msh_clean(&mini);
 		}
 		free(input);
@@ -44,7 +42,7 @@ int	msh_init(t_mini *mini, char **ev)
 	if (!mini || !ev)
 		return (0);
 	mini->cmd = NULL;
-	mini->env = ev;
+	mini->env = init_env_array(ev);
 	mini->exit = 0;
 	return (1);
 }
@@ -70,13 +68,72 @@ int	msh_parse(t_mini *mini, const char *str)
 	return (1);
 }
 
-int	msh_exec(t_mini *mini)
+int	msh_exec(t_cmd *cmd)
 {
-	if (mini->cmdc == 1)
-		return (msh_exec_single(mini));
-	else if (mini->cmdc > 1)
-		return (msh_exec_pipeline(mini));
+	if (cmd->mini->cmdc > 1)
+	{
+		msh_exec_pipe(cmd);
+		return (1);
+	}
+	else if (cmd->mini->cmdc == 1)
+	{
+		cmd->pid = fork();
+		if (!cmd->pid)
+		{
+			msh_exec_util(cmd);
+		}
+		wait(NULL);
+		return (1);
+	}	
 	return (0);
+}
+
+static int	__msh_close_pipe(int *pipefd, size_t c)
+{
+	while (--c)
+		close(pipefd[c]);
+	return (1);
+}
+
+int	msh_exec_pipe(t_cmd *cmd)
+{
+	int		*pipefd;
+	size_t	iter;
+	
+	pipefd = malloc(cmd->mini->cmdc * 2 * sizeof(int));
+	iter = -1;
+	while (++iter < cmd->mini->cmdc)
+		pipe(pipefd + iter * 2);
+	iter = -1;
+	while (++iter < cmd->mini->cmdc)
+	{
+		cmd->pid = fork();
+		if (!cmd->pid)
+		{
+			if (iter != 0)
+				dup2(pipefd[(iter - 1) * 2], cmd->fd0);
+			if (iter != cmd->mini->cmdc)
+				dup2(pipefd[iter * 2 + 1], cmd->fd1);
+			__msh_close_pipe(pipefd, cmd->mini->cmdc * 2);
+			msh_exec_util(cmd);
+		}
+	}
+	__msh_close_pipe(pipefd, cmd->mini->cmdc * 2);
+	free(pipefd);
+	while (wait(NULL) > 0)
+		;
+	return (1);
+}
+
+int	msh_exec_util(t_cmd *cmd)
+{
+	cmd->cmd[0] = msh_getutil(cmd->mini, cmd->cmd);
+	if (execve(cmd->cmd[0], cmd->cmd, cmd->mini->env))
+	{
+		printf("minishell: %s\n", strerror(errno));
+		exit(1);
+	}
+	exit(0);
 }
 
 int	msh_clean(t_mini *mini)
@@ -118,31 +175,6 @@ int	msh_parse_commands(t_mini *mini, char **split)
 	return (1);
 }
 
-int	msh_exec_single(t_mini *mini)
-{
-	mini->cmd->pid = fork();
-	if (!mini->cmd->pid)
-	{
-		dup2(mini->cmd->fd0, 0);
-		dup2(mini->cmd->fd1, 1);
-		*mini->cmd->cmd = msh_getutil(mini, mini->cmd->cmd);
-		if (execve(mini->cmd->cmd[0], mini->cmd->cmd, mini->env))
-			return (printf("minishell: unknown command '%s'\n", *mini->cmd->cmd));
-		if (mini->cmd->fd0 != 0)
-		{
-			close(mini->cmd->fd0);
-			mini->cmd->fd0 = 0;
-		}
-		if (mini->cmd->fd1 != 1)
-		{
-			close(mini->cmd->fd1);
-			mini->cmd->fd1 = 1;
-		}
-	}
-	wait((int *) &mini->cmd->exit);
-	return (1);
-}
-
 /*
  *	TODO:	reimplement a pipeline behaviour
  *			it should handle n-number of pipes
@@ -151,15 +183,3 @@ int	msh_exec_single(t_mini *mini)
  *			- ls -l | cat -e | grep "user" | wc -l
  *			etc. etc.
  * */
-int	msh_exec_pipeline(t_mini *mini)
-{
-	(void) mini;
-	return (0);
-}
-
-static int	__msh_close_pipefd(int *fd, size_t c)
-{
-	while (--c)
-		close(fd[c]);
-	return (1);
-}

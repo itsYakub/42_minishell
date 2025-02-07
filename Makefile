@@ -5,7 +5,8 @@ LW = $(addsuffix .c, $(addprefix ./lw/, lw env_array vl_env))
 SRCS= \
 	./minishell.c \
 	./minishell-getenv.c \
-	./minishell-utilpath.c
+	./minishell-utilpath.c \
+	./lw/env_array.c 
 OBJS= \
 	$(SRCS:.c=.o)
 LIBFT= \

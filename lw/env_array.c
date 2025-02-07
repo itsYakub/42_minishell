@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 10:19:42 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/07 12:25:05 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/07 13:41:09 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	copy_env_array(char *old[], char **new[])
 	i = -1;
 	while (++i < count)
 		(*new)[i] = ft_strdup(old[i]);
+	(*new)[count + 1] = NULL;
 }
 
 char	**init_env_array(char *envp[])
@@ -96,7 +97,7 @@ char	**init_env_array(char *envp[])
 	int		count;
 
 	count = count_array(envp);
-	env_vars = malloc(sizeof(char *) * count);
+	env_vars = malloc(sizeof(char *) * (count + 1));
 	if (!env_vars)
 		return (NULL);
 	copy_env_array(envp, &env_vars);

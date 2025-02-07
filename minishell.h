@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/07 12:29:56 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/07 16:04:56 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <signal.h>
+# include <string.h>
+# include <errno.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -71,7 +73,9 @@ typedef struct s_mini
 
 int	msh_init(t_mini *mini, char **ev);
 int	msh_parse(t_mini *mini, const char *str);
-int	msh_exec(t_mini *mini);
+int	msh_exec(t_cmd *cmd);
+int	msh_exec_pipe(t_cmd *cmd);
+int	msh_exec_util(t_cmd *cmd);
 int	msh_clean(t_mini *mini);
 
 int	msh_parse_commands(t_mini *mini, char **split);
@@ -95,9 +99,6 @@ int		count_array(char **array);
 int		env_var_pos(char *var_name, char **env_var);
 char	*env_var(char *var_name, char **env_vars);
 int		empty_var(char *var_name, char **env_vars);
-
-int	msh_exec_single(t_mini *mini);
-int	msh_exec_pipeline(t_mini *mini);
 
 char	*msh_getutil(t_mini *mini, char **util);
 char	*msh_getenv(t_mini *mini, const char *env);
