@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:35:52 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/07 09:01:33 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/07 09:53:55 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,15 @@ int	get_builtin(t_cmd cmd, t_env *env_vars)
 	}
 	if (cmd_equals("export", cmd.cmd[0]))
 	{
-		// no args same as env?
-		//ms_env(envp);
-		//add_env_var("abc", "def", envp);
-		// export key=value
+		ms_export(cmd, env_vars);
 	}
 	if (cmd_equals("echo", cmd.cmd[0]))
 	{
 		ms_echo(cmd);
+	}
+	if (cmd_equals("unset", cmd.cmd[0]))
+	{
+		ms_unset(cmd, env_vars);
 	}
 	return (0);
 }
