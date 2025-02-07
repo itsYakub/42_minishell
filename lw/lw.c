@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:35:52 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/07 11:09:52 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/07 12:24:47 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,8 @@ int	main(int argc, char *argv[], char *envp[])
 		printf("Couldn't create env vars :(");
 		return (1);
 	}
-	lw(argc, argv, env_vars);
+	//lw(argc, argv, env_vars);
+	empty_var("PWD", env_vars);
 	// free env_vars
 	return 0;
 }

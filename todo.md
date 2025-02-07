@@ -5,7 +5,8 @@ Problems:
 
 To do:
 -	emulate zsh echo command?
--	change env linked list to array?
+-	copy export list?
+	env unset/empty values are not listed
 -	ms_export
 	no args = ms_env
 	one arg, add arg=

@@ -6,12 +6,40 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 10:19:42 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/07 11:23:42 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/07 12:25:05 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+char	*var_value(char *var, int start)
+{
+	char	*sub;
+
+	sub = ft_substr(var, start, ft_strlen(var));
+	return (sub);
+}
+
+/*
+	Checks whether a variable name exists and is set
+*/
+int	empty_var(char *var_name, char **env_vars)
+{
+	char	*var;
+	char	*sub;
+
+	var = env_var(var_name, env_vars);
+	if (!var)
+		return (1);
+	
+	sub = var_value(var, ft_strlen(var_name));
+	printf("%s\n", sub);
+	return (0);
+}
+
+/*
+	Returns the array index of the variable
+*/
 int	env_var_pos(char *var_name, char **env_var)
 {
 	int	i;
@@ -24,6 +52,10 @@ int	env_var_pos(char *var_name, char **env_var)
 			return (i);
 	return (-1);
 }
+
+/*
+	
+*/
 
 char	*env_var(char *var_name, char **env_vars)
 {
