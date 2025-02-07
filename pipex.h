@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:49:56 by lwillis           #+#    #+#             */
-/*   Updated: 2025/01/20 11:27:26 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/07 17:55:13 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,5 @@
 # include <fcntl.h>
 
 void	show_error(char *error, int error_code);
-int		do_cmd(char *cmd, char *envp[]);
 
 #endif

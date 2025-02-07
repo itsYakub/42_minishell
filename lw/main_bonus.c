@@ -6,14 +6,15 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 09:16:37 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/07 17:17:35 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/07 18:00:08 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 #include "../libft/libft.h"
+#include "../minishell.h"
 
-void	cmd_process(char *cmd, char *envp[])
+void	cmd_process(t_cmd cmd, char *envp[])
 {
 	int	pid;
 	int	p_fd[2];

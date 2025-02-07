@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/07 17:07:42 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/07 18:00:21 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ int		empty_var(char *var_name, char **env_vars);
 char	*msh_getutil(t_mini *mini, char **util);
 char	*msh_getenv(t_mini *mini, const char *env);
 
-void	cmd_process(char *cmd, char *envp[]);
-int	do_cmd(char *cmd, char *envp[]);
+void	cmd_process(t_cmd cmd, char *envp[]);
+
+int		do_cmd(t_cmd cmd, char *envp[]);
 
 #endif

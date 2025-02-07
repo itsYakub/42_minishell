@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/07 17:46:23 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/07 18:04:23 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,19 +72,21 @@ int	msh_exec(t_cmd *cmd)
 {
 	// start changes
 	
-	// This won't work with flags as is because my implementation splits the string later.
-	// Easy enough to pass in the already split version.
-	// But it works with ls | cat, or ls | cat | cat, for example.
+	// Tested with
+	// ls | cat
+	// ls -l | cat
+	// ls -l | cat | cat | wc -w
+	// Also changed the cmd_process and do_cmd functions to accept t_cmd instead of char *
 	
 	if (cmd->mini->cmdc > 1)
 	{
 		size_t i = 0;
 		while (i < cmd->mini->cmdc - 1)
 		{
-			cmd_process(cmd[i].cmd[0], cmd->mini->env);
+			cmd_process(cmd[i], cmd->mini->env);
 			i++;
 		}
-		do_cmd(cmd[i].cmd[0], cmd->mini->env);
+		do_cmd(cmd[i], cmd->mini->env);
 		return (1);
 	}
 
