@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/07 16:07:05 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/07 17:46:23 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,26 @@ int	msh_parse(t_mini *mini, const char *str)
 
 int	msh_exec(t_cmd *cmd)
 {
+	// start changes
+	
+	// This won't work with flags as is because my implementation splits the string later.
+	// Easy enough to pass in the already split version.
+	// But it works with ls | cat, or ls | cat | cat, for example.
+	
 	if (cmd->mini->cmdc > 1)
 	{
-		msh_exec_pipe(cmd);
+		size_t i = 0;
+		while (i < cmd->mini->cmdc - 1)
+		{
+			cmd_process(cmd[i].cmd[0], cmd->mini->env);
+			i++;
+		}
+		do_cmd(cmd[i].cmd[0], cmd->mini->env);
 		return (1);
 	}
+
+	// end changes
+	
 	else if (cmd->mini->cmdc == 1)
 	{
 		cmd->pid = fork();
