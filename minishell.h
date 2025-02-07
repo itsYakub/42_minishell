@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/06 16:41:11 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/07 08:56:46 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	ms_exit(void);
 void	ms_pwd(t_env *env_vars);
 void	ms_cd(char *new_dir, t_env *env_vars);
 void	ms_env(t_env *env_vars);
-void	ms_echo(char *str);
+void	ms_echo(t_cmd cmd);
+int		cmd_equals(const char *cmd, char *param);
 
 #endif

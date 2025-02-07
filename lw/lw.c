@@ -6,12 +6,12 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:35:52 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/06 16:36:48 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/07 09:01:33 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <readline/history.h>
-#include "minishell.h"
+#include "../minishell.h"
 # include <string.h>
 # include <dirent.h>
 # include <limits.h>
@@ -47,36 +47,46 @@ void	init_g_signal(void)
 	// g_signal.exit_status = 0;
 }
 
-int	get_builtin(char *str, t_env *env_vars)
+int	cmd_equals(const char *cmd, char *param)
+{
+	int	result;
+	int	cmd_len;
+
+	cmd_len = ft_strlen(cmd);
+	result = ft_strncmp(cmd, param, cmd_len);
+	return (!result && ft_strlen(param) == cmd_len);
+}
+
+int	get_builtin(t_cmd cmd, t_env *env_vars)
 {
 	// split string, check arguments
-	if (0 == ft_strncmp(str, "pwd", 3) && 3 == ft_strlen(str))
+	if (cmd_equals("pwd", cmd.cmd[0]))
 	{
 		ms_pwd(env_vars);
 	}
-	if (0 == ft_strncmp(str, "cd", 2))
+	if (cmd_equals("cd", cmd.cmd[0]))
 	{
 		// no args = got home
 		ms_cd("..", env_vars);
 	}
-	if (0 == ft_strncmp(str, "exit", 4) && 4 == ft_strlen(str))
+	if (cmd_equals("exit", cmd.cmd[0]))
 	{
 		ms_exit();
 	}
-	if (0 == ft_strncmp(str, "env", 3) && 3 == ft_strlen(str))
+	if (cmd_equals("env", cmd.cmd[0]))
 	{
 		ms_env(env_vars);
 	}
-	if (0 == ft_strncmp(str, "export", 6))
+	if (cmd_equals("export", cmd.cmd[0]))
 	{
 		// no args same as env?
 		//ms_env(envp);
 		//add_env_var("abc", "def", envp);
 		// export key=value
 	}
-	if (0 == ft_strncmp(str, "echo", 4))
+	if (cmd_equals("echo", cmd.cmd[0]))
 	{
-		ms_echo(str);
+		ms_echo(cmd);
 	}
 	return (0);
 }
@@ -101,7 +111,9 @@ void	lw(int argc, char *argv[], char *envp[])
 	{
 		line_read = readline("Prompt > ");
 		add_history(line_read);
-		get_builtin(line_read, env_vars);
+		t_cmd cmd;
+		cmd.cmd = ft_split(line_read, ' ');
+		get_builtin(cmd, env_vars);
 	}
 
 	// free env_vars

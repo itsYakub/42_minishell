@@ -6,15 +6,14 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/06 16:37:37 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/06 16:48:55 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft/libft.h"
 
-// renamed for now
-int	main2(int ac, char **av, char **ev)
+int	main(int ac, char **av, char **ev)
 {
 	t_mini	mini;
 	char	*input;

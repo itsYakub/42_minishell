@@ -6,11 +6,11 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 11:33:30 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/06 16:39:33 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/06 16:53:49 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 // int	env_var_pos(char *str, char *envp[])
 // {
