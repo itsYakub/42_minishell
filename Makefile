@@ -3,7 +3,9 @@ CFLAGS = -Wall -Wextra -Werror -g
 BUILTINS = $(addsuffix .c, $(addprefix ./builtins/, ms_cd ms_echo ms_env ms_exit ms_pwd ms_export ms_unset))
 LW = $(addsuffix .c, $(addprefix ./lw/, lw env_array vl_env))
 SRCS= \
-	./minishell.c
+	./minishell.c \
+	./minishell-getenv.c \
+	./minishell-utilpath.c
 OBJS= \
 	$(SRCS:.c=.o)
 LIBFT= \

@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/07 12:24:01 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/07 12:29:56 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,11 @@ int		count_array(char **array);
 int		env_var_pos(char *var_name, char **env_var);
 char	*env_var(char *var_name, char **env_vars);
 int		empty_var(char *var_name, char **env_vars);
+
+int	msh_exec_single(t_mini *mini);
+int	msh_exec_pipeline(t_mini *mini);
+
+char	*msh_getutil(t_mini *mini, char **util);
+char	*msh_getenv(t_mini *mini, const char *env);
 
 #endif
