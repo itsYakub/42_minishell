@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:35:52 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/07 09:53:55 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/07 10:44:27 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void	lw(int argc, char *argv[], char *envp[])
 
 int	main(int argc, char *argv[], char *envp[])
 {	
+	init_env_array(envp);
 	lw(argc, argv, envp);
 	return 0;
 }

@@ -1,6 +1,7 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
-BUILTINS = $(addprefix ./builtins/, ms_cd.c ms_echo.c ms_env.c ms_exit.c ms_pwd.c)
+BUILTINS = $(addsuffix .c, $(addprefix ./builtins/, ms_cd ms_echo ms_env ms_exit ms_pwd ms_export ms_unset))
+LW = $(addsuffix .c, $(addprefix ./lw/, lw env_array vl_env))
 SRCS= \
 	./minishell.c
 OBJS= \
@@ -21,7 +22,7 @@ $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) -o $@ $(LDFLAGS) $(LFLAGS)
 
 luke:
-	cc $(BUILTINS) lw/lw.c lw/vl_env.c $(LDFLAGS) $(LFLAGS) -o $(NAME)
+	cc $(BUILTINS) $(LW) $(LDFLAGS) $(LFLAGS) -o $(NAME)
 
 $(OBJS): %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@

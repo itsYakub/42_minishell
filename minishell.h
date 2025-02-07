@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/07 09:53:13 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/07 10:42:29 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,8 @@ void	ms_echo(t_cmd cmd);
 int		cmd_equals(const char *cmd, char *param);
 void	ms_export(t_cmd cmd, t_env *env_vars);
 void	ms_unset(t_cmd cmd, t_env *env_vars);
+char	**init_env_array(char *envp[]);
+void	copy_env_array(char *old[], char **new[]);
+int		count_array(char **array);
 
 #endif

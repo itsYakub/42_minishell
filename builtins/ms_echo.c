@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:22:55 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/07 09:30:42 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/07 09:57:11 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ms_echo(t_cmd cmd)
 {
 	char	*str;
 	int		skip_nl;
-	int		nbr_cmds;
+	int		cmd_count;
 	int		i;
 
 	str = cmd.cmd[1];
@@ -26,14 +26,15 @@ void	ms_echo(t_cmd cmd)
 		printf("\n");
 		return ;
 	}
-	nbr_cmds = -1;
-	while (cmd.cmd[++nbr_cmds]) ;
-	skip_nl = nbr_cmds > 1 && cmd_equals("-n", cmd.cmd[1]);
+	cmd_count = -1;
+	while (cmd.cmd[++cmd_count])
+		;
+	skip_nl = cmd_count > 1 && cmd_equals("-n", cmd.cmd[1]);
 	i = 0 + skip_nl;
-	while (++i < nbr_cmds)
+	while (++i < cmd_count)
 	{
 		printf("%s", cmd.cmd[i]);
-		if (i != nbr_cmds - 1)
+		if (i != cmd_count - 1)
 			printf(" ");
 	}
 	if (!skip_nl)
