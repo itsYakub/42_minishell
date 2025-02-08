@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/08 14:54:30 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/08 15:27:57 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_cmd
 	int		pid;
 	int		fd0;
 	int		fd1;
+	int	ppid;
 }	t_cmd;
 
 typedef struct s_mini
