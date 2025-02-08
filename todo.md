@@ -4,9 +4,7 @@ Problems:
 
 To do:
 -	emulate zsh echo command?
--	check env ignores args
--	check pwd ignores args
--	sort export no args output
 -	valgrind check builtins
--	norminette builtins
 -	signals
+-	error messages
+-	reject options on builtins?

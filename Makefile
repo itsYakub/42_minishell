@@ -1,7 +1,7 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 BUILTINS = $(addsuffix .c, $(addprefix ./builtins/, ms_cd ms_echo ms_env ms_exit ms_pwd ms_export ms_unset))
-LW = $(addsuffix .c, $(addprefix ./lw/, lw env_array))
+LW = $(addsuffix .c, $(addprefix ./lw/, lw env_array init))
 SRCS= \
 	./minishell.c \
 	./minishell-getenv.c \

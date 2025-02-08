@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/07 15:00:26 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/08 13:19:54 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,6 @@
 /*	SECTION:
  *		Typedefs
  * */
-
-// linked list vars - might change
-// typedef struct s_env
-// {
-// 	char			*var;
-// 	struct s_env	*next;
-// }	t_env;
 
 // global var for signal received
 typedef struct s_signal
@@ -69,39 +62,43 @@ typedef struct s_mini
  *		API
  * */
 
-int	msh_init(t_mini *mini, char **ev);
-int	msh_parse(t_mini *mini, const char *str);
-int	msh_exec(t_mini *mini);
-int	msh_clean(t_mini *mini);
+int		msh_init(t_mini *mini, char **ev);
+int		msh_parse(t_mini *mini, const char *str);
+int		msh_exec(t_mini *mini);
+int		msh_clean(t_mini *mini);
 
-int	msh_parse_commands(t_mini *mini, char **split);
-int	msh_parse_cmd(t_cmd *cmd, char **split);
+int		msh_parse_commands(t_mini *mini, char **split);
+int		msh_parse_cmd(t_cmd *cmd, char **split);
 
-// lw functions
-// builtins
-void	ms_cd(t_mini *mini);
-void	ms_env(t_mini *mini);
-void	ms_echo(t_mini *mini);
-void	ms_exit(void);
-void	ms_export(t_mini *mini);
-void	ms_pwd(t_mini *mini);
-void	ms_unset(t_mini *mini);
-
-// env_array
-int		cmd_equals(const char *cmd, char *param);
-char	**init_env_array(char **envp);
-void	copy_env_array(char **original, char ***copy);
-int		count_array(char **array);
-int		env_var_pos(char *var_name, char **env_var);
-char	*env_var(char *var_name, char **env_vars);
-int		empty_var(char *var_name, char **env_vars);
-char	*env_value(char *var_name, char **env_vars);
-void	free_stringlist(char **env_vars);
-
-int	msh_exec_single(t_mini *mini);
-int	msh_exec_pipeline(t_mini *mini);
+int		msh_exec_single(t_mini *mini);
+int		msh_exec_pipeline(t_mini *mini);
 
 char	*msh_getutil(t_mini *mini, char **util);
 char	*msh_getenv(t_mini *mini, const char *env);
+
+// lw functions
+// builtins
+void	ms_cd(t_cmd *cmd);
+void	ms_env(t_cmd *cmd);
+void	ms_echo(t_cmd *cmd);
+void	ms_exit(t_cmd *cmd);
+void	ms_export(t_cmd *cmd);
+void	ms_pwd(t_cmd *cmd);
+void	ms_unset(t_cmd *cmd);
+
+// lw
+int		cmd_equals(const char *cmd, char *param);
+
+// env_array
+char	*env_value_from_index(int pos, char **env_vars);
+char	*env_value(char *var_name, char **env_vars);
+int		env_var_index(char *var_name, char **env_var);
+char	*env_var(char *var_name, char **env_vars);
+int		count_array(char **array);
+
+// init
+char	**init_env_array(char **envp);
+void	copy_env_array(char **original, char ***copy);
+void	free_stringlist(char **env_vars);
 
 #endif
