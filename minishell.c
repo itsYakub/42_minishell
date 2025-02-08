@@ -6,188 +6,183 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/08 09:50:29 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/08 15:13:15 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int	__msh_print(t_lexer *l)
+{
+	t_token *t;
+
+	for (t = l->tokens ; t->type != T_NULL; t = t->next)
+	{
+		printf("[ token : \"%s\" | ", t->data);
+		if (t->type == T_KEY)
+			printf("type : T_KEY ]\n");
+		else if (t->type == T_DQUOT)
+			printf("type : T_DQUOT ]\n");
+		else if (t->type == T_SQUOT)
+			printf("type : T_SQUOT ]\n");
+		else if (t->type == T_GREAT)
+			printf("type : T_GREAT ]\n");
+		else if (t->type == T_HEREDOC)
+			printf("type : T_HEREDOC ]\n");
+		else if (t->type == T_LOWER)
+			printf("type : T_LOWER ]\n");
+		else if (t->type == T_APPEND)
+			printf("type : T_APPEND ]\n");
+		else if (t->type == T_PIPE)
+			printf("type : T_PIPE ]\n");
+	}
+	return (1);
+}
+
 int	main(int ac, char **av, char **ev)
 {
+	t_lexer	lexer;
 	char	*input;
-	int		pid;
-	t_mini	mini;
 
 	(void) ac;
 	(void) av;
-	if (!msh_init(&mini, ev))
-		return (1);
+	(void) ev;
 	input = NULL;
-	while (!mini.exit)
+	lexer = (t_lexer) { 0 };
+	while (1)
 	{
 		input = readline("> minishell: $ ");
 		if (!input)
 			return (1);
 		add_history(input);
-		if (msh_parse(&mini, input))
-		{
-			pid = fork();
-			if (!pid)
-			{
-				msh_exec(mini.cmd);
-				msh_clean(&mini);
-			}
-			else if (pid > 0)
-				wait(NULL);
-		}
+		msh_lexer(input, &lexer);
+		__msh_print(&lexer);
+		msh_token_free(lexer.tokens);
+		free(lexer.tokens);
 		free(input);
 	}
 	return (0);
 }
 
-int	msh_init(t_mini *mini, char **ev)
+static void	*__msh_token_init(void)
 {
-	if (!mini || !ev)
-		return (0);
-	mini->cmd = NULL;
-	mini->env = init_env_array(ev);
-	mini->exitcode = 0;
-	mini->exit = 0;
+	t_token	*t;
+
+	t = malloc(sizeof(t_token));
+	t->data = NULL;
+	t->next = NULL;
+	t->type = T_NULL;
+	return (t);
+}
+
+static int	__msh_process_white(const char *s)
+{
+	char	*s0;
+
+	s0 =(char *) s;
+	while ((*s0 >= 9 && *s0 <= 13) || *s0 == 32)
+		s0++;	
+	return (s0 - s);
+}
+
+static int	__msh_process_lower(const char *s, t_token **t)
+{
+	char	*start;
+	char	*end;
+
+	start = (char *) s;
+	end = (char *) s;
+	while (*end && *end == '<')
+		end++;
+	if (end - start == 1)
+		(*t)->type = T_LOWER;
+	else if (end - start == 2)
+		(*t)->type = T_HEREDOC;
+	(*t)->data = ft_substr(s, 0, end - start);
+	(*t)->next = __msh_token_init();
+	(*t) = (*t)->next;
+	return (end - start);
+}
+
+static int	__msh_process_great(const char *s, t_token **t)
+{
+	char	*start;
+	char	*end;
+
+	start = (char *) s;
+	end = (char *) s;
+	while (*end && *end == '>')
+		end++;
+	if (end - start == 1)
+		(*t)->type = T_GREAT;
+	else if (end - start == 2)
+		(*t)->type = T_APPEND;
+	(*t)->data = ft_substr(s, 0, end - start);
+	(*t)->next = __msh_token_init();
+	(*t) = (*t)->next;
+	return (end - start);
+}
+
+static int	__msh_process_multi(const char *s, t_token **t, int type, char *c)
+{
+	char	*start;
+	char	*end;
+
+	start = (char *) s;
+	end = (char *) s;
+	while (*end && (ft_strchr(c, *end)))
+		end++;
+	(*t)->type = type;
+	(*t)->data = ft_substr(s, 0, end - start);
+	(*t)->next = __msh_token_init();
+	(*t) = (*t)->next;
+	return (end - start);
+}
+
+static int	__msh_process_single(const char *s, t_token **t, int type)
+{
+	(*t)->type = type;
+	(*t)->data = ft_substr(s, 0, 1);
+	(*t)->next = __msh_token_init();
+	(*t) = (*t)->next;
 	return (1);
 }
 
-int	msh_parse(t_mini *mini, const char *str)
+int	msh_lexer(const char *s, t_lexer *l)
 {
-	char	**split;
+	t_token	*t;
 
-	if (!mini || !str)
-		return (0);
-	split = ft_split(str, '|');
-	if (!split)
-		return (0);
-	mini->cmdc = ft_wc(str, "|");
-	mini->cmd = ft_calloc(mini->cmdc, sizeof(t_cmd));
-	if (!mini->cmd)
+	l->tokens = __msh_token_init();
+	t = l->tokens;
+	while (*s)
 	{
-		ft_free2d((void **) split);
-		return (0);
-	}
-	msh_parse_commands(mini, split);
-	ft_free2d((void **) split);
-	return (1);
-}
-
-int	msh_isbuiltin(t_cmd *cmd)
-{
-	return (!ft_strncmp(*cmd->cmd, "echo", ft_strlen(*cmd->cmd))
-			|| !ft_strncmp(*cmd->cmd, "cd", ft_strlen(*cmd->cmd))
-			|| !ft_strncmp(*cmd->cmd, "pwd", ft_strlen(*cmd->cmd))
-			|| !ft_strncmp(*cmd->cmd, "export", ft_strlen(*cmd->cmd))
-			|| !ft_strncmp(*cmd->cmd, "unset", ft_strlen(*cmd->cmd))
-			|| !ft_strncmp(*cmd->cmd, "env", ft_strlen(*cmd->cmd))
-			|| !ft_strncmp(*cmd->cmd, "exit", ft_strlen(*cmd->cmd)));
-}
-
-int	msh_exec(t_cmd *cmd)
-{
-	size_t	i;
-
-	if (cmd->mini->cmdc > 1)
-	{
-		i = -1;
-		while (++i < cmd->mini->cmdc - 1)
-			msh_exec_pipe(&cmd[i]);
-		msh_exec_util(&cmd[i]);
-		return (1);
-	}
-	else if (cmd->mini->cmdc == 1)
-	{
-		msh_exec_util(cmd);
-		return (1);
-	}	
-	return (0);
-}
-
-int	msh_exec_pipe(t_cmd *cmd)
-{
-	int	pid;
-	int	p_fd[2];
-
-	if (-1 == pipe(p_fd))
-		return (printf("minishell: %s\n", strerror(errno)));
-	pid = fork();
-	if (-1 == pid)
-		return (printf("minishell: %s\n", strerror(errno)));
-	if (0 == pid)
-	{
-		dup2(p_fd[1], cmd->fd1);
-		close(p_fd[0]);
-		msh_exec_util(cmd);
-	}
-	else
-	{
-		dup2(p_fd[0], cmd->fd0);
-		close(p_fd[1]);
-		waitpid(pid, NULL, 0);
+		if ((*s >= 9 && *s <= 13) || *s == 32)
+			s += __msh_process_white(s);
+		else if (*s == '|')
+			s += __msh_process_single(s, &t, T_PIPE);
+		else if (*s == '<')
+			s += __msh_process_lower(s, &t);
+		else if (*s == '>')
+			s += __msh_process_great(s, &t);
+		else if (*s == '\"')
+			s += __msh_process_single(s, &t, T_DQUOT);
+		else if (*s == '\'')
+			s += __msh_process_single(s, &t, T_SQUOT);
+		else
+			s += __msh_process_multi(s, &t, T_KEY,
+					"abcdefghijklmnopqrstuvwxyz"
+					"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.-_");
 	}
 	return (1);
 }
 
-int	msh_exec_util(t_cmd *cmd)
+int	msh_token_free(t_token *t)
 {
-	if (msh_isbuiltin(cmd))
+	if (t->type != T_NULL)
 	{
-		return (msh_exec_builtin(cmd));
-	}
-	else
-	{
-		cmd->cmd[0] = msh_getutil(cmd->mini, cmd->cmd);
-		if (execve(cmd->cmd[0], cmd->cmd, cmd->mini->env))
-			exit(printf("minishell: %s\n", strerror(errno)));
-		exit(0);
-	}
-}
-
-int	msh_exec_builtin(t_cmd *cmd)
-{
-	return (printf("minishell: builtin %s\n", *cmd->cmd));
-}
-
-int	msh_clean(t_mini *mini)
-{
-	size_t	iter;
-
-	if (!mini)
-		return (0);
-	iter = -1;
-	while (++iter < (size_t) mini->cmdc)
-		ft_free2d((void **) mini->cmd[iter].cmd);
-	free(mini->cmd);
-	mini->cmdc = 0;
-	return (0);
-}
-
-int	msh_parse_commands(t_mini *mini, char **split)
-{
-	char	**split1;
-	size_t	iter;
-
-	if (!mini || !split)
-		return (0);
-	iter = 0;
-	while (*split)
-	{
-		split1 = ft_split(*split, ' ');
-		if (!split1)
-			return (0);
-		mini->cmd[iter].mini = mini;
-		mini->cmd[iter].exit = 0;
-		mini->cmd[iter].fd0 = 0;
-		mini->cmd[iter].fd1 = 1;
-		mini->cmd[iter].cmd = ft_strdup2d(split1, 0, ft_arrsiz2d((void **) split1));
-		ft_free2d((void **) split1);
-		iter++;
-		split++;
+		free(t->data);
+		msh_token_free(t->next);
+		free(t->next);
 	}
 	return (1);
 }

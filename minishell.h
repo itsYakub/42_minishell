@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/08 09:49:57 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/08 14:29:30 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,83 +29,38 @@
 # include <readline/history.h>
 # include "libft/libft.h"
 
-/*	SECTION:
- *		Typedefs
- * */
+typedef struct s_token	t_token;
+typedef struct s_lexer	t_lexer;
 
-// linked list vars - might change
-// typedef struct s_env
-// {
-// 	char			*var;
-// 	struct s_env	*next;
-// }	t_env;
-
-// global var for signal received
-typedef struct s_signal
+typedef enum e_token_type
 {
-	
-}	t_signal;
+	T_KEY =	0,
+	T_NULL,
+	T_LOWER,
+	T_HEREDOC,
+	T_GREAT,
+	T_APPEND,
+	T_SQUOT,
+	T_DQUOT,
+	T_PIPE
+}	t_token_type;
 
-typedef struct s_mini	t_mini;
-typedef struct s_cmd	t_cmd;
-
-typedef struct s_cmd
+typedef struct s_token
 {
-	char	**cmd;
-	t_mini	*mini;
-	char	exit;
-	int		pid;
-	int		fd0;
-	int		fd1;
-}	t_cmd;
+	t_token	*next;
+	char	*data;
+	int		type;
+}	t_token;
 
-typedef struct s_mini
+typedef struct s_lexer
 {
-	t_cmd	*cmd;
-	size_t	cmdc;
-	char	**env;
-	char	exitcode;
-	int		exit;
-}	t_mini;
+	t_token	*tokens;
+	size_t	tcount;
+}	t_lexer;
 
-/*	SECTION:
- *		API
- * */
+/* ./minishell-lexer0.c ./minishell-lexer1.c*/
 
-int	msh_init(t_mini *mini, char **ev);
-int	msh_parse(t_mini *mini, const char *str);
-int	msh_clean(t_mini *mini);
-
-int	msh_isbuiltin(t_cmd *cmd);
-
-int	msh_exec(t_cmd *cmd);
-int	msh_exec_pipe(t_cmd *cmd);
-int	msh_exec_util(t_cmd *cmd);
-int	msh_exec_builtin(t_cmd *cmd);
-
-int	msh_parse_commands(t_mini *mini, char **split);
-int	msh_parse_cmd(t_cmd *cmd, char **split);
-
-// lw functions
-// builtins
-void	ms_cd(char *new_dir, char *env_vars[]);
-void	ms_env(char *env_vars[]);
-void	ms_echo(t_cmd cmd);
-void	ms_exit(void);
-void	ms_export(t_cmd cmd, char *env_vars[]);
-void	ms_pwd(char *env_vars[]);
-void	ms_unset(t_cmd cmd, char *env_vars[]);
-
-// env_array
-int		cmd_equals(const char *cmd, char *param);
-char	**init_env_array(char *envp[]);
-void	copy_env_array(char *old[], char **new[]);
-int		count_array(char **array);
-int		env_var_pos(char *var_name, char **env_var);
-char	*env_var(char *var_name, char **env_vars);
-int		empty_var(char *var_name, char **env_vars);
-
-char	*msh_getutil(t_mini *mini, char **util);
-char	*msh_getenv(t_mini *mini, const char *env);
+int	msh_lexer(const char *s, t_lexer *l);
+int	msh_token_free(t_token *t);
 
 #endif

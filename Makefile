@@ -1,14 +1,7 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
-BUILTINS = $(addsuffix .c, $(addprefix ./builtins/, ms_cd ms_echo ms_env ms_exit ms_pwd ms_export ms_unset))
-LW = $(addsuffix .c, $(addprefix ./lw/, lw env_array vl_env))
 SRCS= \
-	./minishell.c \
-	./minishell-getenv.c \
-	./minishell-utilpath.c \
-	./lw/env_array.c \
-	./lw/main_bonus.c \
-	./lw/utils_bonus.c
+	./minishell.c
 OBJS= \
 	$(SRCS:.c=.o)
 LIBFT= \
@@ -46,4 +39,3 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
-
