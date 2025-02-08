@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 09:08:22 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/07 18:03:15 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/08 08:13:36 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,6 @@ void	show_error(char *error, int error_code)
 	write(2, error, ft_strlen(error));
 	if (0 != error_code)
 		exit (error_code);
-}
-
-static void	free_split(char **split_str)
-{
-	int	i;
-
-	i = 0;
-	while (split_str[i])
-		free(split_str[i++]);
-	free(split_str);
 }
 
 static char	*make_path(char *command, char *path)
@@ -80,7 +70,7 @@ int	do_cmd(t_cmd cmd, char *envp[])
 			return (execve(tmp_path, cmd.cmd, envp));
 		i++;
 	}
-	free_split(split_path);
+	ft_free2d((void **) split_path);
 	show_error("command not found\n", 127);
 	return (1);
 }
