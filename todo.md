@@ -3,6 +3,7 @@ Problems:
 	repro: use echo -n value, press up, press down
 -	exit builtin doesn't exit anymore
 -	current exit shows new line
+-	ctrl+c twice quits
 
 To do:
 -	emulate zsh echo command?

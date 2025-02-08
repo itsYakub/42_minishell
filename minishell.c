@@ -6,11 +6,40 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/08 15:34:55 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/08 16:50:52 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// void	sigint_handler_in_process(int sig)
+// {
+// 	(void)sig;
+// 	printf("\n");
+// }
+
+// void	sigquit_handler_in_process(int sig)
+// {
+// 	(void)sig;
+// 	printf("Quit: %d\n", sig);
+// }
+
+// void	sigint_handler_nonl(int sig)
+// {
+// 	(void)sig;
+// 	rl_on_new_line();
+// 	rl_replace_line("", 0);
+// 	rl_redisplay();
+// }
+
+void	sigint_handler(int sig)
+{
+	(void)sig;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
 int	main(int ac, char **av, char **ev)
 {
@@ -20,6 +49,10 @@ int	main(int ac, char **av, char **ev)
 
 	(void) ac;
 	(void) av;
+	
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
+
 	if (!msh_init(&mini, ev))
 		return (1);
 	input = NULL;
@@ -148,6 +181,7 @@ int	msh_exec_util(t_cmd *cmd)
 		exit(0);
 	}
 }
+
 int	cmd_equals(const char *cmd, char *param)
 {
 	int	result;
