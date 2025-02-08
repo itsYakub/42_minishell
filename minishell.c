@@ -6,17 +6,17 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/08 08:48:51 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/08 09:18:17 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "libft/libft.h"
 
 int	main(int ac, char **av, char **ev)
 {
-	t_mini	mini;
 	char	*input;
+	int		pid;
+	t_mini	mini;
 
 	(void) ac;
 	(void) av;
@@ -27,12 +27,18 @@ int	main(int ac, char **av, char **ev)
 	{
 		input = readline("> minishell: $ ");
 		if (!input)
-			return (printf("EOF reached!\n"));
+			return (1);
 		add_history(input);
 		if (msh_parse(&mini, input))
 		{
-			msh_exec(mini.cmd);
-			msh_clean(&mini);
+			pid = fork();
+			if (!pid)
+			{
+				msh_exec(mini.cmd);
+				msh_clean(&mini);
+			}
+			else if (pid > 0)
+				wait(NULL);
 		}
 		free(input);
 	}
@@ -79,11 +85,7 @@ int	msh_exec(t_cmd *cmd)
 		i = -1;
 		while (++i < cmd->mini->cmdc - 1)
 			msh_exec_pipe(&cmd[i]);
-		cmd[i].pid = fork();
-		if (!cmd[i].pid)
-			msh_exec_util(&cmd[i]);
-		else if (cmd[i].pid > 0)
-			wait(NULL);
+		msh_exec_util(&cmd[i]);
 		return (1);
 	}
 	else if (cmd->mini->cmdc == 1)
@@ -110,14 +112,14 @@ int	msh_exec_pipe(t_cmd *cmd)
 		return (printf("minishell: %s\n", strerror(errno)));
 	if (0 == pid)
 	{
-		close(p_fd[0]);
 		dup2(p_fd[1], cmd->fd1);
+		close(p_fd[0]);
 		msh_exec_util(cmd);
 	}
 	else
 	{
-		close(p_fd[1]);
 		dup2(p_fd[0], cmd->fd0);
+		close(p_fd[1]);
 		waitpid(pid, NULL, 0);
 	}
 	return (1);
