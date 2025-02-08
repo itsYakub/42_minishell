@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/08 15:00:50 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/08 15:13:55 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	main(int ac, char **av, char **ev)
 	input = NULL;
 	while (!mini.exit)
 	{
+		printf("%i\n", mini.exit);
 		input = readline("> minishell: $ ");
 		if (!input)
 			return (1);
