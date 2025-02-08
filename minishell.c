@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/08 14:46:39 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/08 15:00:50 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,10 +147,38 @@ int	msh_exec_util(t_cmd *cmd)
 		exit(0);
 	}
 }
+int	cmd_equals(const char *cmd, char *param)
+{
+	int	result;
+	int	cmd_len;
+
+	cmd_len = ft_strlen(cmd);
+	result = ft_strncmp(cmd, param, cmd_len);
+	return (!result && ft_strlen(param) == cmd_len);
+}
+
+static int	get_builtin(t_cmd *cmd)
+{
+	if (cmd_equals("pwd", cmd->cmd[0]))
+		ms_pwd(cmd);
+	if (cmd_equals("cd", cmd->cmd[0]))
+		ms_cd(cmd);
+	if (cmd_equals("exit", cmd->cmd[0]))
+		ms_exit(cmd);
+	if (cmd_equals("env", cmd->cmd[0]))
+		ms_env(cmd);
+	if (cmd_equals("export", cmd->cmd[0]))
+		ms_export(cmd);
+	if (cmd_equals("echo", cmd->cmd[0]))
+		ms_echo(cmd);
+	if (cmd_equals("unset", cmd->cmd[0]))
+		ms_unset(cmd);
+	return (0);
+}
 
 int	msh_exec_builtin(t_cmd *cmd)
 {
-	return (printf("minishell: builtin %s\n", *cmd->cmd));
+	return (get_builtin(cmd));
 }
 
 int	msh_clean(t_mini *mini)

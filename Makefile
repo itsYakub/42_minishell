@@ -7,10 +7,9 @@ SRCS= \
 	./minishell-getenv.c \
 	./minishell-utilpath.c \
 	./lw/env_array.c \
-	./lw/main_bonus.c \
-	./lw/utils_bonus.c
+	./lw/init.c
 OBJS= \
-	$(SRCS:.c=.o)
+	$(SRCS:.c=.o) $(BUILTINS:.c=.o)
 LIBFT= \
 	./libft/libft.a
 LDFLAGS= \

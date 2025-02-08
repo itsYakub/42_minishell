@@ -4,7 +4,6 @@ Problems:
 
 To do:
 -	emulate zsh echo command?
--	valgrind check builtins
 -	signals
 -	error messages
 -	reject options on builtins?

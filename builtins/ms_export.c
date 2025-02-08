@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:51:55 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/08 14:39:49 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/08 15:01:53 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ void	ms_export(t_cmd *cmd)
 	int		cmd_count;
 	char	**split;
 	int		i;
-	int		len;
 
 	cmd_count = count_array(cmd->cmd);
 	if (1 == cmd_count)
