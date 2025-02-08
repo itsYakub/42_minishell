@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/08 09:18:17 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/08 09:50:29 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int ac, char **av, char **ev)
 	if (!msh_init(&mini, ev))
 		return (1);
 	input = NULL;
-	while (1)
+	while (!mini.exit)
 	{
 		input = readline("> minishell: $ ");
 		if (!input)
@@ -51,6 +51,7 @@ int	msh_init(t_mini *mini, char **ev)
 		return (0);
 	mini->cmd = NULL;
 	mini->env = init_env_array(ev);
+	mini->exitcode = 0;
 	mini->exit = 0;
 	return (1);
 }
@@ -76,6 +77,17 @@ int	msh_parse(t_mini *mini, const char *str)
 	return (1);
 }
 
+int	msh_isbuiltin(t_cmd *cmd)
+{
+	return (!ft_strncmp(*cmd->cmd, "echo", ft_strlen(*cmd->cmd))
+			|| !ft_strncmp(*cmd->cmd, "cd", ft_strlen(*cmd->cmd))
+			|| !ft_strncmp(*cmd->cmd, "pwd", ft_strlen(*cmd->cmd))
+			|| !ft_strncmp(*cmd->cmd, "export", ft_strlen(*cmd->cmd))
+			|| !ft_strncmp(*cmd->cmd, "unset", ft_strlen(*cmd->cmd))
+			|| !ft_strncmp(*cmd->cmd, "env", ft_strlen(*cmd->cmd))
+			|| !ft_strncmp(*cmd->cmd, "exit", ft_strlen(*cmd->cmd)));
+}
+
 int	msh_exec(t_cmd *cmd)
 {
 	size_t	i;
@@ -90,11 +102,7 @@ int	msh_exec(t_cmd *cmd)
 	}
 	else if (cmd->mini->cmdc == 1)
 	{
-		cmd->pid = fork();
-		if (!cmd->pid)
-			msh_exec_util(cmd);
-		else if (cmd->pid > 0)
-			wait(NULL);
+		msh_exec_util(cmd);
 		return (1);
 	}	
 	return (0);
@@ -125,20 +133,24 @@ int	msh_exec_pipe(t_cmd *cmd)
 	return (1);
 }
 
-/*
- *	NOTE:	We can now check if cmd is a builtin or not with a simple 'if'
- *			The current code should be placed in one if block, and the builtins in another
- *			(BUILTINS doesn't require forking, remember!)
- * */
 int	msh_exec_util(t_cmd *cmd)
 {
-	cmd->cmd[0] = msh_getutil(cmd->mini, cmd->cmd);
-	if (execve(cmd->cmd[0], cmd->cmd, cmd->mini->env))
+	if (msh_isbuiltin(cmd))
 	{
-		printf("minishell: %s\n", strerror(errno));
-		exit(1);
+		return (msh_exec_builtin(cmd));
 	}
-	exit(0);
+	else
+	{
+		cmd->cmd[0] = msh_getutil(cmd->mini, cmd->cmd);
+		if (execve(cmd->cmd[0], cmd->cmd, cmd->mini->env))
+			exit(printf("minishell: %s\n", strerror(errno)));
+		exit(0);
+	}
+}
+
+int	msh_exec_builtin(t_cmd *cmd)
+{
+	return (printf("minishell: builtin %s\n", *cmd->cmd));
 }
 
 int	msh_clean(t_mini *mini)

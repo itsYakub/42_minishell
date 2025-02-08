@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/08 08:32:52 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/08 09:49:57 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ typedef struct s_mini
 	t_cmd	*cmd;
 	size_t	cmdc;
 	char	**env;
-	char	exit;
+	char	exitcode;
+	int		exit;
 }	t_mini;
 
 /*	SECTION:
@@ -73,10 +74,14 @@ typedef struct s_mini
 
 int	msh_init(t_mini *mini, char **ev);
 int	msh_parse(t_mini *mini, const char *str);
+int	msh_clean(t_mini *mini);
+
+int	msh_isbuiltin(t_cmd *cmd);
+
 int	msh_exec(t_cmd *cmd);
 int	msh_exec_pipe(t_cmd *cmd);
 int	msh_exec_util(t_cmd *cmd);
-int	msh_clean(t_mini *mini);
+int	msh_exec_builtin(t_cmd *cmd);
 
 int	msh_parse_commands(t_mini *mini, char **split);
 int	msh_parse_cmd(t_cmd *cmd, char **split);
@@ -102,9 +107,5 @@ int		empty_var(char *var_name, char **env_vars);
 
 char	*msh_getutil(t_mini *mini, char **util);
 char	*msh_getenv(t_mini *mini, const char *env);
-
-void	cmd_process(t_cmd *cmd, char *envp[]);
-
-int		do_cmd(t_cmd cmd, char *envp[]);
 
 #endif
