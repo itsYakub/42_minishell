@@ -6,9 +6,9 @@ SRCS= \
 	./minishell.c \
 	./minishell-getenv.c \
 	./minishell-utilpath.c \
-	./lw/env_array.c \
-	./lw/main_bonus.c \
-	./lw/utils_bonus.c
+	./minishell-lexer0.c \
+	./minishell-lexer1.c \
+	./lw/env_array.c
 OBJS= \
 	$(SRCS:.c=.o)
 LIBFT= \
