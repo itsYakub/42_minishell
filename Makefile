@@ -1,7 +1,9 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 SRCS= \
-	./minishell.c
+	./minishell.c \
+	./minishell-lexer0.c \
+	./minishell-lexer1.c
 OBJS= \
 	$(SRCS:.c=.o)
 LIBFT= \

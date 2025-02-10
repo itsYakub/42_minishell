@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/08 14:29:30 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/10 08:36:18 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ typedef struct s_lexer
 
 /* ./minishell-lexer0.c ./minishell-lexer1.c*/
 
-int	msh_lexer(const char *s, t_lexer *l);
-int	msh_token_free(t_token *t);
+void	*msh_token(void);
+int		msh_lexer(const char *s, t_lexer *l);
+int		msh_lexer_free(t_lexer *l);
 
 #endif
