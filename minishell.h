@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/10 11:01:59 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:26:56 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,15 @@ typedef enum e_token_type
 	T_PIPE
 }	t_token_type;
 
+typedef enum e_cmd_type
+{
+	C_CMD = 0,
+	C_INPUT,
+	C_HEREDOC,
+	C_OUTPUT,
+	C_APPEND
+}	t_cmd_type;
+
 typedef struct s_token
 {
 	t_token	*next;
@@ -77,43 +86,49 @@ typedef struct s_lexer
 	size_t	tcount;
 }	t_lexer;
 
-typedef struct s_cmd
-{
-	char	**cmd;
-	t_mini	*mini;
-	char	exit;
-	int		pid;
-	int		fd0;
-	int		fd1;
-}	t_cmd;
-
 typedef struct s_mini
 {
+	t_lexer	lexer;
 	t_cmd	*cmd;
-	size_t	cmdc;
 	char	**env;
-	char	exitcode;
-	int		exit;
+	int		cmdc;
+	int		exitcode;
+	int		exit;	
 }	t_mini;
+
+typedef struct s_cmd
+{
+	t_cmd_type	type;
+	t_mini		*mini;
+	char		**args;
+	char		*fpath;
+	int			stdfd[2];
+	int			rdrfd[2];
+	int			pipfd[2];
+}	t_cmd;
 
 /*	SECTION:
  *		API
  * */
 
 int	msh_init(t_mini *mini, char **ev);
+int	msh_parse(t_mini *mini, const char *s);
+int	msh_clear(t_mini *mini);
 
 int	msh_isbuiltin(t_cmd *cmd);
 
-int	msh_exec(t_cmd *cmd);
+int	msh_exec(t_mini *mini);
 int	msh_exec_pipe(t_cmd *cmd);
 int	msh_exec_util(t_cmd *cmd);
 int	msh_exec_builtin(t_cmd *cmd);
 
-/* ./minishell-lexer0.c ./minishell-lexer1.c*/
+/* ./minishell-lexer0.c ./minishell-lexer1.c ./minishell-lexer2.c */
 
 void	*msh_token(void);
 int		msh_lexer(const char *s, t_lexer *l);
 int		msh_lexer_free(t_lexer *l);
+int		msh_lexer_validate(t_lexer *l);
+int		msh_lexer_expand(t_lexer *l);
 
 // lw functions
 // builtins
