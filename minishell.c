@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/10 15:54:15 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:10:27 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,20 @@ int	main(int ac, char **av, char **ev)
 	(void) av;	
 	signal(SIGINT, sigint_handler);
 	signal(SIGUSR1, sigexit_handler);
-	signal(SIGQUIT, SIG_IGN);
+	
+	// So you can use ctrl-d
+	//signal(SIGQUIT, SIG_IGN);
+	
 	if (!msh_init(&mini, ev))
 		return (1);
 	input = NULL;
 	while (!mini.exit)
 	{		
 		input = readline("> minishell: $ ");
+		// So you can use ctrl-d
+		if (!input)
+			exit(0);
+			
 		if (input && ft_strlen(input))
 		{
 			add_history(input);
