@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:21:48 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/10 08:31:33 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:53:34 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	msh_lexer(const char *s, t_lexer *l)
 		else
 			s += __msh_process_multi(s, &t, T_KEY,
 					"abcdefghijklmnopqrstuvwxyz"
-					"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.-_");
+					"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.-_$");
 	}
 	return (1);
 }

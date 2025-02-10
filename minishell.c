@@ -6,11 +6,26 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/10 14:24:55 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:54:15 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	sigexit_handler(int sig)
+{
+	(void)sig;
+	exit(0);
+}
+
+void	sigint_handler(int sig)
+{
+	(void)sig;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
 int	main(int ac, char **av, char **ev)
 {
@@ -18,12 +33,15 @@ int	main(int ac, char **av, char **ev)
 	t_mini	mini;
 
 	(void) ac;
-	(void) av;
+	(void) av;	
+	signal(SIGINT, sigint_handler);
+	signal(SIGUSR1, sigexit_handler);
+	signal(SIGQUIT, SIG_IGN);
 	if (!msh_init(&mini, ev))
 		return (1);
 	input = NULL;
 	while (!mini.exit)
-	{
+	{		
 		input = readline("> minishell: $ ");
 		if (input && ft_strlen(input))
 		{
@@ -71,7 +89,11 @@ int	msh_parse(t_mini *mini, const char *s)
 		printf("minishell: lexical error\n");
 		return (0);
 	}
-	msh_expand(&mini->lexer);
+	if (!msh_lexer_expand(&mini->lexer, mini->env))
+	{
+		printf("minishell: parsing variables error\n");
+		return (0);
+	}
 	return (1);
 }
 
@@ -83,7 +105,8 @@ int	msh_clear(t_mini *mini)
 
 int	msh_exec(t_mini *mini)
 {
-	(void) mini;
+	for (t_token *t = mini->lexer.tokens; t->type != T_NULL; t = t->next)
+		printf("%s\n", t->data);
 	return (1);
 }
 
@@ -132,7 +155,37 @@ int	msh_exec_util(t_cmd *cmd)
 	}
 }
 
+int	cmd_equals(const char *cmd, char *param)
+{
+	int	result;
+	int	cmd_len;
+
+	cmd_len = ft_strlen(cmd);
+	result = ft_strncmp(cmd, param, cmd_len);
+	return (!result && ft_strlen(param) == cmd_len);
+}
+
+static int	get_builtin(t_cmd *cmd)
+{
+	if (cmd_equals("pwd", cmd->args[0]))
+		ms_pwd(cmd);
+	if (cmd_equals("cd", cmd->args[0]))
+		ms_cd(cmd);
+	if (cmd_equals("exit", cmd->args[0]))
+		ms_exit(cmd);
+	if (cmd_equals("env", cmd->args[0]))
+		ms_env(cmd);
+	if (cmd_equals("export", cmd->args[0]))
+		ms_export(cmd);
+	if (cmd_equals("echo", cmd->args[0]))
+		ms_echo(cmd);
+	if (cmd_equals("unset", cmd->args[0]))
+		ms_unset(cmd);
+	return (0);
+}
+
+
 int	msh_exec_builtin(t_cmd *cmd)
 {
-	return (printf("minishell: builtin %s\n", *cmd->args));
+	return (get_builtin(cmd));
 }

@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/14 13:49:56 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/08 14:56:45 by lwillis          ###   ########.fr       */
+/*   Created: 2025/02/08 12:37:45 by lwillis           #+#    #+#             */
+/*   Updated: 2025/02/08 12:37:49 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
 
-// write
-# include <unistd.h>
-// read
-# include <stdio.h>
-// exit
-# include <stdlib.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-// open, close
-# include <fcntl.h>
-
-void	show_error(char *error, int error_code);
-
-#endif
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+	{
+		i++;
+	}
+	return (s1[i] - s2[i]);
+}
