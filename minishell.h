@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/10 10:59:23 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/10 11:49:55 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	ms_unset(t_cmd *cmd);
 
 // lw
 int		cmd_equals(const char *cmd, char *param);
+void	handle_heredoc(t_cmd *cmd);
 
 // env_array
 char	*env_value_from_index(int pos, char **env_vars);

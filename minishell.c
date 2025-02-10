@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/10 11:02:33 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/10 11:49:38 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,8 @@ int	msh_exec(t_cmd *cmd)
 	}
 	else if (cmd->mini->cmdc == 1)
 	{
-		msh_exec_util(cmd);
+		handle_heredoc(cmd);
+		//msh_exec_util(cmd);
 		return (1);
 	}	
 	return (0);

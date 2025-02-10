@@ -1,13 +1,14 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 BUILTINS = $(addsuffix .c, $(addprefix ./builtins/, ms_cd ms_echo ms_env ms_exit ms_pwd ms_export ms_unset))
-LW = $(addsuffix .c, $(addprefix ./lw/, lw env_array init))
+LW = $(addsuffix .c, $(addprefix ./lw/, lw env_array init heredoc))
 SRCS= \
 	./minishell.c \
 	./minishell-getenv.c \
 	./minishell-utilpath.c \
 	./lw/env_array.c \
-	./lw/init.c
+	./lw/init.c	\
+	./lw/heredoc.c
 OBJS= \
 	$(SRCS:.c=.o) $(BUILTINS:.c=.o)
 LIBFT= \
