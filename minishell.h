@@ -6,14 +6,12 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/08 16:33:08 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/10 10:59:23 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
-# define _XOPEN_SOURCE 600
 
 /*	SECTION:
  *		Headers	

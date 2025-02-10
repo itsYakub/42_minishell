@@ -1,5 +1,4 @@
 Problems:
--	ctrl+c twice quits
 
 To do:
 -	check SIGUSR1 allowed
@@ -10,7 +9,7 @@ To do:
 -	handle $?
 -	handle <<
 -	handle $
--	handle '/"
+-	handle ' / "
 
 Checklist:
 -	Display a prompt when waiting for a new command.
