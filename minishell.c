@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/11 09:27:23 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/11 11:46:38 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	main(int ac, char **av, char **ev)
 	
 	if (!msh_init(&mini, ev))
 		return (1);
+
 	input = NULL;
 	while (!mini.exit)
 	{		

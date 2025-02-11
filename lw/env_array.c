@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 10:19:42 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/08 14:47:37 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/11 11:45:53 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,32 @@ char	*env_value_from_index(int pos, char **env_vars)
 }
 
 /*
-	Gets one line from env_vars, excluding the name= part
+	Gets one line from env_vars, excluding the name= part.
+	Also adds any non-alpha characters after the var
 */
 char	*env_value(char *var_name, char **env_vars)
 {
 	char	*var;
+	char	*sub1;
+	char	*sub2;
+	int		i;
 
-	var = env_var(var_name, env_vars);
+	i = 0;
+	while (var_name[i] && (ft_isalnum(var_name[i]) || '_' == var_name[i]))
+		i++;
+	sub1 = ft_substr(var_name, 0, i);
+	var = env_var(sub1, env_vars);
 	if (!var)
 		return (NULL);
-	return (ft_substr(var, ft_strlen(var_name) + 1, ft_strlen(var)));
+	sub2 = ft_substr(var, ft_strlen(sub1) + 1, ft_strlen(var));
+	free(sub1);
+	if (i < ft_strlen(var_name))
+	{
+		sub1 = ft_strjoin(sub2, ft_substr(var_name, i, ft_strlen(var_name)));
+		free(sub2);
+		return (sub1);
+	}
+	return (sub2);
 }
 
 /*
