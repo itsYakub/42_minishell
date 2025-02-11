@@ -10,6 +10,7 @@ SRCS= \
 	./minishell-lexer1.c \
 	./minishell-lexer2.c \
 	./minishell-cmd0.c \
+	./minishell-exec0.c \
 	./lw/env_array.c \
 	./lw/init.c \
 	$(BUILTINS)

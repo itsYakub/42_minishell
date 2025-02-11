@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/11 11:46:38 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/11 12:04:01 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,71 +104,6 @@ int	msh_clear(t_mini *mini)
 	return (1);
 }
 
-int	msh_exec(t_mini *mini)
-{
-	printf("=====\n");
-	printf("Lexer:\n");
-	printf("=====\n");
-	for (t_token *t = mini->lexer.tokens; t->type != T_NULL; t = t->next)
-		printf("%s\n", t->data);
-	printf("=====\n");
-	printf("Commands:\n");
-	printf("=====\n");
-	for (int i = 0; mini->cmd[i].type != C_NULL; i++)
-	{
-		for (int j = 0; mini->cmd[i].args[j]; j++)
-			printf("%s ", mini->cmd[i].args[j]);
-		printf("(Type: %i)\n", mini->cmd[i].type);
-	}
-	printf("=====\n");
-	return (1);
-}
-
-int	msh_isbuiltin(t_cmd *cmd)
-{
-	(void) cmd;
-	return (0);
-}
-
-int	msh_exec_pipe(t_cmd *cmd)
-{
-	int	pid;
-	int	p_fd[2];
-
-	if (-1 == pipe(p_fd))
-		return (printf("minishell: %s\n", strerror(errno)));
-	pid = fork();
-	if (-1 == pid)
-		return (printf("minishell: %s\n", strerror(errno)));
-	if (0 == pid)
-	{
-		dup2(p_fd[1], cmd->rdrfd[1]);
-		close(p_fd[0]);
-		msh_exec_util(cmd);
-	}
-	else
-	{
-		dup2(p_fd[0], cmd->rdrfd[0]);
-		close(p_fd[1]);
-		waitpid(pid, NULL, 0);
-	}
-	return (1);
-}
-
-int	msh_exec_util(t_cmd *cmd)
-{
-	if (msh_isbuiltin(cmd))
-	{
-		return (msh_exec_builtin(cmd));
-	}
-	else
-	{
-		if (execve(cmd->args[0], cmd->args, cmd->mini->env))
-			exit(printf("minishell: %s\n", strerror(errno)));
-		exit(0);
-	}
-}
-
 int	cmd_equals(const char *cmd, char *param)
 {
 	int	result;
@@ -177,29 +112,4 @@ int	cmd_equals(const char *cmd, char *param)
 	cmd_len = ft_strlen(cmd);
 	result = ft_strncmp(cmd, param, cmd_len);
 	return (!result && ft_strlen(param) == cmd_len);
-}
-
-static int	get_builtin(t_cmd *cmd)
-{
-	if (cmd_equals("pwd", cmd->args[0]))
-		ms_pwd(cmd);
-	if (cmd_equals("cd", cmd->args[0]))
-		ms_cd(cmd);
-	if (cmd_equals("exit", cmd->args[0]))
-		ms_exit(cmd);
-	if (cmd_equals("env", cmd->args[0]))
-		ms_env(cmd);
-	if (cmd_equals("export", cmd->args[0]))
-		ms_export(cmd);
-	if (cmd_equals("echo", cmd->args[0]))
-		ms_echo(cmd);
-	if (cmd_equals("unset", cmd->args[0]))
-		ms_unset(cmd);
-	return (0);
-}
-
-
-int	msh_exec_builtin(t_cmd *cmd)
-{
-	return (get_builtin(cmd));
 }

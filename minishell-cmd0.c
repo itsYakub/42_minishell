@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 08:29:33 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/11 10:55:57 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/11 12:14:43 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ int	msh_cmd_creat(t_mini *mini)
 		else if (t->type == T_KEY)
 			t = __msh_extract(&mini->cmd[iter0++], t);
 	}
+	iter0 = -1;
+	while (++iter0 < (size_t) mini->cmdc)
+		mini->cmd[iter0].mini = mini;
 	return (1);	
 }
 
@@ -66,6 +69,7 @@ int	msh_cmd_free(t_mini *mini)
 	while (++iter < (size_t) mini->cmdc)
 		ft_free2d((void **) mini->cmd[iter].args);
 	free(mini->cmd);
+	mini->cmdc = 0;
 	return (1);
 }
 
@@ -78,9 +82,9 @@ static t_token	*__msh_extract(t_cmd *cmd, t_token *t)
 	iter = 0;
 	while (t0->type == T_KEY || t0->type == T_SQUOT || t0->type == T_DQUOT)
 	{
-		t0 = t0->next;
 		if (t0->type == T_KEY)
 			iter++;
+		t0 = t0->next;
 	}
 	cmd->args = ft_calloc(iter + 1, sizeof(char *));
 	if (!cmd)

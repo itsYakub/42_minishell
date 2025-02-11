@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/11 10:47:02 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/11 12:07:54 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,13 @@ int		msh_init(t_mini *mini, char **ev);
 int		msh_parse(t_mini *mini, const char *s);
 int		msh_clear(t_mini *mini);
 
+/* ./minishell-exec0.c */
+
 int		msh_exec(t_mini *mini);
 int		msh_exec_pipe(t_cmd *cmd);
 int		msh_exec_util(t_cmd *cmd);
 int		msh_exec_builtin(t_cmd *cmd);
+int		msh_isbuiltin(t_cmd *cmd);
 
 /* ./minishell-lexer0.c ./minishell-lexer1.c ./minishell-lexer2.c */
 
