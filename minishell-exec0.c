@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:01:35 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/11 12:43:43 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:41:54 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	msh_exec_builtin(t_cmd *cmd)
 		ms_echo(cmd);
 	if (cmd_equals("unset", cmd->args[0]))
 		ms_unset(cmd);
-	return (0);
+	return (1);
 }
 
 int	msh_isbuiltin(t_cmd *cmd)
