@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/10 15:39:19 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/11 09:19:45 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ typedef enum e_token_type
 
 typedef enum e_cmd_type
 {
-	C_CMD = 0,
+	C_NULL = 0,
+	C_CMD,
 	C_INPUT,
 	C_HEREDOC,
 	C_OUTPUT,
@@ -104,17 +105,14 @@ typedef struct s_cmd
  *		API
  * */
 
-int	msh_init(t_mini *mini, char **ev);
-int	msh_parse(t_mini *mini, const char *s);
-int	msh_clear(t_mini *mini);
+int		msh_init(t_mini *mini, char **ev);
+int		msh_parse(t_mini *mini, const char *s);
+int		msh_clear(t_mini *mini);
 
-int		msh_parse_commands(t_mini *mini, char **split);
-int		msh_parse_cmd(t_cmd *cmd, char **split);
-
-int	msh_exec(t_mini *mini);
-int	msh_exec_pipe(t_cmd *cmd);
-int	msh_exec_util(t_cmd *cmd);
-int	msh_exec_builtin(t_cmd *cmd);
+int		msh_exec(t_mini *mini);
+int		msh_exec_pipe(t_cmd *cmd);
+int		msh_exec_util(t_cmd *cmd);
+int		msh_exec_builtin(t_cmd *cmd);
 
 /* ./minishell-lexer0.c ./minishell-lexer1.c ./minishell-lexer2.c */
 
@@ -123,6 +121,11 @@ int		msh_lexer(const char *s, t_lexer *l);
 int		msh_lexer_free(t_lexer *l);
 int		msh_lexer_validate(t_lexer *l);
 int		msh_lexer_expand(t_lexer *l, char **anv);
+
+/* ./minishell-cmd0.c */
+int		msh_cmd_creat(t_mini *mini);
+int		msh_cmd_count(t_mini *mini);
+int		msh_cmd_free(t_mini *mini);
 
 // env_array
 int		cmd_equals(const char *cmd, char *param);

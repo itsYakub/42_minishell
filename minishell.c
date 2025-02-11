@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/10 16:10:27 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/11 09:27:23 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,6 @@ int	main(int ac, char **av, char **ev)
 				msh_clear(&mini);
 			}
 			free(input);
-/*
-			pid = fork();
-			if (!pid)
-			{
-				msh_exec(mini.cmd);
-				msh_clean(&mini);
-			}
-			else if (pid > 0)
-				wait(NULL);
-*/
 		}
 	}
 	return (0);
@@ -101,19 +91,35 @@ int	msh_parse(t_mini *mini, const char *s)
 		printf("minishell: parsing variables error\n");
 		return (0);
 	}
+	msh_cmd_count(mini);
+	msh_cmd_creat(mini);	
 	return (1);
 }
 
 int	msh_clear(t_mini *mini)
 {
-	msh_lexer_free(&mini->lexer);	
+	msh_lexer_free(&mini->lexer);
+	msh_cmd_free(mini);
 	return (1);
 }
 
 int	msh_exec(t_mini *mini)
 {
+	printf("=====\n");
+	printf("Lexer:\n");
+	printf("=====\n");
 	for (t_token *t = mini->lexer.tokens; t->type != T_NULL; t = t->next)
 		printf("%s\n", t->data);
+	printf("=====\n");
+	printf("Commands:\n");
+	printf("=====\n");
+	for (int i = 0; mini->cmd[i].type != C_NULL; i++)
+	{
+		for (int j = 0; mini->cmd[i].args[j]; j++)
+			printf("%s ", mini->cmd[i].args[j]);
+		printf("(Type: %i)\n", mini->cmd[i].type);
+	}
+	printf("=====\n");
 	return (1);
 }
 

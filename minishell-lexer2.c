@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:27:33 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/10 16:00:58 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/11 08:22:52 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		msh_lexer_expand(t_lexer *l, char **env)
 			if (ft_strchr(t->data, '$'))
 			{
 				tmp0 = env_value(ft_strchr(t->data, '$') + 1, env);
-				if (!tmp0)
+				if (!tmp0 || !*tmp0)
 					tmp0 = ft_calloc(1, 1);
 				bytes = ft_strchr(t->data, '$') - t->data + ft_strlen(tmp0) + 1;
 				tmp1 = ft_calloc(bytes + 1, sizeof(char));

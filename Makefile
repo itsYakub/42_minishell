@@ -9,6 +9,7 @@ SRCS= \
 	./minishell-lexer0.c \
 	./minishell-lexer1.c \
 	./minishell-lexer2.c \
+	./minishell-cmd0.c \
 	./lw/env_array.c \
 	./lw/init.c \
 	$(BUILTINS)
@@ -46,4 +47,3 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
-
