@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/11 09:27:23 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/11 13:38:59 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,32 @@ int	main(int ac, char **av, char **ev)
 	
 	if (!msh_init(&mini, ev))
 		return (1);
+
+	char *str;
+	str = env_value("USER[]/$USER", &mini);
+	printf("%s\n", str);
+	free(str);
+	str = env_value("USER$USER", &mini);
+	printf("%s\n", str);
+	free(str);
+	str = env_value("USERabc$USER", &mini);
+	printf("%s\n", str);
+	free(str);
+	str = env_value("?", &mini);
+	printf("%s\n", str);
+	free(str);
+	str = env_value("USER$?", &mini);
+	printf("%s\n", str);
+	free(str);
+	str = env_value("?$USER$?", &mini);
+	printf("%s\n", str);
+	free(str);
+	str = env_value("USER", &mini);
+	printf("%s\n", str);
+	free(str);
+	//return (0);
+
+		
 	input = NULL;
 	while (!mini.exit)
 	{		

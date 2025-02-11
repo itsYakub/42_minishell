@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/11 10:47:02 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/11 13:02:44 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ int		cmd_equals(const char *cmd, char *param);
 
 // env_array
 char	*env_value_from_index(int pos, char **env_vars);
-char	*env_value(char *var_name, char **env_vars);
+char	*env_value(char *var_name, t_mini *mini);
 int		env_var_index(char *var_name, char **env_var);
 char	*env_var(char *var_name, char **env_vars);
 int		count_array(char **array);
