@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/11 09:19:45 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/11 10:47:02 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,13 @@ typedef enum e_token_type
 	T_DQUOT,
 	T_PIPE
 }	t_token_type;
+
+typedef enum e_lexer_mode
+{
+	M_CMD,
+	M_SQUOT,
+	M_DQUOT
+}	t_lexer_mode;
 
 typedef enum e_cmd_type
 {

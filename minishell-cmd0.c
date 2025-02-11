@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 08:29:33 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/11 09:31:49 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/11 10:55:57 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	msh_cmd_creat(t_mini *mini)
 			t = __msh_ext_red(&mini->cmd[iter0++], t);
 		else if (t->type == T_PIPE)
 			t = t->next;
+		else if (t->type == T_SQUOT || t->type == T_DQUOT)
+			t = t->next;
 		else if (t->type == T_KEY)
 			t = __msh_extract(&mini->cmd[iter0++], t);
 	}
@@ -56,32 +58,6 @@ int	msh_cmd_count(t_mini *mini)
 	return (res);
 }
 
-static t_token	*__msh_extract(t_cmd *cmd, t_token *t)
-{
-	t_token	*t0;
-	size_t	iter;
-
-	t0 = t;
-	iter = 0;
-	while (t0->type == T_KEY)
-	{
-		t0 = t0->next;
-		iter++;
-	}
-	cmd->args = ft_calloc(iter + 1, sizeof(char *));
-	if (!cmd)
-		return (0);
-	iter = -1;
-	t0 = t;
-	while (t0->type == T_KEY)
-	{
-		cmd->args[++iter] = ft_strdup(t0->data);
-		t0 = t0->next;
-	}
-	cmd->type = C_CMD;
-	return (t0);
-}
-
 int	msh_cmd_free(t_mini *mini)
 {
 	size_t	iter;
@@ -91,6 +67,34 @@ int	msh_cmd_free(t_mini *mini)
 		ft_free2d((void **) mini->cmd[iter].args);
 	free(mini->cmd);
 	return (1);
+}
+
+static t_token	*__msh_extract(t_cmd *cmd, t_token *t)
+{
+	t_token	*t0;
+	size_t	iter;
+
+	t0 = t;
+	iter = 0;
+	while (t0->type == T_KEY || t0->type == T_SQUOT || t0->type == T_DQUOT)
+	{
+		t0 = t0->next;
+		if (t0->type == T_KEY)
+			iter++;
+	}
+	cmd->args = ft_calloc(iter + 1, sizeof(char *));
+	if (!cmd)
+		return (0);
+	iter = -1;
+	t0 = t;
+	while (t0->type == T_KEY || t0->type == T_SQUOT || t0->type == T_DQUOT)
+	{
+		if (t0->type == T_KEY)
+			cmd->args[++iter] = ft_strdup(t0->data);
+		t0 = t0->next;
+	}
+	cmd->type = C_CMD;
+	return (t0);
 }
 
 static t_token	*__msh_ext_red(t_cmd *cmd, t_token *t)

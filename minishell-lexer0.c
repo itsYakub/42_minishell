@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:21:48 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/10 15:53:34 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/11 10:44:39 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 static int	__msh_process_lower(const char *s, t_token **t);
 static int	__msh_process_great(const char *s, t_token **t);
-static int	__msh_process_multi(const char *s, t_token **t, int type, char *c);
-static int	__msh_process_single(const char *s, t_token **t, int type);
+static int	__msh_process_key(const char *s, t_token **t);
+static int	__msh_process_quot(const char *s, t_token **t);
+static int	__msh_process_pipe(const char *s, t_token **t);
 
 int	msh_lexer(const char *s, t_lexer *l)
 {
@@ -28,19 +29,15 @@ int	msh_lexer(const char *s, t_lexer *l)
 		while ((*s >= 9 && *s <= 13) || *s == 32)
 			s++;
 		if (*s == '|')
-			s += __msh_process_single(s, &t, T_PIPE);
+			s += __msh_process_pipe(s, &t);
 		else if (*s == '<')
 			s += __msh_process_lower(s, &t);
 		else if (*s == '>')
 			s += __msh_process_great(s, &t);
-		else if (*s == '\"')
-			s += __msh_process_single(s, &t, T_DQUOT);
-		else if (*s == '\'')
-			s += __msh_process_single(s, &t, T_SQUOT);
+		else if (*s == '\'' || *s == '\"')
+			s += __msh_process_quot(s, &t);
 		else
-			s += __msh_process_multi(s, &t, T_KEY,
-					"abcdefghijklmnopqrstuvwxyz"
-					"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.-_$");
+			s += __msh_process_key(s, &t);
 	}
 	return (1);
 }
@@ -83,8 +80,11 @@ static int	__msh_process_great(const char *s, t_token **t)
 	return (end - start);
 }
 
-static int	__msh_process_multi(const char *s, t_token **t, int type, char *c)
+static int	__msh_process_key(const char *s, t_token **t)
 {
+	const char	*c
+		= "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+		"0123456789,./?;:[]{}\\//-_=+`~!@#$%^&*()";
 	char	*start;
 	char	*end;
 
@@ -92,19 +92,30 @@ static int	__msh_process_multi(const char *s, t_token **t, int type, char *c)
 	end = (char *) s;
 	while (*end && (ft_strchr(c, *end)))
 		end++;
-	(*t)->type = type;
+	(*t)->type = T_KEY;
 	(*t)->data = ft_substr(s, 0, end - start);
 	(*t)->next = msh_token();
 	(*t) = (*t)->next;
 	return (end - start);
 }
 
-static int	__msh_process_single(const char *s, t_token **t, int type)
+static int	__msh_process_quot(const char *s, t_token **t)
 {
-	(*t)->type = type;
+	if (*s == '\'')
+		(*t)->type = T_SQUOT;
+	else if (*s == '\"')
+		(*t)->type = T_DQUOT;
 	(*t)->data = ft_substr(s, 0, 1);
 	(*t)->next = msh_token();
 	(*t) = (*t)->next;
 	return (1);
 }
 
+static int	__msh_process_pipe(const char *s, t_token **t)
+{
+	(*t)->type = T_PIPE;
+	(*t)->data = ft_substr(s, 0, 1);
+	(*t)->next = msh_token();
+	(*t) = (*t)->next;
+	return (1);
+}
