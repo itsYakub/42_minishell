@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 12:22:21 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/10 14:48:57 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:57:44 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ms_cd(t_cmd *cmd)
 	cmd->mini->env[pos] = ft_strjoin("OLDPWD=", getcwd(NULL, 0));
 	if (!cmd->args[1])
 	{
-		path = env_value("HOME", cmd->mini->env);
+		path = env_value("HOME", cmd->mini);
 		chdir(path);
 		update_pwd(cmd);
 		free(path);

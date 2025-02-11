@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/11 12:07:54 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:55:59 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_token
 typedef struct s_lexer
 {
 	t_token	*tokens;
+	t_mini	*mini;
 	size_t	tcount;
 }	t_lexer;
 
@@ -130,7 +131,7 @@ void	*msh_token(void);
 int		msh_lexer(const char *s, t_lexer *l);
 int		msh_lexer_free(t_lexer *l);
 int		msh_lexer_validate(t_lexer *l);
-int		msh_lexer_expand(t_lexer *l, char **anv);
+int		msh_lexer_expand(t_lexer *l);
 
 /* ./minishell-cmd0.c */
 int		msh_cmd_creat(t_mini *mini);
@@ -164,7 +165,7 @@ int		cmd_equals(const char *cmd, char *param);
 
 // env_array
 char	*env_value_from_index(int pos, char **env_vars);
-char	*env_value(char *var_name, char **env_vars);
+char	*env_value(char *var_name, t_mini *mini);
 int		env_var_index(char *var_name, char **env_var);
 char	*env_var(char *var_name, char **env_vars);
 int		count_array(char **array);

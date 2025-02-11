@@ -6,14 +6,14 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:27:33 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/11 10:49:43 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:55:40 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
 
-int		msh_lexer_expand(t_lexer *l, char **env)
+int		msh_lexer_expand(t_lexer *l)
 {
 	t_lexer_mode	mode;
 	t_token			*t;
@@ -46,7 +46,7 @@ int		msh_lexer_expand(t_lexer *l, char **env)
 		{
 			if (ft_strchr(t->data, '$'))
 			{
-				tmp0 = env_value(ft_strchr(t->data, '$') + 1, env);
+				tmp0 = env_value(ft_strchr(t->data, '$') + 1, l->mini);
 				if (!tmp0 || !*tmp0)
 					tmp0 = ft_calloc(1, 1);
 				bytes = ft_strchr(t->data, '$') - t->data + ft_strlen(tmp0) + 1;

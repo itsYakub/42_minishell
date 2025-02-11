@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 10:19:42 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/11 11:45:53 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/11 14:53:28 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,25 @@ char	*env_value_from_index(int pos, char **env_vars)
 }
 
 /*
+	Appends to a string, freeing the old one
+*/
+static char	*join_and_free(char *old, char *new)
+{
+	char	*tmp;
+
+	if (!old)
+		old = ft_strdup("");
+	tmp = ft_strjoin(old, new);
+	free(new);
+	free(old);
+	return (tmp);
+}
+
+/*
 	Gets one line from env_vars, excluding the name= part.
 	Also adds any non-alpha characters after the var
 */
-char	*env_value(char *var_name, char **env_vars)
+static char	*single_env_value(char *var_name, char **env_vars)
 {
 	char	*var;
 	char	*sub1;
@@ -50,16 +65,42 @@ char	*env_value(char *var_name, char **env_vars)
 	sub1 = ft_substr(var_name, 0, i);
 	var = env_var(sub1, env_vars);
 	if (!var)
+	{
+		free(sub1);
 		return (NULL);
+	}
 	sub2 = ft_substr(var, ft_strlen(sub1) + 1, ft_strlen(var));
 	free(sub1);
 	if (i < ft_strlen(var_name))
 	{
-		sub1 = ft_strjoin(sub2, ft_substr(var_name, i, ft_strlen(var_name)));
-		free(sub2);
+		sub1 = join_and_free(sub2, ft_substr(var_name, i, ft_strlen(var_name)));
 		return (sub1);
 	}
 	return (sub2);
+}
+
+/*
+	Replaces vars in one block of text
+*/
+char	*env_value(char *var_name, t_mini *mini)
+{
+	char	**split;
+	int		i;
+	char	*out;
+
+	out = NULL;
+	split = ft_split(var_name, '$');
+	i = 0;
+	while (i < count_array(split))
+	{
+		if (0 == ft_strcmp("?", split[i]))
+			out = join_and_free(out, ft_itoa(mini->exitcode));
+		else
+			out = join_and_free(out, single_env_value(split[i], mini->env));
+		i++;
+	}
+	free_stringlist(split);
+	return (out);
 }
 
 /*

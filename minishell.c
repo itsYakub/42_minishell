@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/11 12:04:01 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:58:19 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	msh_init(t_mini *mini, char **ev)
 	mini->exit = 0;
 	mini->exitcode = 0;
 	mini->lexer = (t_lexer) { 0 };
+	mini->lexer.mini = mini;
 	return (1);
 }
 
@@ -87,7 +88,7 @@ int	msh_parse(t_mini *mini, const char *s)
 		printf("minishell: lexical error\n");
 		return (0);
 	}
-	if (!msh_lexer_expand(&mini->lexer, mini->env))
+	if (!msh_lexer_expand(&mini->lexer))
 	{
 		printf("minishell: parsing variables error\n");
 		return (0);
