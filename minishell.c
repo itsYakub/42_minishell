@@ -6,13 +6,19 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/12 08:12:36 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/12 11:18:19 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	sigexit_handler(int sig)
+{
+	(void)sig;
+	exit(0);
+}
+
+void	sigexit_handler2(int sig)
 {
 	(void)sig;
 	exit(0);
@@ -34,19 +40,28 @@ int	main(int ac, char **av, char **ev)
 
 	(void) ac;
 	(void) av;	
+	signal(SIGINT, sigint_handler);
+	signal(SIGUSR1, sigexit_handler);
+	signal(SIGUSR2, sigexit_handler2);
+	signal(SIGQUIT, SIG_IGN);
 	if (!msh_init(&mini, ev))
 		return (1);
 	input = NULL;
 	while (!mini.exit)
 	{		
-		input = readline("> minishell: $ ");
-		if (input && ft_strlen(input))
+		input = readline("\033[0;34m\033[1m> minishell: $ \033[0m");
+		if (!input)
+			exit(0);
+		if (ft_strlen(input))
 		{
 			add_history(input);
 			if (msh_parse(&mini, input))
 			{
-				if (!msh_exec(&mini))
-					printf("minishell: %s\n", strerror(errno));
+				mini.should_quit = fork();
+				if (0 == mini.should_quit)
+					msh_exec(&mini);
+				else
+					waitpid(mini.should_quit, NULL, 0);
 				msh_clear(&mini);
 			}
 			free(input);

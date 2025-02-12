@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell-exec0.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:01:35 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/12 08:29:27 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/12 11:17:26 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,24 @@
 
 int	msh_exec(t_mini *mini)
 {
-	size_t	iter;
+	int	inputfd;
+	int	outputfd;
+	int	i;
+	int	len;
 
-	if (mini->cmdc)
+	inputfd = 0;
+	outputfd = 1;
+	dup2(inputfd, 0);
+	len = mini->cmdc;
+	i = 0;
+	while (i < len - 1)
 	{
-		iter = -1;
-		while (++iter < (size_t) mini->cmdc - 1)
-			msh_exec_pipe(&mini->cmd[iter]);
-		msh_exec_util(&mini->cmd[iter]);
+		msh_exec_pipe(&mini->cmd[i]);
+		i++;
 	}
-	return (1);
+	dup2(outputfd, 1);
+	msh_exec_util(&mini->cmd[i]);
+	return (0);
 }
 
 int	msh_exec_pipe(t_cmd *cmd)
@@ -52,21 +60,12 @@ int	msh_exec_pipe(t_cmd *cmd)
 
 int	msh_exec_util(t_cmd *cmd)
 {
-	int	pid;
-	
 	if (msh_isbuiltin(cmd))
-		return (msh_exec_builtin(cmd));
-	pid = fork();
-	if (!pid)
-	{
-		cmd->args[0] = msh_getutil(cmd->mini, cmd->args);
-		if (execve(cmd->args[0], cmd->args, cmd->mini->env))
-			exit(printf("minishell: %s\n", strerror(errno)));
-		exit(0);
-	}
-	else if (pid > 0)
-		waitpid(pid, &cmd->mini->exitcode, 0);
-	return (1);
+		exit(msh_exec_builtin(cmd));
+	cmd->args[0] = msh_getutil(cmd->mini, cmd->args);
+	if (execve(cmd->args[0], cmd->args, cmd->mini->env) < 0)
+		exit(1);
+	exit(0);
 }
 
 int	msh_exec_builtin(t_cmd *cmd)
