@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:01:35 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/11 15:54:23 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/12 08:29:27 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,13 @@
 int	msh_exec(t_mini *mini)
 {
 	size_t	iter;
-	int		pid;
 
-	if (mini->cmdc > 1)
+	if (mini->cmdc)
 	{
 		iter = -1;
 		while (++iter < (size_t) mini->cmdc - 1)
-		{
 			msh_exec_pipe(&mini->cmd[iter]);
-		}
-		pid = fork();
-		if (!pid)
-			msh_exec_util(&mini->cmd[iter]);
-		else if (pid > 0)
-			wait(&mini->exitcode);
-	}
-	else if (mini->cmdc == 1)
-	{
-		if (msh_isbuiltin(mini->cmd))
-			return (msh_exec_builtin(mini->cmd));
-		else
-		{
-			pid = fork();
-			if (!pid)
-				msh_exec_util(mini->cmd);
-			else if (pid > 0)
-				wait(&mini->exitcode);
-		}
+		msh_exec_util(&mini->cmd[iter]);
 	}
 	return (1);
 }
@@ -58,25 +38,35 @@ int	msh_exec_pipe(t_cmd *cmd)
 		return (printf("minishell: %s\n", strerror(errno)));
 	if (0 == pid)
 	{
-		dup2(p_fd[1], 1);
 		close(p_fd[0]);
+		dup2(p_fd[1], 1);
 		msh_exec_util(cmd);
 	}
 	else
 	{
-		dup2(p_fd[0], 0);
 		close(p_fd[1]);
-		waitpid(pid, NULL, 0);
+		dup2(p_fd[0], 0);
 	}
 	return (1);
 }
 
 int	msh_exec_util(t_cmd *cmd)
 {
-	cmd->args[0] = msh_getutil(cmd->mini, cmd->args);
-	if (execve(cmd->args[0], cmd->args, cmd->mini->env))
-		exit(printf("minishell: %s\n", strerror(errno)));
-	exit(0);
+	int	pid;
+	
+	if (msh_isbuiltin(cmd))
+		return (msh_exec_builtin(cmd));
+	pid = fork();
+	if (!pid)
+	{
+		cmd->args[0] = msh_getutil(cmd->mini, cmd->args);
+		if (execve(cmd->args[0], cmd->args, cmd->mini->env))
+			exit(printf("minishell: %s\n", strerror(errno)));
+		exit(0);
+	}
+	else if (pid > 0)
+		waitpid(pid, &cmd->mini->exitcode, 0);
+	return (1);
 }
 
 int	msh_exec_builtin(t_cmd *cmd)

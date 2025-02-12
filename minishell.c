@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/11 14:58:19 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/12 08:12:36 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,12 @@ int	main(int ac, char **av, char **ev)
 
 	(void) ac;
 	(void) av;	
-	signal(SIGINT, sigint_handler);
-	signal(SIGUSR1, sigexit_handler);
-	
-	// So you can use ctrl-d
-	//signal(SIGQUIT, SIG_IGN);
-	
 	if (!msh_init(&mini, ev))
 		return (1);
-
 	input = NULL;
 	while (!mini.exit)
 	{		
 		input = readline("> minishell: $ ");
-		// So you can use ctrl-d
-		if (!input)
-			exit(0);
-			
 		if (input && ft_strlen(input))
 		{
 			add_history(input);
@@ -68,8 +57,9 @@ int	main(int ac, char **av, char **ev)
 
 int	msh_init(t_mini *mini, char **ev)
 {
-	if (!mini || !ev)
-		return (0);
+	signal(SIGINT, sigint_handler);
+	signal(SIGUSR1, sigexit_handler);
+	signal(SIGQUIT, SIG_IGN);
 	mini->cmd = NULL;
 	mini->cmdc = 0;
 	mini->env = init_env_array(ev);
@@ -84,17 +74,11 @@ int	msh_parse(t_mini *mini, const char *s)
 {
 	msh_lexer(s, &mini->lexer);
 	if (!msh_lexer_validate(&mini->lexer))
-	{
-		printf("minishell: lexical error\n");
-		return (0);
-	}
+		return (!printf("minishell: lexical error\n"));
 	if (!msh_lexer_expand(&mini->lexer))
-	{
-		printf("minishell: parsing variables error\n");
-		return (0);
-	}
-	msh_cmd_count(mini);
-	msh_cmd_creat(mini);	
+		return (!printf("minishell: parsing variables error\n"));
+	if (!msh_cmd_creat(mini))
+		return (!printf("minishell: command error\n"));
 	return (1);
 }
 

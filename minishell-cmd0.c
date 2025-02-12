@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 08:29:33 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/11 12:14:43 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/12 08:03:48 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	msh_cmd_creat(t_mini *mini)
 	t_token	*t;
 	size_t	iter0;
 
-	mini->cmd = ft_calloc(mini->cmdc + 1, sizeof(t_cmd));
+	mini->cmd = ft_calloc(msh_cmd_count(mini) + 1, sizeof(t_cmd));
 	if (!mini->cmd)
 		return (0);
 	t = mini->lexer.tokens;
