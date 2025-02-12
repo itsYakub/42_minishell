@@ -6,19 +6,13 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/12 11:18:19 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/12 14:55:57 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	sigexit_handler(int sig)
-{
-	(void)sig;
-	exit(0);
-}
-
-void	sigexit_handler2(int sig)
 {
 	(void)sig;
 	exit(0);
@@ -39,16 +33,12 @@ int	main(int ac, char **av, char **ev)
 	t_mini	mini;
 
 	(void) ac;
-	(void) av;	
-	signal(SIGINT, sigint_handler);
-	signal(SIGUSR1, sigexit_handler);
-	signal(SIGUSR2, sigexit_handler2);
-	signal(SIGQUIT, SIG_IGN);
+	(void) av;
 	if (!msh_init(&mini, ev))
 		return (1);
 	input = NULL;
 	while (!mini.exit)
-	{		
+	{
 		input = readline("\033[0;34m\033[1m> minishell: $ \033[0m");
 		if (!input)
 			exit(0);
@@ -61,7 +51,7 @@ int	main(int ac, char **av, char **ev)
 				if (0 == mini.should_quit)
 					msh_exec(&mini);
 				else
-					waitpid(mini.should_quit, NULL, 0);
+					waitpid(mini.should_quit, &mini.exitcode, 0);
 				msh_clear(&mini);
 			}
 			free(input);
@@ -102,14 +92,4 @@ int	msh_clear(t_mini *mini)
 	msh_lexer_free(&mini->lexer);
 	msh_cmd_free(mini);
 	return (1);
-}
-
-int	cmd_equals(const char *cmd, char *param)
-{
-	int	result;
-	int	cmd_len;
-
-	cmd_len = ft_strlen(cmd);
-	result = ft_strncmp(cmd, param, cmd_len);
-	return (!result && ft_strlen(param) == cmd_len);
 }

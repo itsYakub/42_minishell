@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:01:35 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/12 11:17:26 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/12 14:50:25 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	msh_exec(t_mini *mini)
 	}
 	dup2(outputfd, 1);
 	msh_exec_util(&mini->cmd[i]);
-	return (0);
+	return (1);
 }
 
 int	msh_exec_pipe(t_cmd *cmd)
@@ -64,25 +64,29 @@ int	msh_exec_util(t_cmd *cmd)
 		exit(msh_exec_builtin(cmd));
 	cmd->args[0] = msh_getutil(cmd->mini, cmd->args);
 	if (execve(cmd->args[0], cmd->args, cmd->mini->env) < 0)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putendl_fd(strerror(errno), 2);
 		exit(1);
+	}
 	exit(0);
 }
 
 int	msh_exec_builtin(t_cmd *cmd)
 {
-	if (cmd_equals("pwd", cmd->args[0]))
+	if (!ft_strncmp("pwd", *cmd->args, ft_strlen(*cmd->args)))
 		ms_pwd(cmd);
-	if (cmd_equals("cd", cmd->args[0]))
+	else if (!ft_strncmp("cd", *cmd->args, ft_strlen(*cmd->args)))
 		ms_cd(cmd);
-	if (cmd_equals("exit", cmd->args[0]))
+	else if (!ft_strncmp("exit", *cmd->args, ft_strlen(*cmd->args)))
 		ms_exit(cmd);
-	if (cmd_equals("env", cmd->args[0]))
+	else if (!ft_strncmp("env", *cmd->args, ft_strlen(*cmd->args)))
 		ms_env(cmd);
-	if (cmd_equals("export", cmd->args[0]))
+	else if (!ft_strncmp("export", *cmd->args, ft_strlen(*cmd->args)))
 		ms_export(cmd);
-	if (cmd_equals("echo", cmd->args[0]))
+	else if (!ft_strncmp("echo", *cmd->args, ft_strlen(*cmd->args)))
 		ms_echo(cmd);
-	if (cmd_equals("unset", cmd->args[0]))
+	else if (!ft_strncmp("unset", *cmd->args, ft_strlen(*cmd->args)))
 		ms_unset(cmd);
 	return (1);
 }

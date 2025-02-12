@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 08:38:28 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/07 11:26:25 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/12 14:54:15 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,3 @@ static char	**__msh_creatpths(char *var, char *util, size_t off)
 		paths[iter] = __msh_creaturl(paths[iter], util);
 	return (paths);
 }
-

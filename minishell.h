@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/12 09:52:43 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/12 14:45:35 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ typedef struct s_cmd
 	char		*fpath;
 	int			stdfd[2];
 	int			rdrfd[2];
-	int			pipfd[2];
 }	t_cmd;
 
 /*	SECTION:
@@ -133,6 +132,11 @@ int		msh_lexer(const char *s, t_lexer *l);
 int		msh_lexer_free(t_lexer *l);
 int		msh_lexer_validate(t_lexer *l);
 int		msh_lexer_expand(t_lexer *l);
+int		msh_process_lower(const char *s, t_token **t);
+int		msh_process_great(const char *s, t_token **t);
+int		msh_process_key(const char *s, t_token **t);
+int		msh_process_quot(const char *s, t_token **t);
+int		msh_process_pipe(const char *s, t_token **t);
 
 /* ./minishell-cmd0.c */
 int		msh_cmd_creat(t_mini *mini);
@@ -160,9 +164,6 @@ void	ms_exit(t_cmd *cmd);
 void	ms_export(t_cmd *cmd);
 void	ms_pwd(t_cmd *cmd);
 void	ms_unset(t_cmd *cmd);
-
-// lw
-int		cmd_equals(const char *cmd, char *param);
 
 // env_array
 char	*env_value_from_index(int pos, char **env_vars);

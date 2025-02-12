@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 08:26:12 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/10 14:20:50 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/12 14:54:47 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,7 @@ int	msh_lexer_free(t_lexer *l)
 	return (0);
 }
 
-static int	__msh_token_free(t_token *t)
-{
-	if (t->type != T_NULL)
-	{
-		free(t->data);
-		__msh_token_free(t->next);
-		free(t->next);
-	}
-	return (1);
-}
-
-int		msh_lexer_validate(t_lexer *l)
+int	msh_lexer_validate(t_lexer *l)
 {
 	t_token	*t;
 	int		single_quote;
@@ -67,4 +56,15 @@ int		msh_lexer_validate(t_lexer *l)
 		t = t->next;
 	}
 	return (!single_quote && !double_quote);
+}
+
+static int	__msh_token_free(t_token *t)
+{
+	if (t->type != T_NULL)
+	{
+		free(t->data);
+		__msh_token_free(t->next);
+		free(t->next);
+	}
+	return (1);
 }

@@ -6,14 +6,13 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:27:33 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/11 14:55:40 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/12 14:51:35 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "minishell.h"
 
-int		msh_lexer_expand(t_lexer *l)
+int	msh_lexer_expand(t_lexer *l)
 {
 	t_lexer_mode	mode;
 	t_token			*t;

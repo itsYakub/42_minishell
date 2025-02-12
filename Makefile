@@ -9,12 +9,11 @@ SRCS= \
 	./minishell-lexer0.c \
 	./minishell-lexer1.c \
 	./minishell-lexer2.c \
+	./minishell-lexer3.c \
 	./minishell-cmd0.c \
 	./minishell-exec0.c \
 	./lw/env_array.c \
 	./lw/init.c \
-	./pipe.c \
-	./pipes2.c \
 	$(BUILTINS)
 OBJS= \
 	$(SRCS:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 08:29:33 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/12 08:03:48 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/12 14:55:20 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	msh_cmd_creat(t_mini *mini)
 	iter0 = 0;
 	while (t && t->type != T_NULL)
 	{
-		/* (joleksia) Temporary solution for input redirection */
 		if (t->type == T_GREAT || t->type == T_APPEND)
 			t = t->next;
 		else if (t->type == T_LOWER)
@@ -42,7 +41,7 @@ int	msh_cmd_creat(t_mini *mini)
 	iter0 = -1;
 	while (++iter0 < (size_t) mini->cmdc)
 		mini->cmd[iter0].mini = mini;
-	return (1);	
+	return (1);
 }
 
 int	msh_cmd_count(t_mini *mini)
