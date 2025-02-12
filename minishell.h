@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/12 14:45:35 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/12 14:58:33 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,6 @@
 /*	SECTION:
  *		Typedefs
  * */
-
-// global var for signal received
-typedef struct s_signal
-{
-	
-}	t_signal;
 
 typedef struct s_mini	t_mini;
 typedef struct s_cmd	t_cmd;
@@ -177,6 +171,4 @@ char	**init_env_array(char **envp);
 void	copy_env_array(char **original, char ***copy);
 void	free_stringlist(char **env_vars);
 
-int	pipe_test(t_mini *mini);
-void	handle_pipes(char **commands, char **envp, int i);
 #endif

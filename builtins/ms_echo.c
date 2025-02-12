@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:22:55 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/12 14:50:32 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/12 14:58:57 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ms_echo(t_cmd *cmd)
 	cmd_count = -1;
 	while (cmd->args[++cmd_count])
 		;
-	skip_nl = cmd_count > 1 
+	skip_nl = cmd_count > 1
 		&& !ft_strncmp("-n", *cmd->args + 1, ft_strlen(*cmd->args + 1));
 	i = 0 + skip_nl;
 	while (++i < cmd_count)

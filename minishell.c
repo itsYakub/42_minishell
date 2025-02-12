@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/12 14:55:57 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/12 14:57:44 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	msh_init(t_mini *mini, char **ev)
 	mini->env = init_env_array(ev);
 	mini->exit = 0;
 	mini->exitcode = 0;
-	mini->lexer = (t_lexer) { 0 };
+	mini->lexer = (t_lexer){0};
 	mini->lexer.mini = mini;
 	return (1);
 }
