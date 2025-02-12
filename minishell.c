@@ -6,13 +6,19 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/11 14:58:19 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/12 10:34:34 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	sigexit_handler(int sig)
+{
+	(void)sig;
+	exit(0);
+}
+
+void	sigexit_handler2(int sig)
 {
 	(void)sig;
 	exit(0);
@@ -27,6 +33,8 @@ void	sigint_handler(int sig)
 	rl_redisplay();
 }
 
+
+
 int	main(int ac, char **av, char **ev)
 {
 	char	*input;
@@ -36,6 +44,8 @@ int	main(int ac, char **av, char **ev)
 	(void) av;	
 	signal(SIGINT, sigint_handler);
 	signal(SIGUSR1, sigexit_handler);
+	signal(SIGUSR2, sigexit_handler2);
+	signal(SIGQUIT, SIG_IGN);
 	
 	// So you can use ctrl-d
 	//signal(SIGQUIT, SIG_IGN);
@@ -46,18 +56,24 @@ int	main(int ac, char **av, char **ev)
 	input = NULL;
 	while (!mini.exit)
 	{		
-		input = readline("> minishell: $ ");
+		input = readline("\033[0;34m\033[1m> minishell: $ \033[0m");
 		// So you can use ctrl-d
 		if (!input)
 			exit(0);
 			
-		if (input && ft_strlen(input))
+		if (ft_strlen(input))
 		{
 			add_history(input);
 			if (msh_parse(&mini, input))
 			{
-				if (!msh_exec(&mini))
-					printf("minishell: %s\n", strerror(errno));
+				mini.should_quit = fork();
+				if (0 == mini.should_quit)
+					pipe_test(&mini);
+				else
+					waitpid(mini.should_quit, NULL, 0);
+				//exit(0);
+				// if (!msh_exec(&mini))
+				// 	printf("minishell: %s\n", strerror(errno));
 				msh_clear(&mini);
 			}
 			free(input);

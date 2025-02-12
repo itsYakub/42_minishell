@@ -13,6 +13,8 @@ SRCS= \
 	./minishell-exec0.c \
 	./lw/env_array.c \
 	./lw/init.c \
+	./pipe.c \
+	./pipes2.c \
 	$(BUILTINS)
 OBJS= \
 	$(SRCS:.c=.o)
