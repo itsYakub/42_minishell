@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 11:16:33 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/06 15:39:06 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/13 10:14:37 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,6 @@ void	ft_free2d(void **arr)
 	acpy = arr;
 	while (*acpy)
 		free(*acpy++);
-	free(arr);
+	if (arr)
+		free(arr);
 }

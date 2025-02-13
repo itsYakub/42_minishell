@@ -6,11 +6,30 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/12 14:57:44 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/13 10:29:32 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	debug_print(t_cmd *cmd)
+{
+	t_cmd	*cmd0;
+	size_t	iter;
+
+	cmd0 = cmd;
+	while (cmd0->type != C_NULL)
+	{
+		printf("> ");
+		iter = -1;
+		while (cmd0->args[++iter])
+		{
+			printf("%s ", cmd0->args[iter]);
+		}
+		printf("(type: %i)\n", cmd0->type);
+		cmd0++;
+	}
+}
 
 void	sigexit_handler(int sig)
 {
