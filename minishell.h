@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/12 14:58:33 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/14 15:43:10 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,21 @@
 # include <readline/history.h>
 # include "libft/libft.h"
 
+// to make pipes a bit easier to understand
+# define CURRENT_CMD 0
+# define PREVIOUS_CMD 1
+# define READ_END 0
+# define WRITE_END 1
+
 /*	SECTION:
  *		Typedefs
  * */
 
+typedef int t_pipe[2];
+
 typedef struct s_mini	t_mini;
 typedef struct s_cmd	t_cmd;
+typedef struct s_command	t_command;
 typedef struct s_token	t_token;
 typedef struct s_lexer	t_lexer;
 
@@ -86,11 +95,13 @@ typedef struct s_mini
 {
 	t_lexer	lexer;
 	t_cmd	*cmd;
+	t_command	*commands;
 	char	**env;
 	int		cmdc;
 	int		exitcode;
 	int		exit;
-	int		should_quit;
+	int		pid;
+	int		current_cmd;
 }	t_mini;
 
 typedef struct s_cmd
@@ -101,7 +112,23 @@ typedef struct s_cmd
 	char		*fpath;
 	int			stdfd[2];
 	int			rdrfd[2];
+	char		*infilename; // also used for heredoc delimiter
+	char		*outfilename;
+	int			inputtype; // 0 = file, 1 = heredoc, ignored if infilename is NULL
+	int			outputtype; // 0 = trunc, 1 = append, ignored if outfilename is
 }	t_cmd;
+
+typedef struct s_command
+{
+	t_mini	*mini;
+	char	*orig;
+	char	**args;
+	char	*infilename; // also used for heredoc delimiter
+	char	*other_outfilenames;
+	char	*outfilename;
+	int		inputtype; // 0 = file, 1 = heredoc, ignored if infilename is NULL
+	int		outputtype; // 0 = trunc, 1 = append, ignored if outfilename is
+}	t_command;
 
 /*	SECTION:
  *		API
@@ -156,7 +183,7 @@ void	ms_env(t_cmd *cmd);
 void	ms_echo(t_cmd *cmd);
 void	ms_exit(t_cmd *cmd);
 void	ms_export(t_cmd *cmd);
-void	ms_pwd(t_cmd *cmd);
+void	ms_pwd(t_command *cmd);
 void	ms_unset(t_cmd *cmd);
 
 // env_array
@@ -170,5 +197,27 @@ int		count_array(char **array);
 char	**init_env_array(char **envp);
 void	copy_env_array(char **original, char ***copy);
 void	free_stringlist(char **env_vars);
+
+// lw_utils
+char	*join_and_free(char *old, char *new);
+char	*add_char_and_free(char *old, char new);
+
+// cmd_parser
+int		parse_and_execute(t_mini *mini, char *line);
+
+// cmd_splitter
+int		split_commands(t_mini *mini, char *line);
+
+// cmd_expander
+int		expand_commands(t_mini *mini);
+
+// cmd_redirector
+int		redirect_commands(t_mini *mini);
+
+// cmd_checker
+int		check_commands(t_mini *mini);
+
+// cmd_executor
+int		execute_commands(t_mini *mini);
 
 #endif

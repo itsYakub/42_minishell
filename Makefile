@@ -1,8 +1,10 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 BUILTINS = $(addsuffix .c, $(addprefix ./builtins/, ms_cd ms_echo ms_env ms_exit ms_pwd ms_export ms_unset))
-LW = $(addsuffix .c, $(addprefix ./lw/, lw env_array init))
+LW = $(addsuffix .c, $(addprefix ./lw/, env_array init cmd_executor cmd_splitter cmd_expander cmd_redirector cmd_checker lw_utils cmd_parser))
 SRCS= \
+	$(BUILTINS) \
+	$(LW)	\
 	./minishell.c \
 	./minishell-getenv.c \
 	./minishell-utilpath.c \
@@ -11,10 +13,7 @@ SRCS= \
 	./minishell-lexer2.c \
 	./minishell-lexer3.c \
 	./minishell-cmd0.c \
-	./minishell-exec0.c \
-	./lw/env_array.c \
-	./lw/init.c \
-	$(BUILTINS)
+#	./minishell-exec0.c
 OBJS= \
 	$(SRCS:.c=.o)
 LIBFT= \

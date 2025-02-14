@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 10:42:31 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/12 14:30:31 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/14 13:46:27 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,5 @@
 void	ms_exit(t_cmd *cmd)
 {
 	printf("exit\n");
-	kill(cmd->mini->should_quit, SIGUSR1);
+	kill(cmd->mini->pid, SIGUSR1);
 }

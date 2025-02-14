@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:01:35 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/13 10:04:10 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/13 16:59:18 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,16 @@
 
 int	msh_exec(t_mini *mini)
 {
-	int	inputfd;
-	int	outputfd;
-	int	i;
-	int	len;
-
-	inputfd = 0;
-	outputfd = 1;
-	dup2(inputfd, 0);
-	len = mini->cmdc;
-	i = 0;
-	while (i < len - 1)
+	int	i = -1;
+	mini->cmd[0].infilename = NULL;
+	mini->cmd[0].outfilename = NULL;
+	mini->cmd[0].inputtype = 0;
+	mini->cmd[0].outputtype = 0;
+	while (++i < mini->cmdc)
 	{
-		msh_exec_pipe(&mini->cmd[i]);
-		i++;
+		mini->current_cmd = i;
+		execute(&mini->cmd[i]);
 	}
-	dup2(outputfd, 1);
-	msh_exec_util(&mini->cmd[i]);
 	return (1);
 }
 

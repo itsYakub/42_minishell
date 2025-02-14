@@ -6,12 +6,12 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:22:55 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/12 14:58:57 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/14 13:50:09 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
+//TODO strip apostoprophes, shorten
 void	ms_echo(t_cmd *cmd)
 {
 	char	*str;

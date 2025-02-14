@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_pwd.c                                           :+:      :+:    :+:   */
+/*   cmd_parser.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/06 10:48:46 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/14 13:43:19 by lwillis          ###   ########.fr       */
+/*   Created: 2025/02/14 09:10:08 by lwillis           #+#    #+#             */
+/*   Updated: 2025/02/14 15:45:41 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ms_pwd(t_command *cmd)
+/* Returns 1 if valid */
+int	parse_and_execute(t_mini *mini, char *line)
 {
-	char	*pwd;
-
-	if (1 != count_array(cmd->args))
-	{
-		write(2, "pwd: too many arguments\n", 24);
-		return ;
-	}
-	pwd = env_value("PWD", cmd->mini);
-	if (!pwd)
-		return ;
-	printf("%s\n", pwd);
-	free(pwd);
+	split_commands(mini, line);
+	expand_commands(mini);
+	redirect_commands(mini);
+	check_commands(mini);
+	execute_commands(mini);
+	return (1);
 }

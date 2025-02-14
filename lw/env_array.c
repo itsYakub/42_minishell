@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 10:19:42 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/11 14:53:28 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/14 14:59:45 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,6 @@ char	*env_value_from_index(int pos, char **env_vars)
 	}
 	free_stringlist(split);
 	return (result);
-}
-
-/*
-	Appends to a string, freeing the old one
-*/
-static char	*join_and_free(char *old, char *new)
-{
-	char	*tmp;
-
-	if (!old)
-		old = ft_strdup("");
-	tmp = ft_strjoin(old, new);
-	free(new);
-	free(old);
-	return (tmp);
 }
 
 /*
@@ -84,12 +69,15 @@ static char	*single_env_value(char *var_name, char **env_vars)
 */
 char	*env_value(char *var_name, t_mini *mini)
 {
+	char	**space_split;
 	char	**split;
 	int		i;
 	char	*out;
 
 	out = NULL;
-	split = ft_split(var_name, '$');
+	space_split = ft_split(var_name, ' ');
+	split = ft_split(space_split[0], '$');
+	free_stringlist(space_split);
 	i = 0;
 	while (i < count_array(split))
 	{

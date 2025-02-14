@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/13 10:29:32 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/14 15:42:42 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,30 @@ int	main(int ac, char **av, char **ev)
 		input = readline("\033[0;34m\033[1m> minishell: $ \033[0m");
 		if (!input)
 			exit(0);
+
+		// parse(&mini, input);
+		// int	i = -1;
+		// while (++i < mini.cmdc)
+		// {
+		// 	mini.current_cmd = i;
+		// 	execute(&mini.commands[i]);
+		// }
+		// continue ;
+		
 		if (ft_strlen(input))
 		{
 			add_history(input);
-			if (msh_parse(&mini, input))
-			{
-				mini.should_quit = fork();
-				if (0 == mini.should_quit)
-					msh_exec(&mini);
-				else
-					waitpid(mini.should_quit, &mini.exitcode, 0);
-				msh_clear(&mini);
-			}
+			parse_and_execute(&mini, input);
+			
+			// if (msh_parse(&mini, input))
+			// {
+			// 	mini.pid = fork();
+			// 	if (0 == mini.pid)
+			// 		msh_exec(&mini);
+			// 	else
+			// 		waitpid(mini.pid, &mini.exitcode, 0);
+			// 	msh_clear(&mini);
+			// }
 			free(input);
 		}
 	}
@@ -97,12 +109,29 @@ int	msh_init(t_mini *mini, char **ev)
 int	msh_parse(t_mini *mini, const char *s)
 {
 	msh_lexer(s, &mini->lexer);
+
+	
+	
 	if (!msh_lexer_validate(&mini->lexer))
 		return (!printf("minishell: lexical error\n"));
 	if (!msh_lexer_expand(&mini->lexer))
 		return (!printf("minishell: parsing variables error\n"));
 	if (!msh_cmd_creat(mini))
 		return (!printf("minishell: command error\n"));
+	t_token *node = mini->lexer.tokens;
+
+	while (node)
+	{
+		printf("%s\n", node->data);
+		node = node->next;
+	}
+
+	// t_cmd *cmd = mini->cmd;
+	// int i = -1;
+	// while (cmd->args[++i])
+	// 	printf("%s\n", cmd->args[i]);
+
+	return (0);
 	return (1);
 }
 
