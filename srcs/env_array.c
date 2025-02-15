@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 10:19:42 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/15 14:36:36 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/15 17:27:53 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*env_value_from_index(int pos, char **env_vars)
 
 	result = NULL;
 	var = env_vars[pos];
-	split = ft_split(var, '=');
+	split = lw_split(var, '=');
 	if (2 == count_array(split))
 	{
 		if (!(2 == ft_strlen(split[1]) && 0 == ft_strncmp("''", split[1], 2)))
@@ -76,8 +76,8 @@ char	*env_value(char *var_name, t_mini *mini, int in_quote)
 	char	*out;
 
 	out = NULL;
-	space_split = ft_split(var_name, ' ');
-	split = ft_split(space_split[0], '$');
+	space_split = lw_split(var_name, ' ');
+	split = lw_split(space_split[0], '$');
 	free_stringlist(space_split);
 	i = 0;
 	while (i < count_array(split))

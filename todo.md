@@ -1,14 +1,15 @@
 Problems:
+-	ft_split wc leaks
 
 To do:
--	check SIGUSR1 allowed
--	error messages
 -	reject options on builtins?
--	check exit builtin cleanup
 -	error messages
 -	memory leaks
 -	cmd_checker
 -	exit codes?
+-	clean cmd_executor.c
+-	comments
+-	env_array.c
 
 Checklist:
 +	Display a prompt when waiting for a new command.
@@ -32,11 +33,11 @@ Checklist:
 	+	ctrl-C displays a new prompt on a new line.
 	+	ctrl-D exits the shell.
 	+	ctrl-\ does nothing.
--	Your shell must implement the following builtins:
-	-	echo with option -n
-	-	cd with only a relative or absolute path
-	-	pwd with no options
-	-	export with no options
-	-	unset with no options
-	-	env with no options or arguments
-	-	exit with no options
++	Your shell must implement the following builtins:
+	+	echo with option -n
+	+	cd with only a relative or absolute path
+	+	pwd with no options
+	+	export with no options
+	+	unset with no options
+	+	env with no options or arguments
+	+	exit with no options

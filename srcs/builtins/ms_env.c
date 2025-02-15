@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 11:04:28 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/15 11:58:49 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/15 17:48:50 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ void	ms_env(t_command *cmd)
 		if (!var)
 			continue ;
 		free(var);
-		ft_putstr_fd(cmd->mini->env[i], STDOUT_FILENO);
+		printf("%s", cmd->mini->env[i]);
 		len = ft_strlen(cmd->mini->env[i]);
 		if ('\n' != cmd->mini->env[i][len - 1])
-			ft_putstr_fd("\n", STDOUT_FILENO);
+			printf("\n");
 	}
 }

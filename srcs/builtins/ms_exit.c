@@ -6,14 +6,14 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 10:42:31 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/15 11:58:51 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/15 17:44:46 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ms_exit(t_command *cmd)
+void	ms_exit()
 {
 	printf("exit\n");
-	kill(cmd->mini->pid, SIGUSR1);
+	exit(0);
 }

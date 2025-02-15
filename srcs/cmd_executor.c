@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 15:38:58 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/15 16:55:18 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/15 17:45:20 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	msh_exec_builtin(t_command *cmd)
 	else if (!ft_strncmp("cd", *cmd->args, ft_strlen(*cmd->args)))
 		ms_cd(cmd);
 	else if (!ft_strncmp("exit", *cmd->args, ft_strlen(*cmd->args)))
-		ms_exit(cmd);
+		ms_exit();
 	else if (!ft_strncmp("env", *cmd->args, ft_strlen(*cmd->args)))
 		ms_env(cmd);
 	else if (!ft_strncmp("export", *cmd->args, ft_strlen(*cmd->args)))
@@ -64,7 +64,6 @@ static void	msh_exec_builtin(t_command *cmd)
 		ms_echo(cmd);
 	else if (!ft_strncmp("unset", *cmd->args, ft_strlen(*cmd->args)))
 		ms_unset(cmd);
-	//exit(127);
 }
 
 static int	msh_isbuiltin(t_command *cmd)
@@ -78,79 +77,6 @@ static int	msh_isbuiltin(t_command *cmd)
 		|| !ft_strncmp(cmd->args[0], "unset", ft_strlen(cmd->args[0]))
 	);
 }
-
-// static void execute_cmd2(t_command *cmd)
-// {
-// 	static t_pipe 	pipes[2];
-// 	int				pid;
-// 	int				fdinput;
-// 	int				fdoutput;
-// 	char			*line;
-
-// 	pipe(pipes[CURRENT_CMD]); // error check
-// 	pid = fork(); // error check
-// 	if (0 == pid)
-// 	{
-// 		if (cmd->infilename)
-// 		{
-// 			if (1 == cmd->inputtype)
-// 			{
-// 				// heredoc creates a temp file, loop appends to it, then continues as normal
-// 				fdinput = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0777);
-// 				while (1)
-// 				{
-// 					line = readline("> ");
-// 					// infilename does double-duty as the dilimiter. We can change this if it's confusing/bad practice
-// 					if (0 == ft_strcmp(cmd->infilename, line))
-// 						break;
-// 					write(fdinput, line, ft_strlen(line));
-// 					write(fdinput, "\n", 1);
-// 				}
-// 				close(fdinput);
-// 				// if infilename is the delimiter, we need to set it back here
-// 				cmd->infilename = ".heredoc";
-// 			}
-// 			fdinput = open(cmd->infilename, O_RDONLY, 0777); // error check		
-// 			dup2(fdinput, STDIN_FILENO);
-// 			close(fdinput);
-// 		}
-
-// 		connect_pipes(cmd->mini, pipes);
-
-// 		if (cmd->outfilename)
-// 		{
-// 			// close if open?
-// 			if (cmd->other_outfilenames)
-// 			{
-// 				char **split = ft_split(cmd->other_outfilenames, '\n');
-// 				int	i = -1;
-// 				while (split[++i])
-// 				{
-// 					fdoutput = open(split[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-// 					close(fdoutput);
-// 				}
-// 				free_stringlist(split);
-// 			}
-
-// 			if (0 == cmd->outputtype)
-// 				fdoutput = open(cmd->outfilename, O_WRONLY | O_CREAT | O_TRUNC, 0644); // error check
-// 			else
-// 				fdoutput = open(cmd->outfilename, O_WRONLY | O_CREAT | O_APPEND, 0644); // error check
-// 			dup2(fdoutput, STDOUT_FILENO);
-// 			close(fdoutput);
-// 		}
-
-// 		// builtins
-// 		if (msh_isbuiltin(cmd))
-// 			 msh_exec_builtin(cmd);
-// 		else
-// 			execvp(cmd->args[0], cmd->args); // change to execve + getpath etc.
-// 	}
-// 	else
-// 		waitpid(pid, NULL, 0);		
-// 	close_pipes(cmd->mini, pipes);
-// 	swap_pipes((int **)pipes);
-// }
 
 static void execute_cmd(t_command *cmd)
 {
@@ -192,7 +118,7 @@ int ooo = dup(1);
 	{
 		if (cmd->other_outfilenames)
 		{
-			char **split = ft_split(cmd->other_outfilenames, '\n');
+			char **split = lw_split(cmd->other_outfilenames, '\n');
 			int	i = -1;
 			while (split[++i])
 			{
@@ -241,6 +167,12 @@ int	execute_commands(t_mini *mini)
 	{
 		mini->current_cmd = i;
 		execute_cmd(&mini->commands[i]);
+		free_stringlist(mini->commands[i].args);
+		free(mini->commands[i].orig);
+		//free(mini->commands[i].infilename);
+		//free(mini->commands[i].outfilename);
+		//free(mini->commands[i].other_outfilenames);
+		//free(&mini->commands[i]);
 	}
 	return (1);
 }

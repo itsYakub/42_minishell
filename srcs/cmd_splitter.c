@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 10:56:04 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/15 14:10:44 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/15 17:11:27 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	extract_cmds(t_mini *mini, char *line)
 		if ('|' == line[i] && 0 == in_apo + in_quote)
 			start += extract_cmd(mini, ++count, &line[start], i++ - start);
 		if (i == ft_strlen(line) - 1)
-			extract_cmd(mini, ++count, &line[start], i++ - start + 1);
+			extract_cmd(mini, ++count, &line[start], i - start + 1);
 	}
 }
 

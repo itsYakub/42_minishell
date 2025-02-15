@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:59:53 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/15 14:42:21 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/15 17:04:18 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ char	*add_char_and_free(char *old, char new)
 /*
 	Frees all the strings in the list, then the list itself
 */
-void	free_stringlist(char **env_vars)
+void	free_stringlist(char **list)
 {
 	int	i;
 
 	i = -1;
-	while (env_vars[++i])
-		free(env_vars[i]);
-	free(env_vars);
+	while (list[++i])
+		free(list[i]);
+	free(list);
 }
 
 void	copy_env_array(char **original, char ***copy)
@@ -77,6 +77,7 @@ char	**init_env_array(char **envp)
 	char	**env_vars;
 	int		count;
 	int		pos;
+	char	*pwd;
 
 	count = count_array(envp);
 	env_vars = malloc(sizeof(char *) * (count + 1));
@@ -86,6 +87,8 @@ char	**init_env_array(char **envp)
 	env_vars[count] = NULL;
 	pos = env_var_index("OLDPWD", env_vars);
 	free(env_vars[pos]);
-	env_vars[pos] = ft_strjoin("OLDPWD=", getcwd(NULL, 0));
+	pwd = getcwd(NULL, 0);
+	env_vars[pos] = ft_strjoin("OLDPWD=", pwd);
+	free(pwd);
 	return (env_vars);
 }

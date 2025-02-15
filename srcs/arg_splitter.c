@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 16:43:25 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/15 16:05:36 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/15 17:09:01 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	**split_args(char *s)
 	char	**split;
 
 	str = split_keeping_quotes(s);
-	split = ft_split(str, '\n');
+	split = lw_split(str, '\n');
 	free(str);
 	return (split);
 }

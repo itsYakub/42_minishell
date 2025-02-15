@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/15 16:49:37 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/15 17:45:08 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ typedef struct s_mini
 	char	**env;
 	int		cmdc;
 	int		exitcode;
-	int		exit;
 	int		pid;
 	int		current_cmd;
 }	t_mini;
@@ -78,8 +77,6 @@ typedef struct s_command
  *		API
  * */
 
-int		msh_init(t_mini *mini, char **ev);
-
 // env_array
 int		cmd_equals(const char *cmd, char *param);
 char	**init_env_array(char *envp[]);
@@ -93,7 +90,7 @@ int		empty_var(char *var_name, char **env_vars);
 void	ms_cd(t_command *cmd);
 void	ms_env(t_command *cmd);
 void	ms_echo(t_command *cmd);
-void	ms_exit(t_command *cmd);
+void	ms_exit();
 void	ms_export(t_command *cmd);
 void	ms_pwd(t_command *cmd);
 void	ms_unset(t_command *cmd);
@@ -108,7 +105,7 @@ int		count_array(char **array);
 // utils
 char	*join_and_free(char *old, char *new);
 char	*add_char_and_free(char *old, char new);
-void	free_stringlist(char **env_vars);
+void	free_stringlist(char **list);
 void	copy_env_array(char **original, char ***copy);
 char	**init_env_array(char **envp);
 
@@ -132,5 +129,5 @@ int		execute_commands(t_mini *mini);
 
 // arg_splitter
 char	**split_args(char *s);
-
+char	**lw_split(char const *s, char c);
 #endif

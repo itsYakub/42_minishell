@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:51:55 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/15 11:58:54 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/15 17:49:13 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	add_var(char *var_name, char *var_val, t_command *cmd)
 }
 
 // capital letters first
-static void	sort_and_display(char **env, int fd)
+static void	sort_and_display(char **env)
 {
 	int	i;
 	int	len;
@@ -65,10 +65,10 @@ static void	sort_and_display(char **env, int fd)
 	{
 		if (0 == ft_strncmp("_=", env[i], 2))
 			continue ;
-		ft_putstr_fd(env[i], fd);
+		printf("%s", env[i]);
 		len = ft_strlen(env[i]);
 		if ('\n' != env[i][len - 1])
-			ft_putstr_fd("\n", fd);
+			printf("\n");
 	}
 }
 
@@ -96,7 +96,7 @@ static void	sort_vars(t_command *cmd)
 			}
 		}
 	}
-	sort_and_display(output, 1);
+	sort_and_display(output);
 	free_stringlist(output);
 }
 
@@ -122,7 +122,7 @@ void	ms_export(t_command *cmd)
 	i = 0;
 	while (cmd->args[++i])
 	{
-		split = ft_split(cmd->args[i], '=');
+		split = lw_split(cmd->args[i], '=');
 		if (!env_var(split[0], cmd->mini->env))
 			add_var(split[0], split[1], cmd);
 		else

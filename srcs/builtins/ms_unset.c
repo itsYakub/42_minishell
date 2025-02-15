@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:52:49 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/15 11:59:00 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/15 17:48:29 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,10 @@ void	ms_unset(t_command *cmd)
 
 	count = count_array(cmd->args);
 	if (1 == count)
+	{
+		printf("unset: not enough arguments\n");
 		return ;
+	}
 	i = 0;
 	while (cmd->args[++i])
 		remove_var(cmd->args[i], cmd);

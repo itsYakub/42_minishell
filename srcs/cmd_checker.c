@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:12:15 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/15 15:59:00 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/15 17:27:13 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	check_commands(t_mini *mini)
 		if (mini->commands[i].other_outfilenames)
 		{
 			j = -1;
-			split = ft_split(mini->commands[i].other_outfilenames, '\n');
+			split = lw_split(mini->commands[i].other_outfilenames, '\n');
 			while (split[++j])
 				printf("out filename: %s\n", split[j]);
 			free_stringlist(split);
