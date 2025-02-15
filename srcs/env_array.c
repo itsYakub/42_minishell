@@ -6,11 +6,11 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 10:19:42 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/14 14:59:45 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/15 14:36:36 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/minishell.h"
 
 /*
 	Gets a value from its index
@@ -37,7 +37,7 @@ char	*env_value_from_index(int pos, char **env_vars)
 	Gets one line from env_vars, excluding the name= part.
 	Also adds any non-alpha characters after the var
 */
-static char	*single_env_value(char *var_name, char **env_vars)
+static char	*single_env_value(char *var_name, char **env_vars, int in_quote)
 {
 	char	*var;
 	char	*sub1;
@@ -45,7 +45,8 @@ static char	*single_env_value(char *var_name, char **env_vars)
 	int		i;
 
 	i = 0;
-	while (var_name[i] && (ft_isalnum(var_name[i]) || '_' == var_name[i]))
+	while (var_name[i] && (ft_isalnum(var_name[i]) || '_' == var_name[i])
+		&& ((1 == in_quote && '"' != var_name[i]) || 0 == in_quote))
 		i++;
 	sub1 = ft_substr(var_name, 0, i);
 	var = env_var(sub1, env_vars);
@@ -56,7 +57,7 @@ static char	*single_env_value(char *var_name, char **env_vars)
 	}
 	sub2 = ft_substr(var, ft_strlen(sub1) + 1, ft_strlen(var));
 	free(sub1);
-	if (i < ft_strlen(var_name))
+	if (i < ft_strlen(var_name) && (1 == in_quote &&'"' != var_name[i]))
 	{
 		sub1 = join_and_free(sub2, ft_substr(var_name, i, ft_strlen(var_name)));
 		return (sub1);
@@ -67,7 +68,7 @@ static char	*single_env_value(char *var_name, char **env_vars)
 /*
 	Replaces vars in one block of text
 */
-char	*env_value(char *var_name, t_mini *mini)
+char	*env_value(char *var_name, t_mini *mini, int in_quote)
 {
 	char	**space_split;
 	char	**split;
@@ -84,7 +85,7 @@ char	*env_value(char *var_name, t_mini *mini)
 		if (0 == ft_strcmp("?", split[i]))
 			out = join_and_free(out, ft_itoa(mini->exitcode));
 		else
-			out = join_and_free(out, single_env_value(split[i], mini->env));
+			out = join_and_free(out, single_env_value(split[i], mini->env, in_quote));
 		i++;
 	}
 	free_stringlist(split);

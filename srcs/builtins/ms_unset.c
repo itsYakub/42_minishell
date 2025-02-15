@@ -6,16 +6,16 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:52:49 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/10 14:52:30 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/15 11:59:00 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../includes/minishell.h"
 
 /*
 	Removes one var from the env list and shortens the list
 */
-static void	remove_var(char *var_name, t_cmd *cmd)
+static void	remove_var(char *var_name, t_command *cmd)
 {
 	int		pos;
 	int		i;
@@ -47,7 +47,7 @@ static void	remove_var(char *var_name, t_cmd *cmd)
 /*
 	Removes vars from the env list
 */
-void	ms_unset(t_cmd *cmd)
+void	ms_unset(t_command *cmd)
 {
 	int	count;
 	int	i;

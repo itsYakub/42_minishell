@@ -6,11 +6,11 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 12:02:40 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/14 15:18:26 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/15 16:04:47 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/minishell.h"
 
 // static int	trim_input(t_command *cmd, char *str)
 // {
@@ -44,16 +44,16 @@ static int	set_output(t_command *cmd, int i)
 	{
 		cmd->outputtype = 1;
 		i++;
-	}		
+	}
 	while (cmd->orig[i] && ' ' == cmd->orig[i])
 		i++;
-
 	while (cmd->orig[i] && ' ' != cmd->orig[i])
 	{
 		cmd->outfilename = add_char_and_free(cmd->outfilename, cmd->orig[i]);
 		i++;
 	}
-	cmd->other_outfilenames = join_and_free(cmd->other_outfilenames, ft_strdup(cmd->outfilename));
+	cmd->other_outfilenames = join_and_free(cmd->other_outfilenames,
+			ft_strdup(cmd->outfilename));
 	cmd->other_outfilenames = add_char_and_free(cmd->other_outfilenames, '\n');
 	return (i);
 }
@@ -67,10 +67,9 @@ static int	set_input(t_command *cmd, int i)
 	{
 		cmd->inputtype = 1;
 		i++;
-	}		
+	}
 	while (cmd->orig[i] && ' ' == cmd->orig[i])
 		i++;
-
 	while (cmd->orig[i] && ' ' != cmd->orig[i])
 	{
 		cmd->infilename = add_char_and_free(cmd->infilename, cmd->orig[i]);
@@ -88,17 +87,16 @@ static int	find_inputs(t_command *cmd)
 	char	*str;
 
 	i = -1;
+	str = NULL;
 	while (cmd->orig[++i] && i < ft_strlen(cmd->orig))
 	{
 		if ('<' == cmd->orig[i])
 			i = set_input(cmd, i + 1);
 		if ('>' == cmd->orig[i])
 			i = set_output(cmd, i + 1);
-		//printf("Adding %i %c\n", i, cmd->orig[i]);
-		str = add_char_and_free(str, cmd->orig[i]);		
+		str = add_char_and_free(str, cmd->orig[i]);
 	}
-	cmd->args = ft_split(str, ' ');
-	//trim_input(cmd, str);
+	cmd->args = split_args(str);
 	return (1);
 }
 
@@ -109,6 +107,5 @@ int	redirect_commands(t_mini *mini)
 	i = -1;
 	while (++i < mini->cmdc)
 		find_inputs(&mini->commands[i]);
-
 	return (1);
 }

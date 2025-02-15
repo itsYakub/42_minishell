@@ -6,11 +6,11 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:12:15 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/14 15:36:58 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/15 15:59:00 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/minishell.h"
 
 // check for valid now or later?
 int	check_commands(t_mini *mini)
@@ -24,6 +24,7 @@ int	check_commands(t_mini *mini)
 	while (++i < mini->cmdc)
 	{
 		printf("intype: %i infile: %s outtype: %i outfile: %s\n", mini->commands[i].inputtype, mini->commands[i].infilename, mini->commands[i].outputtype, mini->commands[i].outfilename);
+		printf("orig: %s\n", mini->commands[i].orig);
 		j = -1;
 		while (mini->commands[i].args[++j])
 			printf("arg: %s (%i)\n", mini->commands[i].args[j], ft_strlen(mini->commands[i].args[j]));

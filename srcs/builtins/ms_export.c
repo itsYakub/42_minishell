@@ -6,13 +6,13 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:51:55 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/10 14:52:10 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/15 11:58:54 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../includes/minishell.h"
 
-static void	update_var(char *var_name, char *var_val, t_cmd *cmd)
+static void	update_var(char *var_name, char *var_val, t_command *cmd)
 {
 	char	*temp;
 	int		pos;
@@ -26,7 +26,7 @@ static void	update_var(char *var_name, char *var_val, t_cmd *cmd)
 	free(temp);
 }
 
-static void	add_var(char *var_name, char *var_val, t_cmd *cmd)
+static void	add_var(char *var_name, char *var_val, t_command *cmd)
 {
 	int		count;
 	char	**copy;
@@ -72,7 +72,7 @@ static void	sort_and_display(char **env, int fd)
 	}
 }
 
-static void	sort_vars(t_cmd *cmd)
+static void	sort_vars(t_command *cmd)
 {
 	char	**output;
 	int		count;
@@ -96,7 +96,7 @@ static void	sort_vars(t_cmd *cmd)
 			}
 		}
 	}
-	sort_and_display(output, cmd->rdrfd[1]);
+	sort_and_display(output, 1);
 	free_stringlist(output);
 }
 
@@ -104,10 +104,10 @@ static void	sort_vars(t_cmd *cmd)
 	Emulates the export command.
 	Should not show the _ var
 	No args lists all vars
-	export name adds and empty var
+	export name adds an empty var
 	export name=value adds a var
 */
-void	ms_export(t_cmd *cmd)
+void	ms_export(t_command *cmd)
 {
 	int		cmd_count;
 	char	**split;

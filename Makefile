@@ -1,19 +1,10 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
-BUILTINS = $(addsuffix .c, $(addprefix ./builtins/, ms_cd ms_echo ms_env ms_exit ms_pwd ms_export ms_unset))
-LW = $(addsuffix .c, $(addprefix ./lw/, env_array init cmd_executor cmd_splitter cmd_expander cmd_redirector cmd_checker lw_utils cmd_parser))
+BUILTINS = $(addsuffix .c, $(addprefix srcs/builtins/, ms_cd ms_echo ms_env ms_exit ms_pwd ms_export ms_unset))
+SFILES = $(addsuffix .c, $(addprefix srcs/, minishell env_array cmd_executor cmd_splitter cmd_expander cmd_redirector cmd_checker utils cmd_parser arg_splitter))
 SRCS= \
 	$(BUILTINS) \
-	$(LW)	\
-	./minishell.c \
-	./minishell-getenv.c \
-	./minishell-utilpath.c \
-	./minishell-lexer0.c \
-	./minishell-lexer1.c \
-	./minishell-lexer2.c \
-	./minishell-lexer3.c \
-	./minishell-cmd0.c \
-#	./minishell-exec0.c
+	$(SFILES)
 OBJS= \
 	$(SRCS:.c=.o)
 LIBFT= \
@@ -37,7 +28,10 @@ $(OBJS): %.o: %.c
 $(LIBFT):
 	make -C ./libft
 
-.PHONY: clean fclean re
+valgrind:
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp -s ./$(NAME)
+
+.PHONY: clean fclean re valgrind
 
 clean:
 	make -C ./libft clean

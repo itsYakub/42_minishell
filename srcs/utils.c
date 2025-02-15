@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lw_utils.c                                         :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:59:53 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/14 15:09:46 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/15 14:42:21 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/minishell.h"
 
 /*
 	Appends a string to a string, freeing the old one
@@ -45,4 +45,47 @@ char	*add_char_and_free(char *old, char new)
 	tmp[i + 1] = '\0';
 	free(old);
 	return (tmp);
+}
+
+/*
+	Frees all the strings in the list, then the list itself
+*/
+void	free_stringlist(char **env_vars)
+{
+	int	i;
+
+	i = -1;
+	while (env_vars[++i])
+		free(env_vars[i]);
+	free(env_vars);
+}
+
+void	copy_env_array(char **original, char ***copy)
+{
+	int	i;
+
+	i = -1;
+	while (original[++i])
+		(*copy)[i] = ft_strdup(original[i]);
+}
+
+/*
+	Creates a copy of the env vars so it can be freed later
+*/
+char	**init_env_array(char **envp)
+{
+	char	**env_vars;
+	int		count;
+	int		pos;
+
+	count = count_array(envp);
+	env_vars = malloc(sizeof(char *) * (count + 1));
+	if (!env_vars)
+		return (NULL);
+	copy_env_array(envp, &env_vars);
+	env_vars[count] = NULL;
+	pos = env_var_index("OLDPWD", env_vars);
+	free(env_vars[pos]);
+	env_vars[pos] = ft_strjoin("OLDPWD=", getcwd(NULL, 0));
+	return (env_vars);
 }

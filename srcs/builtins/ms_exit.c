@@ -1,29 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_pwd.c                                           :+:      :+:    :+:   */
+/*   ms_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/06 10:48:46 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/14 13:43:19 by lwillis          ###   ########.fr       */
+/*   Created: 2025/02/06 10:42:31 by lwillis           #+#    #+#             */
+/*   Updated: 2025/02/15 11:58:51 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../includes/minishell.h"
 
-void	ms_pwd(t_command *cmd)
+void	ms_exit(t_command *cmd)
 {
-	char	*pwd;
-
-	if (1 != count_array(cmd->args))
-	{
-		write(2, "pwd: too many arguments\n", 24);
-		return ;
-	}
-	pwd = env_value("PWD", cmd->mini);
-	if (!pwd)
-		return ;
-	printf("%s\n", pwd);
-	free(pwd);
+	printf("exit\n");
+	kill(cmd->mini->pid, SIGUSR1);
 }

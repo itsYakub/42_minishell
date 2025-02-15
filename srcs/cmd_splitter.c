@@ -6,11 +6,11 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 10:56:04 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/14 14:57:56 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/15 14:10:44 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/minishell.h"
 
 /*
 	Copies one command from the whole line
@@ -21,7 +21,7 @@ static int	extract_cmd(t_mini *mini, int count, char *line, int len)
 	char	*str;
 
 	sub = ft_substr(line, 0, len);
-	str = ft_strtrim(sub, " ");
+	str = ft_strdup(sub);
 	free(sub);
 	mini->commands[count].orig = str;
 	return (len + 1);
@@ -37,7 +37,7 @@ static void	extract_cmds(t_mini *mini, char *line)
 	int	in_apo;
 	int	in_quote;
 	int	start;
-	
+
 	in_apo = 0;
 	in_quote = 0;
 	count = -1;
@@ -80,7 +80,7 @@ static void	divide_commands(t_mini *mini, char *line)
 			count++;
 	}
 	count++;
-	mini->commands = malloc(sizeof(t_command) * count); // error check
+	mini->commands = malloc(sizeof(t_command) * count);
 	mini->cmdc = count;
 }
 
@@ -105,6 +105,5 @@ int	split_commands(t_mini *mini, char *line)
 	divide_commands(mini, line);
 	init_commands(mini);
 	extract_cmds(mini, line);
-
 	return (1);
 }
