@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/15 17:44:39 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/17 14:26:04 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,23 +60,16 @@ static void	loop(t_mini *mini)
 
 int	main(int ac, char **av, char **ev)
 {
-	int		pid;
 	t_mini	mini;
 
 	(void)ac;
 	(void)av;
 	
-	pid = fork();
-	if (0 == pid)
-	{
-		signal(SIGINT, sigint_handler);
-		signal(SIGQUIT, SIG_IGN);
-		mini.cmdc = 0;
-		mini.env = init_env_array(ev);
-		mini.exitcode = 0;
-		loop(&mini);
-	}
-	else
-		waitpid(pid, NULL, 0);
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
+	mini.cmdc = 0;
+	mini.env = init_env_array(ev);
+	mini.exitcode = 0;
+	loop(&mini);
 	return (0);
 }

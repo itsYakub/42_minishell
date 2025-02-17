@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/15 17:45:08 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/17 14:36:26 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int		empty_var(char *var_name, char **env_vars);
 void	ms_cd(t_command *cmd);
 void	ms_env(t_command *cmd);
 void	ms_echo(t_command *cmd);
-void	ms_exit();
+void	ms_exit(t_command *cmd);
 void	ms_export(t_command *cmd);
 void	ms_pwd(t_command *cmd);
 void	ms_unset(t_command *cmd);
@@ -130,4 +130,5 @@ int		execute_commands(t_mini *mini);
 // arg_splitter
 char	**split_args(char *s);
 char	**lw_split(char const *s, char c);
+
 #endif

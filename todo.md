@@ -10,6 +10,8 @@ To do:
 -	clean cmd_executor.c
 -	comments
 -	env_array.c
+-	change export to match bash
+-	check everything with bash
 
 Checklist:
 +	Display a prompt when waiting for a new command.

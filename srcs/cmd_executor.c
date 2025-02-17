@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 15:38:58 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/15 17:45:20 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/17 14:35:36 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	msh_exec_builtin(t_command *cmd)
 	else if (!ft_strncmp("cd", *cmd->args, ft_strlen(*cmd->args)))
 		ms_cd(cmd);
 	else if (!ft_strncmp("exit", *cmd->args, ft_strlen(*cmd->args)))
-		ms_exit();
+		ms_exit(cmd);
 	else if (!ft_strncmp("env", *cmd->args, ft_strlen(*cmd->args)))
 		ms_env(cmd);
 	else if (!ft_strncmp("export", *cmd->args, ft_strlen(*cmd->args)))
@@ -85,74 +85,68 @@ static void execute_cmd(t_command *cmd)
 	int				fdinput;
 	int				fdoutput;
 	char			*line;
-int ooo = dup(1);
+
 	pipe(pipes[CURRENT_CMD]); // error check
-
-	if (cmd->infilename)
-	{
-		if (1 == cmd->inputtype)
-		{
-			// heredoc creates a temp file, loop appends to it, then continues as normal
-			fdinput = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0777);
-			while (1)
-			{
-				line = readline("> ");
-				// infilename does double-duty as the dilimiter. We can change this if it's confusing/bad practice
-				if (0 == ft_strcmp(cmd->infilename, line))
-					break;
-				write(fdinput, line, ft_strlen(line));
-				write(fdinput, "\n", 1);
-			}
-			close(fdinput);
-			// if infilename is the delimiter, we need to set it back here
-			cmd->infilename = ".heredoc";
-		}
-		fdinput = open(cmd->infilename, O_RDONLY, 0777); // error check		
-		dup2(fdinput, STDIN_FILENO);
-		close(fdinput);
-	}
-
-	connect_pipes(cmd->mini, pipes);
-
-	if (cmd->outfilename)
-	{
-		if (cmd->other_outfilenames)
-		{
-			char **split = lw_split(cmd->other_outfilenames, '\n');
-			int	i = -1;
-			while (split[++i])
-			{
-				fdoutput = open(split[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-				close(fdoutput);
-			}
-			free_stringlist(split);
-		}
-
-		if (0 == cmd->outputtype)
-			fdoutput = open(cmd->outfilename, O_WRONLY | O_CREAT | O_TRUNC, 0644); // error check
-		else
-			fdoutput = open(cmd->outfilename, O_WRONLY | O_CREAT | O_APPEND, 0644); // error check
-		dup2(fdoutput, STDOUT_FILENO);
-		close(fdoutput);
-	}
-
-	if (msh_isbuiltin(cmd))
-	{		
-		msh_exec_builtin(cmd);
-		dup2(ooo, 1);
-		close_pipes(cmd->mini, pipes);
-		swap_pipes((int **)pipes);
-		return ;
-	}
 	pid = fork();	
 	if (0 == pid)
 	{
+		if (cmd->infilename)
+		{
+			if (1 == cmd->inputtype)
+			{
+				// heredoc creates a temp file, loop appends to it, then continues as normal
+				fdinput = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0777);
+				while (1)
+				{
+					line = readline("> ");
+					// infilename does double-duty as the dilimiter. We can change this if it's confusing/bad practice
+					if (0 == ft_strcmp(cmd->infilename, line))
+						break;
+					write(fdinput, line, ft_strlen(line));
+					write(fdinput, "\n", 1);
+				}
+				close(fdinput);
+				// if infilename is the delimiter, we need to set it back here
+				cmd->infilename = ".heredoc";
+			}
+			fdinput = open(cmd->infilename, O_RDONLY, 0777); // error check		
+			dup2(fdinput, STDIN_FILENO);
+			close(fdinput);
+		}
+
+		connect_pipes(cmd->mini, pipes);
+
+		if (cmd->outfilename)
+		{
+			if (cmd->other_outfilenames)
+			{
+				char **split = lw_split(cmd->other_outfilenames, '\n');
+				int	i = -1;
+				while (split[++i])
+				{
+					fdoutput = open(split[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+					close(fdoutput);
+				}
+				free_stringlist(split);
+			}
+
+			if (0 == cmd->outputtype)
+				fdoutput = open(cmd->outfilename, O_WRONLY | O_CREAT | O_TRUNC, 0644); // error check
+			else
+				fdoutput = open(cmd->outfilename, O_WRONLY | O_CREAT | O_APPEND, 0644); // error check
+			dup2(fdoutput, STDOUT_FILENO);
+			close(fdoutput);
+		}
+
+		if (msh_isbuiltin(cmd))
+		{		
+			msh_exec_builtin(cmd);
+			exit(127);
+		}	
 		execvp(cmd->args[0], cmd->args);
 	}
 	else
-		waitpid(pid, NULL, 0);
-				
-	dup2(ooo, 1);
+		waitpid(pid, NULL, 0);				
 	close_pipes(cmd->mini, pipes);
 	swap_pipes((int **)pipes);
 }
@@ -166,6 +160,11 @@ int	execute_commands(t_mini *mini)
 	while (++i < mini->cmdc)
 	{
 		mini->current_cmd = i;
+		if (msh_isbuiltin(&mini->commands[i]) && 1 == mini->cmdc)
+		{		
+			msh_exec_builtin(&mini->commands[i]);
+			return (1);
+		}	
 		execute_cmd(&mini->commands[i]);
 		free_stringlist(mini->commands[i].args);
 		free(mini->commands[i].orig);
