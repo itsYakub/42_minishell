@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 10:42:31 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/17 14:35:15 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/17 14:46:22 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,16 @@ void	ms_exit(t_command *cmd)
 {
 	if (1 == cmd->mini->cmdc)
 		ft_putstr_fd("exit\n", 2);
+	// int	i;
+
+	// i = -1;
+	// while (++i < cmd->mini->cmdc)
+	// {					
+	// 	free(cmd->mini->commands[i].infilename);
+	// 	free(cmd->mini->commands[i].outfilename);
+	// 	free(cmd->mini->commands[i].other_outfilenames);
+	// 	free(&cmd->mini->commands[i]);
+	// 	i++;
+	// }	
 	exit(0);
 }

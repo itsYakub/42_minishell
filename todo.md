@@ -4,7 +4,7 @@ Problems:
 To do:
 -	reject options on builtins?
 -	error messages
--	memory leaks
+-	exit memory leaks
 -	cmd_checker
 -	exit codes?
 -	clean cmd_executor.c
@@ -12,6 +12,7 @@ To do:
 -	env_array.c
 -	change export to match bash
 -	check everything with bash
+-	get evaluated by Olek/Kuba
 
 Checklist:
 +	Display a prompt when waiting for a new command.

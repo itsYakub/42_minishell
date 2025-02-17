@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/17 14:26:04 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/17 14:42:06 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	cleanup(t_mini *mini)
 }
 
 /*
-	The main loop, in its own thread
+	The main exec loop
 */
 static void	loop(t_mini *mini)
 {	
@@ -63,8 +63,7 @@ int	main(int ac, char **av, char **ev)
 	t_mini	mini;
 
 	(void)ac;
-	(void)av;
-	
+	(void)av;	
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 	mini.cmdc = 0;

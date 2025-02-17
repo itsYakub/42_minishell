@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/17 14:36:26 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/17 15:41:56 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,5 +130,14 @@ int		execute_commands(t_mini *mini);
 // arg_splitter
 char	**split_args(char *s);
 char	**lw_split(char const *s, char c);
+
+// cmd_piper
+void	connect_pipes(t_mini *mini, t_pipe pipes[2]);
+void	close_pipes(t_mini *mini, t_pipe pipes[2]);
+void	swap_pipes(int **pipes);
+
+// cmd_builtins
+void	msh_exec_builtin(t_command *cmd);
+int		msh_isbuiltin(t_command *cmd);
 
 #endif
