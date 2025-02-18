@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 10:19:42 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/15 17:27:53 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/18 11:06:19 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,17 +97,38 @@ char	*env_value(char *var_name, t_mini *mini, int in_quote)
 */
 int	env_var_index(char *var_name, char **env_var)
 {
-	int	i;
-	int	len;
+	int		i;
+	int		len;
+	char	**split;
 
 	i = -1;
 	len = ft_strlen(var_name);
 	while (env_var[++i])
-		if (0 == ft_strncmp(var_name, env_var[i], len)
-			&& '=' == env_var[i][len])
+	{
+		split = lw_split(env_var[i], '=');
+		if (0 == ft_strcmp(var_name, split[0]))
+		{
+			free_stringlist(split);
 			return (i);
+		}
+		free_stringlist(split);
+	}
 	return (-1);
 }
+
+// int	env_var_index(char *var_name, char **env_var)
+// {
+// 	int	i;
+// 	int	len;
+
+// 	i = -1;
+// 	len = ft_strlen(var_name);
+// 	while (env_var[++i])
+// 		if (0 == ft_strncmp(var_name, env_var[i], len)
+// 			&& '=' == env_var[i][len])
+// 			return (i);
+// 	return (-1);
+// }
 
 /*
 	Gets one line from env_vars, including the name= part

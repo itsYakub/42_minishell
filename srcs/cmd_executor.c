@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 15:38:58 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/17 15:54:43 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/18 12:31:01 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	execute_single_cmd(t_command *cmd)
 	{
 		pid = fork(); // ec
 		if (0 == pid)
-			execvp(cmd->args[0], cmd->args);
+			cmd->mini->exitcode = execvp(cmd->args[0], cmd->args);
 		else
 			waitpid(pid, NULL, 0);
 	}
@@ -109,7 +109,7 @@ static void execute_cmd(t_command *cmd)
 			msh_exec_builtin(cmd);
 			exit(127);
 		}	
-		execvp(cmd->args[0], cmd->args);
+		cmd->mini->exitcode = execvp(cmd->args[0], cmd->args);
 	}
 	else
 		waitpid(pid, NULL, 0);				
@@ -134,12 +134,6 @@ int	execute_commands(t_mini *mini)
 			return (1);
 		}	
 		execute_cmd(&mini->commands[i]);
-		free_stringlist(mini->commands[i].args);
-		free(mini->commands[i].orig);
-		//free(mini->commands[i].infilename);
-		//free(mini->commands[i].outfilename);
-		//free(mini->commands[i].other_outfilenames);
-		//free(&mini->commands[i]);
 	}
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:59:53 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/15 17:04:18 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/18 12:23:51 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,64 @@ char	**init_env_array(char **envp)
 	env_vars[pos] = ft_strjoin("OLDPWD=", pwd);
 	free(pwd);
 	return (env_vars);
+}
+
+char	**sort_vars(t_command *cmd)
+{
+	char	**output;
+	int		count;
+	int		i;
+	int		j;
+	char	*tmp;
+
+	count = count_array(cmd->mini->env);
+	output = init_env_array(cmd->mini->env);
+	i = -1;
+	while (++i < count -1)
+	{
+		j = i;
+		while (++j < count)
+		{
+			if (ft_strcmp(output[i], output[j]) > 0)
+			{
+				tmp = output[i];
+				output[i] = output[j];
+				output[j] = tmp;
+			}
+		}
+	}
+	return (output);
+}
+
+int	str_contains(char *str, char *set)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (str[++i])
+	{
+		j = -1;
+		while (set[++j])
+		if (str[i] == set[j])
+			return (1);
+	}
+	return (0);
+}
+
+// for export
+int	str_disallowed(char *str)
+{
+	int	i;
+
+	if (!(ft_isalpha(str[0]) || '_' == str[0]))
+		return (1);
+	i = -1;
+	while (str[++i])
+	{
+		if (ft_isalnum(str[i]) || '=' == str[i])
+			continue ;
+		return (1);
+	}
+	return (0);
 }

@@ -1,16 +1,22 @@
 Problems:
 -	ft_split wc leaks
 
+Error messages and codes:
+-	bash: ina: No such file or directory (1)
+-	bash: in: Permission denied (1) - in/out same
+-	Command 'lls' not found (127)
+-	ls-fff: command not found (127)
+
 To do:
 -	reject options on builtins?
 -	error messages
--	exit memory leaks
+-	exit cmd memory leaks
 -	cmd_checker
--	exit codes?
+-	exit codes from last command
 -	clean cmd_executor.c
 -	comments
 -	env_array.c
--	change export to match bash
+-	re-add getpath() and replace execvp with execve
 -	check everything with bash
 -	get evaluated by Olek/Kuba
 

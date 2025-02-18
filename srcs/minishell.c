@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/17 14:42:06 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/18 12:30:12 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ static void	cleanup(t_mini *mini)
 
 	i = -1;
 	while (++i < mini->cmdc)
-	{					
+	{				
+		free_stringlist(mini->commands[i].args);
+		free(mini->commands[i].orig);	
 		free(mini->commands[i].infilename);
 		free(mini->commands[i].outfilename);
 		free(mini->commands[i].other_outfilenames);
@@ -50,7 +52,7 @@ static void	loop(t_mini *mini)
 		{
 			free_stringlist(mini->env);
 			exit(0);
-		}		
+		}
 		add_history(input);
 		parse_and_execute(mini, input);
 		cleanup(mini);
@@ -67,8 +69,8 @@ int	main(int ac, char **av, char **ev)
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 	mini.cmdc = 0;
+	mini.exitcode = 0;	
 	mini.env = init_env_array(ev);
-	mini.exitcode = 0;
 	loop(&mini);
 	return (0);
 }

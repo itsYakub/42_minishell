@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:52:49 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/15 17:48:29 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/18 10:34:41 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static void	remove_var(char *var_name, t_command *cmd)
 	int		count;
 	char	**copy;
 
-	count = count_array(cmd->mini->env);
 	pos = env_var_index(var_name, cmd->mini->env);
+	count = count_array(cmd->mini->env);
 	if (-1 == count || -1 == pos)
 		return ;
 	copy = malloc(sizeof(char *) * count);
@@ -54,10 +54,7 @@ void	ms_unset(t_command *cmd)
 
 	count = count_array(cmd->args);
 	if (1 == count)
-	{
-		printf("unset: not enough arguments\n");
 		return ;
-	}
 	i = 0;
 	while (cmd->args[++i])
 		remove_var(cmd->args[i], cmd);

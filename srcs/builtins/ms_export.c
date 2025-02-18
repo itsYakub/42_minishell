@@ -6,27 +6,36 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:51:55 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/15 17:49:13 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/18 12:24:11 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	update_var(char *var_name, char *var_val, t_command *cmd)
+/*
+	Replaces an existing var value, but only if a new value is passed
+*/
+static void	update_var(int pos, char *var_name, char *var_val, t_command *cmd)
 {
 	char	*temp;
-	int		pos;
 
-	pos = env_var_index(var_name, cmd->mini->env);
 	free(cmd->mini->env[pos]);
-	cmd->mini->env[pos] = ft_strjoin(var_name, "=");
-	temp = ft_strjoin(cmd->mini->env[pos], var_val);
-	free(cmd->mini->env[pos]);
-	cmd->mini->env[pos] = ft_strdup(temp);
-	free(temp);
+	if (var_val)
+	{
+		cmd->mini->env[pos] = ft_strjoin(var_name, "=");
+		temp = ft_strjoin(cmd->mini->env[pos], var_val);
+		free(cmd->mini->env[pos]);
+		cmd->mini->env[pos] = ft_strdup(temp);
+		free(temp);
+	}
+	else
+		cmd->mini->env[pos] = ft_strdup(var_name);
 }
 
-static void	add_var(char *var_name, char *var_val, t_command *cmd)
+/*
+	Adds a new var and optional value
+*/
+static int	add_var(char *var_name, char *var_val, t_command *cmd)
 {
 	int		count;
 	char	**copy;
@@ -34,13 +43,13 @@ static void	add_var(char *var_name, char *var_val, t_command *cmd)
 
 	count = count_array(cmd->mini->env);
 	if (-1 == count)
-		return ;
+		return (1);
 	copy = malloc(sizeof(char *) * (count + 2));
 	if (!copy)
-		return ;
+		return (1);
 	copy_env_array(cmd->mini->env, &copy);
 	if (!var_val)
-		copy[count] = ft_strjoin(var_name, "=''");
+		copy[count] = ft_strdup(var_name);
 	else
 	{
 		copy[count] = ft_strjoin(var_name, "=");
@@ -52,52 +61,51 @@ static void	add_var(char *var_name, char *var_val, t_command *cmd)
 	copy[count + 1] = NULL;
 	free_stringlist(cmd->mini->env);
 	cmd->mini->env = copy;
+	return (0);
 }
 
-// capital letters first
+// Capital letters first
 static void	sort_and_display(char **env)
 {
-	int	i;
-	int	len;
+	int		i;
+	int		len;
+	char	**split;
 
 	i = -1;
 	while (env[++i])
 	{
 		if (0 == ft_strncmp("_=", env[i], 2))
 			continue ;
-		printf("%s", env[i]);
+		split = lw_split(env[i], '=');
+		printf("declare -x %s", split[0]);
+		if (split[1])
+			printf("=\"%s\"", split[1]);
+		free_stringlist(split);
 		len = ft_strlen(env[i]);
 		if ('\n' != env[i][len - 1])
 			printf("\n");
 	}
+	free_stringlist(env);
 }
 
-static void	sort_vars(t_command *cmd)
+static int	is_invalid_identifier(t_command *cmd)
 {
-	char	**output;
-	int		count;
-	int		i;
-	int		j;
-	char	*tmp;
+	int	i;
 
-	count = count_array(cmd->mini->env);
-	output = init_env_array(cmd->mini->env);
-	i = -1;
-	while (++i < count -1)
+	i = 0;
+	while (cmd->args[++i])
 	{
-		j = i;
-		while (++j < count)
+		if (str_disallowed(cmd->args[i]))
 		{
-			if (ft_strcmp(output[i], output[j]) > 0)
-			{
-				tmp = output[i];
-				output[i] = output[j];
-				output[j] = tmp;
-			}
+			ft_putstr_fd("minishell: export: ", 2);
+			ft_putstr_fd("'", 2);
+			ft_putstr_fd(cmd->args[i], 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			cmd->mini->exitcode = 1;
+			return (1);
 		}
 	}
-	sort_and_display(output);
-	free_stringlist(output);
+	return (0);
 }
 
 /*
@@ -112,21 +120,25 @@ void	ms_export(t_command *cmd)
 	int		cmd_count;
 	char	**split;
 	int		i;
+	int		pos;
 
 	cmd_count = count_array(cmd->args);
 	if (1 == cmd_count)
 	{
-		sort_vars(cmd);
+		sort_and_display(sort_vars(cmd));
 		return ;
 	}
 	i = 0;
+	if (1 == is_invalid_identifier(cmd))
+		return ;
 	while (cmd->args[++i])
 	{
 		split = lw_split(cmd->args[i], '=');
-		if (!env_var(split[0], cmd->mini->env))
-			add_var(split[0], split[1], cmd);
-		else
-			update_var(split[0], split[1], cmd);
+		pos = env_var_index(split[0], cmd->mini->env);
+		if (-1 == pos)
+			cmd->mini->exitcode = add_var(split[0], split[1], cmd);
+		else if (split[1])
+			update_var(pos, split[0], split[1], cmd);
 		free_stringlist(split);
 	}
 }

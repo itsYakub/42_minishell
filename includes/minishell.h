@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/17 15:41:56 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/18 12:22:25 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,15 +77,6 @@ typedef struct s_command
  *		API
  * */
 
-// env_array
-int		cmd_equals(const char *cmd, char *param);
-char	**init_env_array(char *envp[]);
-void	copy_env_array(char *old[], char **new[]);
-int		count_array(char **array);
-int		env_var_pos(char *var_name, char **env_var);
-char	*env_var(char *var_name, char **env_vars);
-int		empty_var(char *var_name, char **env_vars);
-
 // builtins
 void	ms_cd(t_command *cmd);
 void	ms_env(t_command *cmd);
@@ -108,6 +99,9 @@ char	*add_char_and_free(char *old, char new);
 void	free_stringlist(char **list);
 void	copy_env_array(char **original, char ***copy);
 char	**init_env_array(char **envp);
+char	**sort_vars(t_command *cmd);
+int		str_contains(char *str, char *set);
+int		str_disallowed(char *str);
 
 // cmd_parser
 int		parse_and_execute(t_mini *mini, char *line);
