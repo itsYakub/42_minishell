@@ -1,5 +1,4 @@
 Problems:
--	piped builtin + sys memory
 
 To do:
 -	reject options on builtins?

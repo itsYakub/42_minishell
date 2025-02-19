@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/19 13:16:00 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 14:12:42 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	sigint_handler(int sig)
 }
 
 /*
-	Frees up memory after every command
+	Frees up memory after every main process command
 */
 static void	cleanup(t_mini *mini)
 {
