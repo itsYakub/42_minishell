@@ -6,11 +6,27 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/19 11:11:30 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/19 13:16:00 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+/*
+	Prints an error found during execution
+*/
+int	print_error(char *error_param)
+{
+	ft_putstr_fd("minishell: ", 2);
+	if (error_param)
+	{
+		ft_putstr_fd(error_param, 2);
+		ft_putstr_fd(": ", 2);
+	}
+	ft_putstr_fd(strerror(errno), 2);
+	ft_putstr_fd("\n", 2);
+	return (0);
+}
 
 /*
 	Handles the ctrl+c combination

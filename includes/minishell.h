@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/19 11:07:16 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/19 13:37:26 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <errno.h>
 # include "../libft/libft.h"
 
 // to make pipes a bit easier to understand
@@ -34,6 +35,8 @@
 # define PREVIOUS_CMD 1
 # define READ_END 0
 # define WRITE_END 1
+
+# define DEBUG 0
 
 /*	SECTION:
  *		Typedefs
@@ -85,6 +88,9 @@ void	ms_export(t_command *cmd);
 void	ms_pwd(t_command *cmd);
 void	ms_unset(t_command *cmd);
 
+// minishell
+int		print_error(char *error_param);
+
 // env_array
 char	*env_value_from_index(int pos, char **env_vars);
 char	*env_value(char *var_name, t_mini *mini, int in_quote);
@@ -130,6 +136,7 @@ int		msh_isbuiltin(t_command *cmd);
 
 // msh_getutil
 char	*msh_getutil(t_mini *mini, char **util);
+int		handle_other_filenames(t_command *cmd);
 
 // env_utils
 int		count_array(char **array);

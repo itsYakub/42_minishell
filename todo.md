@@ -1,19 +1,9 @@
 Problems:
--	piped exit
-
-Error messages and codes:
--	bash: ina: No such file or directory (1)
--	bash: in: Permission denied (1) - in/out same
--	Command 'lls' not found (127)
--	ls-fff: command not found (127)
+-	piped builtin + sys memory
+-	> with no space
 
 To do:
 -	reject options on builtins?
--	error messages
--	cmd_checker
--	exit codes from last command
--	clean cmd_executor.c
--	re-add getpath() and replace execvp with execve
 -	check everything with bash
 -	get evaluated by Olek/Kuba
 

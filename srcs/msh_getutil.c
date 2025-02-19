@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_getutil.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 08:38:28 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/19 09:53:46 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/19 13:28:10 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,41 @@
 static char	*__msh_creaturl(char *s1, char *s2);
 static char	**__msh_creatpths(char *var, char *util, size_t off);
 
+/*
+	Handles multiple output redirection, but only the last one gets written to
+*/
+int	handle_other_filenames(t_command *cmd)
+{
+	char	**split;
+	int		i;
+	int		output_fd;
+
+	if (cmd->other_outfilenames)
+	{
+		split = ft_split(cmd->other_outfilenames, '\n');
+		i = -1;
+		while (split[++i])
+		{
+			output_fd = open(split[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (output_fd < 0)
+			{
+				print_error(split[i]);
+				free_stringlist(split);
+				return (0);
+			}
+			close(output_fd);
+		}
+	}
+	return (1);
+}
+
 char	*msh_getutil(t_mini *mini, char **util)
 {
 	char	**paths;
 	char	*var;
 	int		i;
 
-	var = env_var("PATH", mini->env);
+	var = env_value("PATH", mini, 0);
 	if (var)
 	{
 		paths = __msh_creatpths(var, *util, 5);
@@ -30,7 +58,7 @@ char	*msh_getutil(t_mini *mini, char **util)
 		i = -1;
 		while (paths[++i])
 		{
-			if (!access(paths[i], X_OK))
+			if (!access(paths[i], F_OK | X_OK))
 			{
 				free(*util);
 				*util = ft_strdup(paths[i]);
@@ -62,7 +90,6 @@ static char	**__msh_creatpths(char *var, char *util, size_t off)
 	size_t	iter;
 
 	paths = ft_split(var + off, ':');
-	free(var);
 	if (!paths)
 		return (NULL);
 	iter = -1;
