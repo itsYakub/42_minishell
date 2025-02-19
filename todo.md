@@ -1,9 +1,13 @@
 Problems:
+-	cat, ctrl+c = double shell
+-	echo "cat lol.c | cat > lol.c" bad ouput
+-	'ls' doesn't work
 
 To do:
+-	remove this file!
+-	swap free_string_list
 -	reject options on builtins?
 -	check everything with bash
--	get evaluated by Olek/Kuba
 
 Checklist:
 +	Display a prompt when waiting for a new command.

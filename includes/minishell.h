@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/19 13:59:17 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 16:13:25 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ char	*add_char_and_free(char *old, char new);
 void	free_stringlist(char **list);
 char	**sort_vars(t_command *cmd);
 int		str_disallowed(char *str);
+int		is_unprintable(char *str);
 
 // cmd_parser
 int		parse_and_execute(t_mini *mini, char *line);

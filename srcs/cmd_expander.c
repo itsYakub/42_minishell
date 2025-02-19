@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 11:05:50 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 13:38:27 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 14:56:34 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static char	*expand_cmd(t_command *cmd, t_mini *mini)
 			&& '\0' != cmd->orig[i + 1])
 		{
 			str = replace_var(&cmd->orig[i + 1], str, mini, in_quote);
-			i += env_length(&cmd->orig[i + 1]);
+			i += env_length(&cmd->orig[i + 1]) + 1;
 		}
 		else
 			str = add_char_and_free(str, cmd->orig[i]);

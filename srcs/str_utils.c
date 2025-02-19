@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   str_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:59:53 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 10:36:46 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 16:16:41 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,22 @@ int	str_disallowed(char *str)
 		return (1);
 	}
 	return (0);
+}
+
+/*
+	Checks that the input has at least one printable character
+*/
+int	is_unprintable(char *str)
+{
+	int	i;
+	int	no_chars;
+
+	i = -1;
+	no_chars = 1;
+	while (str[++i])
+	{
+		if (str[i] > 32 && str[i] < 127)
+			no_chars = 0;
+	}
+	return (no_chars);
 }

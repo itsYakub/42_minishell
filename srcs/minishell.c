@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/19 14:12:42 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 16:13:29 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ static void	loop(t_mini *mini)
 			free_stringlist(mini->env);
 			exit(0);
 		}
+		if (is_unprintable(input))
+			continue ;
 		add_history(input);
 		parse_and_execute(mini, input);
 		cleanup(mini);
@@ -95,6 +97,6 @@ int	main(int ac, char **av, char **ev)
 	mini.cmdc = 0;
 	mini.exitcode = 0;
 	mini.env = init_env_array(ev);
-	loop(&mini);
+	loop(&mini);	
 	return (0);
 }
