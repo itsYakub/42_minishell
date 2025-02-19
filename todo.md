@@ -13,7 +13,6 @@ To do:
 -	exit codes from last command
 -	clean cmd_executor.c
 -	comments
--	env_array.c
 -	re-add getpath() and replace execvp with execve
 -	check everything with bash
 -	get evaluated by Olek/Kuba
