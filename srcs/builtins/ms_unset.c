@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:52:49 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/18 10:34:41 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 11:00:01 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	remove_var(char *var_name, t_command *cmd)
 }
 
 /*
-	Removes vars from the env list
+	Replicates the unset command
 */
 void	ms_unset(t_command *cmd)
 {

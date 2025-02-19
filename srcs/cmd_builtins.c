@@ -6,12 +6,15 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 15:40:53 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/18 10:19:38 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 11:01:15 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+	Diverts the command to use out version instead of the system one
+*/
 void	msh_exec_builtin(t_command *cmd)
 {
 	if (!ft_strncmp("pwd", *cmd->args, ft_strlen(*cmd->args)))
@@ -30,6 +33,9 @@ void	msh_exec_builtin(t_command *cmd)
 		ms_unset(cmd);
 }
 
+/*
+	Checks if the command is one we need to handle with our implementation
+*/
 int	msh_isbuiltin(t_command *cmd)
 {
 	return (!ft_strncmp(cmd->args[0], "pwd", ft_strlen(cmd->args[0]))

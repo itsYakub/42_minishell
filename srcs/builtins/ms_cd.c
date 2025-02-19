@@ -6,12 +6,15 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 12:22:21 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 09:30:49 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 10:56:10 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/*
+	Updates the PWD var to the new directory
+*/
 static void	update_pwd(t_command *cmd)
 {
 	int	pos;
@@ -21,6 +24,9 @@ static void	update_pwd(t_command *cmd)
 	cmd->mini->env[pos] = ft_strjoin("PWD=", getcwd(NULL, 0));
 }
 
+/*
+	Changes to a new directory and updates
+*/
 static void	set_dir(t_command *cmd)
 {
 	int	code;
@@ -39,6 +45,9 @@ static void	set_dir(t_command *cmd)
 	cmd->mini->exitcode = 0;
 }
 
+/*
+	Replicates cd, setting PWD to HOME or a relative or absolute location
+*/
 void	ms_cd(t_command *cmd)
 {
 	char	*path;

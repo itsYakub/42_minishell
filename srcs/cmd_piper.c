@@ -6,17 +6,23 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:50:05 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 10:43:19 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 11:05:16 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+	Checks whether this is the last command in the chain (or the only one)
+*/
 static int	is_last_command(t_mini *mini)
 {
 	return (mini->current_cmd == mini->cmdc - 1);
 }
 
+/*
+	Handles joining commands together
+*/
 void	connect_pipes(t_mini *mini, t_pipe pipes[2])
 {
 	if (mini->cmdc > 1)
@@ -28,6 +34,9 @@ void	connect_pipes(t_mini *mini, t_pipe pipes[2])
 	}
 }
 
+/*
+	Closes the pipes after the commands
+*/
 void	close_pipes(t_mini *mini, t_pipe pipes[2])
 {
 	if (mini->cmdc > 1)
@@ -39,6 +48,9 @@ void	close_pipes(t_mini *mini, t_pipe pipes[2])
 	}
 }
 
+/*
+	Reverses the pipes to use for the next pair of commands
+*/
 void	swap_pipes(int **pipes)
 {
 	int	*pipe_current;

@@ -6,14 +6,14 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 11:04:28 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/15 17:48:50 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 10:57:02 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 /*
-	Emulates the env command.
+	Replicates the env command.
 	Should not show empty exported vars
 */
 void	ms_env(t_command *cmd)

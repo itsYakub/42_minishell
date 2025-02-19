@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 11:05:50 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 10:43:42 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 11:04:00 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ static int	env_length(char *str)
 	return (i);
 }
 
-static char	*test(char *var_name, char *str, t_mini *mini, int in_quote)
+/*
+	Replaces a $var with whatever is in the env list
+*/
+static char	*replace_var(char *var_name, char *str, t_mini *mini, int in_quote)
 {
 	char	*tmp;
 	int		j;
@@ -60,7 +63,7 @@ static char	*expand_cmd(t_command *cmd, t_mini *mini)
 			in_quote = 1 - in_quote;
 		if ('$' == cmd->orig[i] && 0 == in_apo)
 		{
-			str = test(&cmd->orig[i + 1], str, mini, in_quote);
+			str = replace_var(&cmd->orig[i + 1], str, mini, in_quote);
 			i += env_length(&cmd->orig[i + 1]) + 1;
 		}
 		else
@@ -69,6 +72,9 @@ static char	*expand_cmd(t_command *cmd, t_mini *mini)
 	return (str);
 }
 
+/*
+	Replaces all instance of $vars unless inside apostrophes
+*/
 int	expand_commands(t_mini *mini)
 {
 	int		i;
