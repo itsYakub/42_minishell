@@ -6,12 +6,15 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:12:15 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 10:53:48 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 11:01:36 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+	Mainly for debug to make sure we're parsing what we should be
+*/
 void	check_commands(t_mini *mini)
 {
 	int		i;

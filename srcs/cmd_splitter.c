@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 10:56:04 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/15 17:11:27 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 11:06:12 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,9 @@ static void	divide_commands(t_mini *mini, char *line)
 	mini->cmdc = count;
 }
 
+/*
+	Sets up the initial state of the commands
+*/
 static void	init_commands(t_mini *mini)
 {
 	int	i;
@@ -100,6 +103,9 @@ static void	init_commands(t_mini *mini)
 	}
 }
 
+/*
+	Divides the input into separate commands
+*/
 int	split_commands(t_mini *mini, char *line)
 {
 	divide_commands(mini, line);

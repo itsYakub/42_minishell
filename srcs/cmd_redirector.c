@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 12:02:40 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/15 17:35:17 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 11:05:34 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,9 @@ static int	find_inputs(t_command *cmd)
 	return (1);
 }
 
+/*
+	Sets up and file redirection
+*/
 int	redirect_commands(t_mini *mini)
 {
 	int	i;

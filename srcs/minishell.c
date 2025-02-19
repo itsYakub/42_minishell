@@ -6,12 +6,15 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/19 10:44:14 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 11:08:34 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+	Handles the ctrl+c combination
+*/
 void	sigint_handler(int sig)
 {
 	(void)sig;
@@ -21,6 +24,9 @@ void	sigint_handler(int sig)
 	rl_redisplay();
 }
 
+/*
+	Frees up memory after every command
+*/
 static void	cleanup(t_mini *mini)
 {
 	int	i;
@@ -59,6 +65,9 @@ static void	loop(t_mini *mini)
 	}
 }
 
+/*
+	Here we go!
+*/
 int	main(int ac, char **av, char **ev)
 {
 	t_mini	mini;

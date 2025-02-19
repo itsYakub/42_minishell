@@ -1,4 +1,5 @@
 Problems:
+-	piped exit
 
 Error messages and codes:
 -	bash: ina: No such file or directory (1)
@@ -12,7 +13,6 @@ To do:
 -	cmd_checker
 -	exit codes from last command
 -	clean cmd_executor.c
--	comments
 -	re-add getpath() and replace execvp with execve
 -	check everything with bash
 -	get evaluated by Olek/Kuba

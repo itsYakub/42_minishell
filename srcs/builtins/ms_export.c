@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:51:55 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 09:06:51 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/19 10:58:31 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,9 @@ static void	sort_and_display(char **env)
 	free_stringlist(env);
 }
 
+/*
+	Checks if the var value is acceptable
+*/
 static int	is_invalid_identifier(t_command *cmd)
 {
 	int	i;
@@ -109,11 +112,11 @@ static int	is_invalid_identifier(t_command *cmd)
 }
 
 /*
-	Emulates the export command.
+	Replicates the export command.
 	Should not show the _ var
 	No args lists all vars
 	export name adds an empty var
-	export name=value adds a var
+	export name=value adds/updates a var
 */
 void	ms_export(t_command *cmd)
 {

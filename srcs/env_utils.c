@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:29:21 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 10:35:38 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 11:07:37 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ int	count_array(char **array)
 	return (count);
 }
 
+/*
+	Copies the list of env vars to a new list, at the start or when adding
+*/
 void	copy_env_array(char **original, char ***copy)
 {
 	int	i;

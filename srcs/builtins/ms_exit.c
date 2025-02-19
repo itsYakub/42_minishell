@@ -6,12 +6,15 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 10:42:31 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 10:45:45 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 10:57:30 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/*
+	Replicates the exit command
+*/
 void	ms_exit(t_command *cmd)
 {
 	t_mini	*mini;
