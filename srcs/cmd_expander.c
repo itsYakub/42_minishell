@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 11:05:50 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/15 14:29:40 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 10:43:42 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static char	*expand_cmd(t_command *cmd, t_mini *mini)
 	while (cmd->orig[++i])
 	{
 		if ('\'' == cmd->orig[i] && 0 == in_quote)
-			in_apo = 1 - in_apo;		
+			in_apo = 1 - in_apo;
 		if ('"' == cmd->orig[i])
 			in_quote = 1 - in_quote;
 		if ('$' == cmd->orig[i] && 0 == in_apo)

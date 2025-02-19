@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 10:42:31 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 09:55:14 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 10:45:45 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ms_exit(t_command *cmd)
 		ft_putstr_fd("exit\n", 2);
 	free_stringlist(mini->commands->args);
 	free_stringlist(mini->env);
-	free(mini->commands->orig);	
+	free(mini->commands->orig);
 	free(mini->commands->infilename);
 	free(mini->commands->outfilename);
 	free(mini->commands->other_outfilenames);

@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 10:19:42 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 10:34:41 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 10:46:08 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	*env_value(char *var_name, t_mini *mini, int in_quote)
 			out = join_and_free(out, ft_itoa(mini->exitcode));
 		else
 			out = join_and_free(out, single_env_value(split[i],
-				mini->env, in_quote));
+						mini->env, in_quote));
 		i++;
 	}
 	free_stringlist(split);
@@ -129,4 +129,3 @@ char	*env_var(char *var_name, char **env_vars)
 		return (NULL);
 	return (env_vars[pos]);
 }
-

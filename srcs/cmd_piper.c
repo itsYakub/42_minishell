@@ -6,18 +6,18 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:50:05 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/17 15:39:05 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 10:43:19 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int is_last_command(t_mini *mini)
-{	
+static int	is_last_command(t_mini *mini)
+{
 	return (mini->current_cmd == mini->cmdc - 1);
 }
 
-void connect_pipes(t_mini *mini, t_pipe pipes[2])
+void	connect_pipes(t_mini *mini, t_pipe pipes[2])
 {
 	if (mini->cmdc > 1)
 	{
@@ -28,7 +28,7 @@ void connect_pipes(t_mini *mini, t_pipe pipes[2])
 	}
 }
 
-void close_pipes(t_mini *mini, t_pipe pipes[2])
+void	close_pipes(t_mini *mini, t_pipe pipes[2])
 {
 	if (mini->cmdc > 1)
 	{
@@ -39,7 +39,7 @@ void close_pipes(t_mini *mini, t_pipe pipes[2])
 	}
 }
 
-void swap_pipes(int **pipes)
+void	swap_pipes(int **pipes)
 {
 	int	*pipe_current;
 

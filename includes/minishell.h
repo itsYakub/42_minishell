@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/19 10:38:25 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 10:50:20 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,23 @@
  * */
 
 typedef enum e_parse_state
-{	
+{
 	EMPTY,
 	QUOTE,
 	TEXT
 }	t_parse_state;
 
-typedef int t_pipe[2];
+typedef int	t_pipe[2];
 
-typedef struct s_mini	t_mini;
-typedef struct s_command	t_command;
+struct		s_command;
 
 typedef struct s_mini
 {
-	t_command	*commands;
-	char		**env;
-	int			cmdc;
-	int			exitcode;
-	int			current_cmd;
+	struct s_command	*commands;
+	char				**env;
+	int					cmdc;
+	int					exitcode;
+	int					current_cmd;
 }	t_mini;
 
 typedef struct s_command
