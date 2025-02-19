@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 10:19:42 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 09:06:03 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/19 10:34:41 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static char	*single_env_value(char *var_name, char **env_vars, int in_quote)
 	}
 	sub2 = ft_substr(var, ft_strlen(sub1) + 1, ft_strlen(var));
 	free(sub1);
-	if (i < ft_strlen(var_name) && (1 == in_quote &&'"' != var_name[i]))
+	if (i < ft_strlen(var_name) && (1 == in_quote && '"' != var_name[i]))
 	{
 		sub1 = join_and_free(sub2, ft_substr(var_name, i, ft_strlen(var_name)));
 		return (sub1);
@@ -85,7 +85,8 @@ char	*env_value(char *var_name, t_mini *mini, int in_quote)
 		if (0 == ft_strcmp("?", split[i]))
 			out = join_and_free(out, ft_itoa(mini->exitcode));
 		else
-			out = join_and_free(out, single_env_value(split[i], mini->env, in_quote));
+			out = join_and_free(out, single_env_value(split[i],
+				mini->env, in_quote));
 		i++;
 	}
 	free_stringlist(split);
@@ -116,20 +117,6 @@ int	env_var_index(char *var_name, char **env_var)
 	return (-1);
 }
 
-// int	env_var_index(char *var_name, char **env_var)
-// {
-// 	int	i;
-// 	int	len;
-
-// 	i = -1;
-// 	len = ft_strlen(var_name);
-// 	while (env_var[++i])
-// 		if (0 == ft_strncmp(var_name, env_var[i], len)
-// 			&& '=' == env_var[i][len])
-// 			return (i);
-// 	return (-1);
-// }
-
 /*
 	Gets one line from env_vars, including the name= part
 */
@@ -143,18 +130,3 @@ char	*env_var(char *var_name, char **env_vars)
 	return (env_vars[pos]);
 }
 
-/*
-	Counts the elements in the array.
-	Used by env_vars and cmd.cmd
-*/
-int	count_array(char **array)
-{
-	int	count;
-
-	if (!array)
-		return (0);
-	count = -1;
-	while (array[++count])
-		;
-	return (count);
-}

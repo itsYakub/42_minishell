@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/19 10:09:35 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 10:38:25 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,16 +90,12 @@ char	*env_value_from_index(int pos, char **env_vars);
 char	*env_value(char *var_name, t_mini *mini, int in_quote);
 int		env_var_index(char *var_name, char **env_var);
 char	*env_var(char *var_name, char **env_vars);
-int		count_array(char **array);
 
-// utils
+// str_utils
 char	*join_and_free(char *old, char *new);
 char	*add_char_and_free(char *old, char new);
 void	free_stringlist(char **list);
-void	copy_env_array(char **original, char ***copy);
-char	**init_env_array(char **envp);
 char	**sort_vars(t_command *cmd);
-int		str_contains(char *str, char *set);
 int		str_disallowed(char *str);
 
 // cmd_parser
@@ -131,5 +127,10 @@ void	swap_pipes(int **pipes);
 // cmd_builtins
 void	msh_exec_builtin(t_command *cmd);
 int		msh_isbuiltin(t_command *cmd);
+
+// env_utils
+int		count_array(char **array);
+void	copy_env_array(char **original, char ***copy);
+char	**init_env_array(char **envp);
 
 #endif
