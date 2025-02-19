@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/19 10:36:04 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/19 11:07:16 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ typedef struct s_command
 	char	*infilename; // also used for heredoc delimiter
 	char	*other_outfilenames;
 	char	*outfilename;
-	int		inputtype; // 0 = file, 1 = heredoc, ignored if infilename is NULL
-	int		outputtype; // 0 = trunc, 1 = append, ignored if outfilename is
+	int		inputtype; // 0 = file, 1 = heredoc, ignored if no infilename
+	int		outputtype; // 0 = trunc, 1 = append, ignored if no outfilename
 }	t_command;
 
 /*	SECTION:
@@ -90,16 +90,12 @@ char	*env_value_from_index(int pos, char **env_vars);
 char	*env_value(char *var_name, t_mini *mini, int in_quote);
 int		env_var_index(char *var_name, char **env_var);
 char	*env_var(char *var_name, char **env_vars);
-int		count_array(char **array);
 
-// utils
+// str_utils
 char	*join_and_free(char *old, char *new);
 char	*add_char_and_free(char *old, char new);
 void	free_stringlist(char **list);
-void	copy_env_array(char **original, char ***copy);
-char	**init_env_array(char **envp);
 char	**sort_vars(t_command *cmd);
-int		str_contains(char *str, char *set);
 int		str_disallowed(char *str);
 
 // cmd_parser
@@ -115,14 +111,13 @@ int		expand_commands(t_mini *mini);
 int		redirect_commands(t_mini *mini);
 
 // cmd_checker
-int		check_commands(t_mini *mini);
+void	check_commands(t_mini *mini);
 
 // cmd_executor
 int		execute_commands(t_mini *mini);
 
 // arg_splitter
 char	**split_args(char *s);
-char	**lw_split(char const *s, char c);
 
 // cmd_piper
 void	connect_pipes(t_mini *mini, t_pipe pipes[2]);
@@ -135,5 +130,10 @@ int		msh_isbuiltin(t_command *cmd);
 
 // msh_getutil
 char	*msh_getutil(t_mini *mini, char **util);
+
+// env_utils
+int		count_array(char **array);
+void	copy_env_array(char **original, char ***copy);
+char	**init_env_array(char **envp);
 
 #endif

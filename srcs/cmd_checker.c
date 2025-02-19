@@ -6,14 +6,13 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:12:15 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 09:03:59 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/19 10:53:48 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// check for valid now or later?
-int	check_commands(t_mini *mini)
+void	check_commands(t_mini *mini)
 {
 	int		i;
 	int		j;
@@ -23,11 +22,14 @@ int	check_commands(t_mini *mini)
 	printf("cmd count: %i\n", mini->cmdc);
 	while (++i < mini->cmdc)
 	{
-		printf("intype: %i infile: %s outtype: %i outfile: %s\n", mini->commands[i].inputtype, mini->commands[i].infilename, mini->commands[i].outputtype, mini->commands[i].outfilename);
+		printf("intype: %i infile: %s outtype: %i outfile: %s\n",
+			mini->commands[i].inputtype, mini->commands[i].infilename,
+			mini->commands[i].outputtype, mini->commands[i].outfilename);
 		printf("orig: %s\n", mini->commands[i].orig);
 		j = -1;
 		while (mini->commands[i].args[++j])
-			printf("arg: %s (%i)\n", mini->commands[i].args[j], ft_strlen(mini->commands[i].args[j]));
+			printf("arg: %s (%i)\n", mini->commands[i].args[j],
+				ft_strlen(mini->commands[i].args[j]));
 		if (mini->commands[i].other_outfilenames)
 		{
 			j = -1;
@@ -37,5 +39,4 @@ int	check_commands(t_mini *mini)
 			free_stringlist(split);
 		}
 	}
-	return (1);
 }

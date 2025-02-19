@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:59:53 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/18 12:23:51 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 10:36:46 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,39 +60,9 @@ void	free_stringlist(char **list)
 	free(list);
 }
 
-void	copy_env_array(char **original, char ***copy)
-{
-	int	i;
-
-	i = -1;
-	while (original[++i])
-		(*copy)[i] = ft_strdup(original[i]);
-}
-
 /*
-	Creates a copy of the env vars so it can be freed later
+	Sorts the env vars alphabetically. Used by ms_export
 */
-char	**init_env_array(char **envp)
-{
-	char	**env_vars;
-	int		count;
-	int		pos;
-	char	*pwd;
-
-	count = count_array(envp);
-	env_vars = malloc(sizeof(char *) * (count + 1));
-	if (!env_vars)
-		return (NULL);
-	copy_env_array(envp, &env_vars);
-	env_vars[count] = NULL;
-	pos = env_var_index("OLDPWD", env_vars);
-	free(env_vars[pos]);
-	pwd = getcwd(NULL, 0);
-	env_vars[pos] = ft_strjoin("OLDPWD=", pwd);
-	free(pwd);
-	return (env_vars);
-}
-
 char	**sort_vars(t_command *cmd)
 {
 	char	**output;
@@ -120,23 +90,7 @@ char	**sort_vars(t_command *cmd)
 	return (output);
 }
 
-int	str_contains(char *str, char *set)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	while (str[++i])
-	{
-		j = -1;
-		while (set[++j])
-		if (str[i] == set[j])
-			return (1);
-	}
-	return (0);
-}
-
-// for export
+// Checks if a var value is not allowed. Used by ms_export
 int	str_disallowed(char *str)
 {
 	int	i;
