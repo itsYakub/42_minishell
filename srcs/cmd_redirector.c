@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 12:02:40 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 11:05:34 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 14:00:32 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ static int	set_output(t_command *cmd, int i)
 		cmd->outputtype = 1;
 		i++;
 	}
-	while (cmd->orig[i] && ' ' == cmd->orig[i])
+	while (cmd->orig[i] && (SPACE == cmd->orig[i] || '>' == cmd->orig[i]))
 		i++;
-	while (cmd->orig[i] && ' ' != cmd->orig[i])
+	while (cmd->orig[i] && SPACE != cmd->orig[i] && '>' != cmd->orig[i])
 	{
 		cmd->outfilename = add_char_and_free(cmd->outfilename, cmd->orig[i]);
 		i++;
@@ -78,6 +78,8 @@ static int	find_inputs(t_command *cmd)
 			i = set_input(cmd, i + 1);
 		if ('>' == cmd->orig[i])
 			i = set_output(cmd, i + 1);
+		if ('>' == cmd->orig[i])
+			continue ;
 		str = add_char_and_free(str, cmd->orig[i]);
 		i++;
 	}

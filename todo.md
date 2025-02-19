@@ -1,6 +1,5 @@
 Problems:
 -	piped builtin + sys memory
--	> with no space
 
 To do:
 -	reject options on builtins?

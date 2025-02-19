@@ -6,11 +6,22 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:12:15 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 11:01:36 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 14:01:06 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+/*
+	Prints the redirection status
+*/
+static void	print_redirection(t_command *cmd)
+{
+	printf("intype: %i infile: %s outtype: %i outfile: %s\n",
+		cmd->inputtype, cmd->infilename,
+		cmd->outputtype, cmd->outfilename);
+	printf("others: %s\n", cmd->other_outfilenames);
+}
 
 /*
 	Mainly for debug to make sure we're parsing what we should be
@@ -25,9 +36,7 @@ void	check_commands(t_mini *mini)
 	printf("cmd count: %i\n", mini->cmdc);
 	while (++i < mini->cmdc)
 	{
-		printf("intype: %i infile: %s outtype: %i outfile: %s\n",
-			mini->commands[i].inputtype, mini->commands[i].infilename,
-			mini->commands[i].outputtype, mini->commands[i].outfilename);
+		print_redirection(&mini->commands[i]);
 		printf("orig: %s\n", mini->commands[i].orig);
 		j = -1;
 		while (mini->commands[i].args[++j])
