@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/18 12:22:25 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 09:16:04 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ typedef struct s_mini
 	char	**env;
 	int		cmdc;
 	int		exitcode;
-	int		pid;
 	int		current_cmd;
 }	t_mini;
 

@@ -6,30 +6,11 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 15:38:58 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/18 12:31:01 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 09:10:51 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-/*
-	Executes 1 cmd, skipping the whole pipes and redirection setup
-*/
-static void	execute_single_cmd(t_command *cmd)
-{
-	int	pid;
-
-	if (msh_isbuiltin(cmd))
-		msh_exec_builtin(cmd);
-	else
-	{
-		pid = fork(); // ec
-		if (0 == pid)
-			cmd->mini->exitcode = execvp(cmd->args[0], cmd->args);
-		else
-			waitpid(pid, NULL, 0);
-	}
-}
 
 /*
 	Prepares the command to receive input from another fd, including heredoc
@@ -123,16 +104,16 @@ static void execute_cmd(t_command *cmd)
 int	execute_commands(t_mini *mini)
 {
 	int	i;
-
+	
+	if (1 == mini->cmdc && msh_isbuiltin(&mini->commands[0]))
+	{
+		msh_exec_builtin(&mini->commands[0]);
+		return (1);
+	}
 	i = -1;
 	while (++i < mini->cmdc)
 	{
 		mini->current_cmd = i;
-		if (1 == mini->cmdc)
-		{		
-			execute_single_cmd(&mini->commands[0]);
-			return (1);
-		}	
 		execute_cmd(&mini->commands[i]);
 	}
 	return (1);

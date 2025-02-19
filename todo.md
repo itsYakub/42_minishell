@@ -1,5 +1,4 @@
 Problems:
--	ft_split wc leaks
 
 Error messages and codes:
 -	bash: ina: No such file or directory (1)

@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 12:22:21 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/18 10:28:24 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 09:30:49 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	update_pwd(t_command *cmd)
 static void	set_dir(t_command *cmd)
 {
 	int	code;
-	
+
 	code = chdir(cmd->args[1]);
 	if (0 == code)
 		update_pwd(cmd);
@@ -47,7 +47,7 @@ void	ms_cd(t_command *cmd)
 	if (count_array(cmd->args) > 2)
 	{
 		ft_putstr_fd("cd: too many arguments\n", 2);
-		cmd->mini->exitcode = 1;		
+		cmd->mini->exitcode = 1;
 		return ;
 	}
 	pos = env_var_index("OLDPWD", cmd->mini->env);
@@ -58,7 +58,7 @@ void	ms_cd(t_command *cmd)
 		path = env_value("HOME", cmd->mini, 0);
 		chdir(path);
 		free(path);
-		cmd->mini->exitcode = 0;	
+		cmd->mini->exitcode = 0;
 		return ;
 	}
 	else
