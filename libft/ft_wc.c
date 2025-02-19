@@ -6,7 +6,7 @@
 /*   By: joleksia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:41:52 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/06 12:31:06 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/19 09:35:14 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_wc(const char *s, char *delim)
 	res = 0;
 	while (*s)
 	{
-		while (ft_strchr(delim, *s))
+		while (*s && ft_strchr(delim, *s))
 			s++;
 		if (*s && !ft_strchr(delim, *s))
 			res++;

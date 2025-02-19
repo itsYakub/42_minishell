@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 10:19:42 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/18 11:06:19 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 09:06:03 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*env_value_from_index(int pos, char **env_vars)
 
 	result = NULL;
 	var = env_vars[pos];
-	split = lw_split(var, '=');
+	split = ft_split(var, '=');
 	if (2 == count_array(split))
 	{
 		if (!(2 == ft_strlen(split[1]) && 0 == ft_strncmp("''", split[1], 2)))
@@ -76,8 +76,8 @@ char	*env_value(char *var_name, t_mini *mini, int in_quote)
 	char	*out;
 
 	out = NULL;
-	space_split = lw_split(var_name, ' ');
-	split = lw_split(space_split[0], '$');
+	space_split = ft_split(var_name, ' ');
+	split = ft_split(space_split[0], '$');
 	free_stringlist(space_split);
 	i = 0;
 	while (i < count_array(split))
@@ -105,7 +105,7 @@ int	env_var_index(char *var_name, char **env_var)
 	len = ft_strlen(var_name);
 	while (env_var[++i])
 	{
-		split = lw_split(env_var[i], '=');
+		split = ft_split(env_var[i], '=');
 		if (0 == ft_strcmp(var_name, split[0]))
 		{
 			free_stringlist(split);
