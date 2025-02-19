@@ -9,7 +9,6 @@ Error messages and codes:
 To do:
 -	reject options on builtins?
 -	error messages
--	exit cmd memory leaks
 -	cmd_checker
 -	exit codes from last command
 -	clean cmd_executor.c

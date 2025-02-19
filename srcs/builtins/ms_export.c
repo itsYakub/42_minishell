@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:51:55 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/18 12:24:11 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 09:06:51 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static void	sort_and_display(char **env)
 	{
 		if (0 == ft_strncmp("_=", env[i], 2))
 			continue ;
-		split = lw_split(env[i], '=');
+		split = ft_split(env[i], '=');
 		printf("declare -x %s", split[0]);
 		if (split[1])
 			printf("=\"%s\"", split[1]);
@@ -133,7 +133,7 @@ void	ms_export(t_command *cmd)
 		return ;
 	while (cmd->args[++i])
 	{
-		split = lw_split(cmd->args[i], '=');
+		split = ft_split(cmd->args[i], '=');
 		pos = env_var_index(split[0], cmd->mini->env);
 		if (-1 == pos)
 			cmd->mini->exitcode = add_var(split[0], split[1], cmd);

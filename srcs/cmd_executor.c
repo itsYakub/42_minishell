@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 15:38:58 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 09:10:51 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 09:53:01 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	handle_cmd_output(t_command *cmd)
 
 	if (cmd->other_outfilenames)
 	{
-		char **split = lw_split(cmd->other_outfilenames, '\n');
+		char **split = ft_split(cmd->other_outfilenames, '\n');
 		int	i = -1;
 		while (split[++i])
 		{
