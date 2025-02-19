@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/19 09:16:04 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/19 10:09:35 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ typedef struct s_command	t_command;
 typedef struct s_mini
 {
 	t_command	*commands;
-	char	**env;
-	int		cmdc;
-	int		exitcode;
-	int		current_cmd;
+	char		**env;
+	int			cmdc;
+	int			exitcode;
+	int			current_cmd;
 }	t_mini;
 
 typedef struct s_command
@@ -122,7 +122,6 @@ int		execute_commands(t_mini *mini);
 
 // arg_splitter
 char	**split_args(char *s);
-char	**lw_split(char const *s, char c);
 
 // cmd_piper
 void	connect_pipes(t_mini *mini, t_pipe pipes[2]);
