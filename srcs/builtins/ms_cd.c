@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 12:22:21 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 10:56:10 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/20 11:06:59 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	ms_cd(t_command *cmd)
 		path = env_value("HOME", cmd->mini, 0);
 		chdir(path);
 		free(path);
+		update_pwd(cmd);
 		cmd->mini->exitcode = 0;
 		return ;
 	}
