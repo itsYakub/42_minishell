@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 15:38:58 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 14:08:10 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/20 11:20:34 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,12 @@ static int	execute_child(t_command *cmd, t_pipe pipes[2])
 /*
 	The main function the sets ups and runs the command
 */
-static int	execute_cmd(t_command *cmd)
+static int	execute_cmd(t_command *cmd, int current_cmd)
 {
 	static t_pipe	pipes[2];
 	int				pid;
 
+	cmd->mini->current_cmd = current_cmd;
 	pipe(pipes[CURRENT_CMD]);
 	pid = fork();
 	if (0 == pid)
@@ -119,17 +120,26 @@ static int	execute_cmd(t_command *cmd)
 int	execute_commands(t_mini *mini)
 {
 	int	i;
+	int	in;
+	int	out;
 
 	if (1 == mini->cmdc && msh_isbuiltin(&mini->commands[0]))
 	{
+		in = dup(0);
+		out = dup(1);
+		if (mini->commands[0].infilename)
+			if (!handle_cmd_input(&mini->commands[0]))
+				return (0);
+		if (mini->commands[0].outfilename)
+			if (!handle_cmd_output(&mini->commands[0]))
+				return (0);
 		msh_exec_builtin(&mini->commands[0]);
+		dup2(in, 0);
+		dup2(out, 1);
 		return (1);
 	}
 	i = -1;
 	while (++i < mini->cmdc)
-	{
-		mini->current_cmd = i;
-		execute_cmd(&mini->commands[i]);
-	}
+		execute_cmd(&mini->commands[i], i);
 	return (1);
 }
