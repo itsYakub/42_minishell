@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/20 09:00:48 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/20 09:16:03 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@
 # define PREVIOUS_CMD 1
 # define READ_END 0
 # define WRITE_END 1
-
 # define DEBUG 0
 
 /*	SECTION:
