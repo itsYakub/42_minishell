@@ -6,58 +6,20 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 12:02:40 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/20 10:08:31 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/20 15:36:58 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 /*
-	Sets up output redirection, both trunc and append
+	Changes the state of inside/outside quotes
 */
-static int	set_output(t_command *cmd, int i)
+static int	set_apoquote(char c, int orig, char apoquote)
 {
-	if (cmd->outfilename)
-	{
-		free(cmd->outfilename);
-		cmd->outfilename = NULL;
-	}
-	if ('>' == cmd->orig[i])
-	{
-		cmd->outputtype = 1;
-		i++;
-	}
-	while (cmd->orig[i] && (SPACE == cmd->orig[i] || '>' == cmd->orig[i]))
-		i++;
-	while (cmd->orig[i] && SPACE != cmd->orig[i] && '>' != cmd->orig[i])
-	{
-		cmd->outfilename = add_char_and_free(cmd->outfilename, cmd->orig[i]);
-		i++;
-	}
-	cmd->other_outfilenames = join_and_free(cmd->other_outfilenames,
-			ft_strdup(cmd->outfilename));
-	cmd->other_outfilenames = add_char_and_free(cmd->other_outfilenames, '\n');
-	return (i);
-}
-
-/*
-	Sets up input redirection, including heredoc
-*/
-static int	set_input(t_command *cmd, int i)
-{
-	if ('<' == cmd->orig[i])
-	{
-		cmd->inputtype = 1;
-		i++;
-	}
-	while (cmd->orig[i] && ' ' == cmd->orig[i])
-		i++;
-	while (cmd->orig[i] && ' ' != cmd->orig[i])
-	{
-		cmd->infilename = add_char_and_free(cmd->infilename, cmd->orig[i]);
-		i++;
-	}
-	return (i);
+	if (c == apoquote)
+		orig = 1 - orig;
+	return (orig);
 }
 
 /*
@@ -65,27 +27,25 @@ static int	set_input(t_command *cmd, int i)
 */
 static int	find_inputs(t_command *cmd)
 {
-	int		vars[4];
 	char	*str;
+	int		in_apo;
+	int		in_quote;
+	int		i;
 
 	str = NULL;
-	vars[0] = -1;
-	vars[1] = 0;
-	vars[2] = 0;
-	vars[3] = ft_strlen(cmd->orig);
-	while (++vars[0] < vars[3] && cmd->orig[vars[0]])
+	i = 0;
+	in_apo = 0;
+	in_quote = 0;
+	while (i < ft_strlen(cmd->orig) && cmd->orig[i])
 	{
-		if ('"' == cmd->orig[vars[0]])
-			vars[1] = 1 - vars[1];
-		if ('\'' == cmd->orig[vars[0]])
-			vars[2] = 1 - vars[2];
-		if ('<' == cmd->orig[vars[0]] && 0 == (vars[2] + vars[1]))
-			vars[0] = set_input(cmd, vars[0] + 1);
-		if ('>' == cmd->orig[vars[0]] && 0 == (vars[2] + vars[1]))
-			vars[0] = set_output(cmd, vars[0] + 1);
-		if ('>' == cmd->orig[vars[0]] && 0 == (vars[2] + vars[1]))
+		in_apo = set_apoquote(cmd->orig[i], in_apo, '\'');
+		in_quote = set_apoquote(cmd->orig[i], in_quote, '"');
+		if (1 == set_input(cmd, &i, in_quote, in_apo))
 			continue ;
-		str = add_char_and_free(str, cmd->orig[vars[0]]);
+		if (1 == set_output(cmd, &i, in_quote, in_apo))
+			continue ;
+		str = add_char_and_free(str, cmd->orig[i]);
+		i++;
 	}
 	cmd->args = split_args(str);
 	free(str);

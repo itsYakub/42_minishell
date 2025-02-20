@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/20 11:20:42 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/20 15:36:42 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ typedef struct s_command
 	char	*orig;
 	char	**args;
 	char	*infilename; // also used for heredoc delimiter
-	char	*other_outfilenames;
-	char	*outfilename;
+	char	*other_outnames;
+	char	*outname;
 	int		inputtype; // 0 = file, 1 = heredoc, ignored if no infilename
 	int		outputtype; // 0 = trunc, 1 = append, ignored if no outfilename
 }	t_command;
@@ -145,5 +145,9 @@ char	**init_env_array(char **envp);
 // signals
 void	enable_ctrl_c(int sig);
 void	disable_ctrl_c(int sig);
+
+// cmd_redir_setup
+int		set_output(t_command *cmd, int *start, int in_quote, int in_apo);
+int		set_input(t_command *cmd, int *start, int in_quote, int in_apo);
 
 #endif

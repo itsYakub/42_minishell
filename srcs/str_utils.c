@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:59:53 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/20 09:57:09 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/20 14:21:56 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ char	*add_char_and_free(char *old, char new)
 	char	*tmp;
 	int		i;
 
+	if (!new)
+		return (old);
 	i = -1;
 	if (!old)
 		old = ft_strdup("");

@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 08:38:28 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/20 09:59:18 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/20 15:43:20 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ int	handle_other_filenames(t_command *cmd)
 	int		i;
 	int		output_fd;
 
-	if (cmd->other_outfilenames)
+	if (cmd->other_outnames)
 	{
-		split = ft_split(cmd->other_outfilenames, '\n');
+		split = ft_split(cmd->other_outnames, '\n');
 		i = -1;
-		while (split[++i])
+		while (++i < count_array(split) - 1)
 		{
 			output_fd = open(split[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (output_fd < 0)

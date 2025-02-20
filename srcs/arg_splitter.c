@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 16:43:25 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 09:07:11 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/20 14:54:55 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,17 @@ char	**split_args(char *s)
 	char	*str;
 	char	**split;
 
-	str = split_keeping_quotes(s);
-	split = ft_split(str, '\n');
-	free(str);
+	if (!s || 1 == is_unprintable(s))
+	{
+		split = malloc(sizeof(char *) * 2);
+		split[0] = strdup("");
+		split[1] = NULL;
+	}
+	else
+	{
+		str = split_keeping_quotes(s);
+		split = ft_split(str, '\n');
+		free(str);
+	}
 	return (split);
 }

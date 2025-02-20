@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 10:56:04 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 11:06:12 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/20 14:54:42 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ static void	init_commands(t_mini *mini)
 	{
 		mini->commands[i].infilename = NULL;
 		mini->commands[i].inputtype = 0;
-		mini->commands[i].outfilename = NULL;
-		mini->commands[i].other_outfilenames = NULL;
+		mini->commands[i].outname = NULL;
+		mini->commands[i].other_outnames = NULL;
 		mini->commands[i].outputtype = 0;
 		mini->commands[i].mini = mini;
 	}

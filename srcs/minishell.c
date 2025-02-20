@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/20 10:02:48 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/20 14:54:42 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ static void	cleanup(t_mini *mini)
 		ft_free2d((void **)mini->commands[i].args);
 		free(mini->commands[i].orig);
 		free(mini->commands[i].infilename);
-		free(mini->commands[i].outfilename);
-		free(mini->commands[i].other_outfilenames);
+		free(mini->commands[i].outname);
+		free(mini->commands[i].other_outnames);
 	}
 	free(mini->commands);
 }

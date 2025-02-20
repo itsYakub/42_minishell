@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:12:15 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/20 09:59:49 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/20 14:54:42 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static void	print_redirection(t_command *cmd)
 {
 	printf("intype: %i infile: %s outtype: %i outfile: %s\n",
 		cmd->inputtype, cmd->infilename,
-		cmd->outputtype, cmd->outfilename);
-	printf("others: %s\n", cmd->other_outfilenames);
+		cmd->outputtype, cmd->outname);
+	printf("others: %s\n", cmd->other_outnames);
 }
 
 /*
@@ -42,10 +42,10 @@ void	check_commands(t_mini *mini)
 		while (mini->commands[i].args[++j])
 			printf("arg: %s (%i)\n", mini->commands[i].args[j],
 				ft_strlen(mini->commands[i].args[j]));
-		if (mini->commands[i].other_outfilenames)
+		if (mini->commands[i].other_outnames)
 		{
 			j = -1;
-			split = ft_split(mini->commands[i].other_outfilenames, '\n');
+			split = ft_split(mini->commands[i].other_outnames, '\n');
 			while (split[++j])
 				printf("out filename: %s\n", split[j]);
 			ft_free2d((void **) split);

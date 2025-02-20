@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 15:40:53 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 11:01:15 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/20 14:32:56 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	msh_exec_builtin(t_command *cmd)
 */
 int	msh_isbuiltin(t_command *cmd)
 {
+	if (!cmd->args[0] || 0 == ft_strlen(cmd->args[0]))
+		return (0);
 	return (!ft_strncmp(cmd->args[0], "pwd", ft_strlen(cmd->args[0]))
 		|| !ft_strncmp(cmd->args[0], "cd", ft_strlen(cmd->args[0]))
 		|| !ft_strncmp(cmd->args[0], "exit", ft_strlen(cmd->args[0]))

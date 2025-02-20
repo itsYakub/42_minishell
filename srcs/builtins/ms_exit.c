@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 10:42:31 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/20 10:53:04 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/20 14:54:42 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	ms_exit(t_command *cmd)
 	ft_free2d((void **)mini->env);
 	free(mini->commands->orig);
 	free(mini->commands->infilename);
-	free(mini->commands->outfilename);
-	free(mini->commands->other_outfilenames);
+	free(mini->commands->outname);
+	free(mini->commands->other_outnames);
 	free(mini->commands);
 	exit(0);
 }

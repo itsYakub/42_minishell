@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 15:38:58 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/20 11:20:34 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/20 14:54:16 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ static int	handle_cmd_output(t_command *cmd)
 	if (!handle_other_filenames(cmd))
 		return (0);
 	if (0 == cmd->outputtype)
-		output_fd = open(cmd->outfilename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		output_fd = open(cmd->outname, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else
-		output_fd = open(cmd->outfilename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		output_fd = open(cmd->outname, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (output_fd < 0)
-		return (print_error(cmd->outfilename));
+		return (print_error(cmd->outname));
 	dup2(output_fd, STDOUT_FILENO);
 	close(output_fd);
 	return (1);
@@ -71,7 +71,7 @@ static int	execute_child(t_command *cmd, t_pipe pipes[2])
 		if (!handle_cmd_input(cmd))
 			exit(127);
 	connect_pipes(cmd->mini, pipes);
-	if (cmd->outfilename)
+	if (cmd->outname)
 		if (!handle_cmd_output(cmd))
 			exit(127);
 	if (msh_isbuiltin(cmd))
@@ -130,7 +130,7 @@ int	execute_commands(t_mini *mini)
 		if (mini->commands[0].infilename)
 			if (!handle_cmd_input(&mini->commands[0]))
 				return (0);
-		if (mini->commands[0].outfilename)
+		if (mini->commands[0].outname)
 			if (!handle_cmd_output(&mini->commands[0]))
 				return (0);
 		msh_exec_builtin(&mini->commands[0]);
