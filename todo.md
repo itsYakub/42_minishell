@@ -2,8 +2,6 @@ Problems:
 
 To do:
 -	remove this file!
--	swap free_string_list
--	reject options on builtins?
 -	check everything with bash
 
 Checklist:
