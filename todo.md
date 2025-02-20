@@ -1,5 +1,4 @@
 Problems:
--	cat, ctrl+c = double shell
 
 To do:
 -	remove this file!

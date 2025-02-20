@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/19 16:13:29 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/20 09:48:20 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,24 @@ int	print_error(char *error_param)
 /*
 	Handles the ctrl+c combination
 */
-void	sigint_handler(int sig)
+void	enable_ctrl_c(int sig)
 {
 	(void)sig;
 	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+}
+
+/*
+	Disables printing out shell prompt
+*/
+void	disable_ctrl_c(int sig)
+{
+	(void)sig;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
 }
 
 /*
@@ -68,7 +79,9 @@ static void	loop(t_mini *mini)
 
 	while (1)
 	{
+		signal(SIGINT, enable_ctrl_c);
 		input = readline("\033[0;34m\033[1m> minishell: $ \033[0m");
+		signal(SIGINT, disable_ctrl_c);
 		if (!input)
 		{
 			free_stringlist(mini->env);
@@ -92,7 +105,6 @@ int	main(int ac, char **av, char **ev)
 
 	(void)ac;
 	(void)av;
-	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 	mini.cmdc = 0;
 	mini.exitcode = 0;
