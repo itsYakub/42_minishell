@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 09:10:08 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/20 09:15:41 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/20 09:52:51 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	parse_and_execute(t_mini *mini, char *line)
 	int		i;
 	int		j;
 	char	*str;
-	
+
 	split_commands(mini, line);
 	expand_commands(mini);
 	redirect_commands(mini);

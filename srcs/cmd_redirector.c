@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 12:02:40 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/20 09:00:18 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/20 10:08:31 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,31 +65,27 @@ static int	set_input(t_command *cmd, int i)
 */
 static int	find_inputs(t_command *cmd)
 {
-	int		i;
+	int		vars[4];
 	char	*str;
-	int		len;
-	int		in_quote;
-	int		in_apo;
 
-	i = 0;
 	str = NULL;
-	in_quote = 0;
-	in_apo = 0;
-	len = ft_strlen(cmd->orig);
-	while (i < len && cmd->orig[i])
+	vars[0] = -1;
+	vars[1] = 0;
+	vars[2] = 0;
+	vars[3] = ft_strlen(cmd->orig);
+	while (++vars[0] < vars[3] && cmd->orig[vars[0]])
 	{
-		if ('"' == cmd->orig[i])
-			in_quote = 1 - in_quote;
-		if ('\'' == cmd->orig[i])
-			in_apo = 1 - in_apo;
-		if ('<' == cmd->orig[i] && 0 == (in_apo + in_quote))
-			i = set_input(cmd, i + 1);
-		if ('>' == cmd->orig[i] && 0 == (in_apo + in_quote))
-			i = set_output(cmd, i + 1);
-		if ('>' == cmd->orig[i] && 0 == (in_apo + in_quote))
+		if ('"' == cmd->orig[vars[0]])
+			vars[1] = 1 - vars[1];
+		if ('\'' == cmd->orig[vars[0]])
+			vars[2] = 1 - vars[2];
+		if ('<' == cmd->orig[vars[0]] && 0 == (vars[2] + vars[1]))
+			vars[0] = set_input(cmd, vars[0] + 1);
+		if ('>' == cmd->orig[vars[0]] && 0 == (vars[2] + vars[1]))
+			vars[0] = set_output(cmd, vars[0] + 1);
+		if ('>' == cmd->orig[vars[0]] && 0 == (vars[2] + vars[1]))
 			continue ;
-		str = add_char_and_free(str, cmd->orig[i]);
-		i++;
+		str = add_char_and_free(str, cmd->orig[vars[0]]);
 	}
 	cmd->args = split_args(str);
 	free(str);

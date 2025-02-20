@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 08:38:28 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/19 13:28:10 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/20 09:59:18 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	handle_other_filenames(t_command *cmd)
 			if (output_fd < 0)
 			{
 				print_error(split[i]);
-				free_stringlist(split);
+				ft_free2d((void **) split);
 				return (0);
 			}
 			close(output_fd);

@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:59:53 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 16:16:41 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/20 09:57:09 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,6 @@ char	*add_char_and_free(char *old, char new)
 	tmp[i + 1] = '\0';
 	free(old);
 	return (tmp);
-}
-
-/*
-	Frees all the strings in the list, then the list itself
-*/
-void	free_stringlist(char **list)
-{
-	int	i;
-
-	i = -1;
-	while (list[++i])
-		free(list[i]);
-	free(list);
 }
 
 /*

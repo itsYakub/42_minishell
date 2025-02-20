@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/20 09:16:03 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/20 09:58:49 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ char	*env_var(char *var_name, char **env_vars);
 // str_utils
 char	*join_and_free(char *old, char *new);
 char	*add_char_and_free(char *old, char new);
-void	free_stringlist(char **list);
 char	**sort_vars(t_command *cmd);
 int		str_disallowed(char *str);
 int		is_unprintable(char *str);
@@ -142,5 +141,9 @@ int		handle_other_filenames(t_command *cmd);
 int		count_array(char **array);
 void	copy_env_array(char **original, char ***copy);
 char	**init_env_array(char **envp);
+
+// signals
+void	enable_ctrl_c(int sig);
+void	disable_ctrl_c(int sig);
 
 #endif

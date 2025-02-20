@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 10:19:42 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 10:46:08 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/20 10:00:46 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*env_value_from_index(int pos, char **env_vars)
 		if (!(2 == ft_strlen(split[1]) && 0 == ft_strncmp("''", split[1], 2)))
 			result = ft_strdup(split[1]);
 	}
-	free_stringlist(split);
+	ft_free2d((void **) split);
 	return (result);
 }
 
@@ -78,7 +78,7 @@ char	*env_value(char *var_name, t_mini *mini, int in_quote)
 	out = NULL;
 	space_split = ft_split(var_name, ' ');
 	split = ft_split(space_split[0], '$');
-	free_stringlist(space_split);
+	ft_free2d((void **) space_split);
 	i = 0;
 	while (i < count_array(split))
 	{
@@ -89,7 +89,7 @@ char	*env_value(char *var_name, t_mini *mini, int in_quote)
 						mini->env, in_quote));
 		i++;
 	}
-	free_stringlist(split);
+	ft_free2d((void **) split);
 	return (out);
 }
 
@@ -109,10 +109,10 @@ int	env_var_index(char *var_name, char **env_var)
 		split = ft_split(env_var[i], '=');
 		if (0 == ft_strcmp(var_name, split[0]))
 		{
-			free_stringlist(split);
+			ft_free2d((void **) split);
 			return (i);
 		}
-		free_stringlist(split);
+		ft_free2d((void **) split);
 	}
 	return (-1);
 }

@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:12:15 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 14:01:06 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/20 09:59:49 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	check_commands(t_mini *mini)
 			split = ft_split(mini->commands[i].other_outfilenames, '\n');
 			while (split[++j])
 				printf("out filename: %s\n", split[j]);
-			free_stringlist(split);
+			ft_free2d((void **) split);
 		}
 	}
 }

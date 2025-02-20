@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:52:49 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 11:00:01 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/20 10:02:28 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	remove_var(char *var_name, t_command *cmd)
 			copy[i] = ft_strdup(cmd->mini->env[i + passed_pos]);
 	}
 	copy[count - 1] = NULL;
-	free_stringlist(cmd->mini->env);
+	ft_free2d((void **) cmd->mini->env);
 	cmd->mini->env = copy;
 }
 

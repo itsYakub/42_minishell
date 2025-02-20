@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/20 09:48:20 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/20 10:02:48 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,29 +29,6 @@ int	print_error(char *error_param)
 }
 
 /*
-	Handles the ctrl+c combination
-*/
-void	enable_ctrl_c(int sig)
-{
-	(void)sig;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-
-/*
-	Disables printing out shell prompt
-*/
-void	disable_ctrl_c(int sig)
-{
-	(void)sig;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-}
-
-/*
 	Frees up memory after every main process command
 */
 static void	cleanup(t_mini *mini)
@@ -61,7 +38,7 @@ static void	cleanup(t_mini *mini)
 	i = -1;
 	while (++i < mini->cmdc)
 	{
-		free_stringlist(mini->commands[i].args);
+		ft_free2d((void **)mini->commands[i].args);
 		free(mini->commands[i].orig);
 		free(mini->commands[i].infilename);
 		free(mini->commands[i].outfilename);
@@ -84,7 +61,7 @@ static void	loop(t_mini *mini)
 		signal(SIGINT, disable_ctrl_c);
 		if (!input)
 		{
-			free_stringlist(mini->env);
+			ft_free2d((void **)mini->env);
 			exit(0);
 		}
 		if (is_unprintable(input))
@@ -109,6 +86,6 @@ int	main(int ac, char **av, char **ev)
 	mini.cmdc = 0;
 	mini.exitcode = 0;
 	mini.env = init_env_array(ev);
-	loop(&mini);	
+	loop(&mini);
 	return (0);
 }

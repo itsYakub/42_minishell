@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:51:55 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 10:58:31 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/20 10:01:52 by joleksia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	add_var(char *var_name, char *var_val, t_command *cmd)
 		free(temp);
 	}
 	copy[count + 1] = NULL;
-	free_stringlist(cmd->mini->env);
+	ft_free2d((void **) cmd->mini->env);
 	cmd->mini->env = copy;
 	return (0);
 }
@@ -80,12 +80,12 @@ static void	sort_and_display(char **env)
 		printf("declare -x %s", split[0]);
 		if (split[1])
 			printf("=\"%s\"", split[1]);
-		free_stringlist(split);
+		ft_free2d((void **) split);
 		len = ft_strlen(env[i]);
 		if ('\n' != env[i][len - 1])
 			printf("\n");
 	}
-	free_stringlist(env);
+	ft_free2d((void **) env);
 }
 
 /*
@@ -142,6 +142,6 @@ void	ms_export(t_command *cmd)
 			cmd->mini->exitcode = add_var(split[0], split[1], cmd);
 		else if (split[1])
 			update_var(pos, split[0], split[1], cmd);
-		free_stringlist(split);
+		ft_free2d((void **) split);
 	}
 }
