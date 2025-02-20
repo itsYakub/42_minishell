@@ -10,3 +10,7 @@
 *.so
 *.o
 minishell
+
+# other
+.vscode
+.heredoc
