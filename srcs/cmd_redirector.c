@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 12:02:40 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 14:00:32 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/20 09:00:18 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,25 @@ static int	find_inputs(t_command *cmd)
 	int		i;
 	char	*str;
 	int		len;
+	int		in_quote;
+	int		in_apo;
 
 	i = 0;
 	str = NULL;
+	in_quote = 0;
+	in_apo = 0;
 	len = ft_strlen(cmd->orig);
 	while (i < len && cmd->orig[i])
 	{
-		if ('<' == cmd->orig[i])
+		if ('"' == cmd->orig[i])
+			in_quote = 1 - in_quote;
+		if ('\'' == cmd->orig[i])
+			in_apo = 1 - in_apo;
+		if ('<' == cmd->orig[i] && 0 == (in_apo + in_quote))
 			i = set_input(cmd, i + 1);
-		if ('>' == cmd->orig[i])
+		if ('>' == cmd->orig[i] && 0 == (in_apo + in_quote))
 			i = set_output(cmd, i + 1);
-		if ('>' == cmd->orig[i])
+		if ('>' == cmd->orig[i] && 0 == (in_apo + in_quote))
 			continue ;
 		str = add_char_and_free(str, cmd->orig[i]);
 		i++;

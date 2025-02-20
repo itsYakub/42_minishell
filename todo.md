@@ -1,7 +1,5 @@
 Problems:
 -	cat, ctrl+c = double shell
--	echo "cat lol.c | cat > lol.c" bad ouput
--	'ls' doesn't work
 
 To do:
 -	remove this file!
