@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/21 10:13:22 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/21 10:19:45 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	loop(t_mini *mini)
 	while (1)
 	{
 		signal(SIGINT, enable_ctrl_c);
-		input = readline("\033[0;34m\033[1m> minishell: $ \033[0m");
+		input = readline("\033[0;36m\033[1m> minishell: $ \033[0m");
 		signal(SIGINT, disable_ctrl_c);
 		if (!input)
 		{
