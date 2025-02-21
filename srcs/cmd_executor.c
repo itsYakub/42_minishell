@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 15:38:58 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/21 10:13:24 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/21 11:22:28 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,10 @@ static int	execute_cmd(t_command *cmd, int current_cmd)
 		execute_child(cmd, pipes);
 	else
 		waitpid(pid, &cmd->mini->exitcode, 0);
-	if (cmd->mini->exitcode > 0)
+	if (cmd->mini->exitcode != 0)
 		cmd->mini->exitcode = 1;
+	else
+		cmd->mini->exitcode = 0;
 	close_pipes(cmd->mini, pipes);
 	swap_pipes((int **)pipes);
 	return (1);
