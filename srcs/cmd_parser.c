@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 09:10:08 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/20 14:50:25 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/21 08:33:54 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,30 @@ static void	trim_outer_quotes(t_mini *mini)
 	}
 }
 
+static int	invalid_output_redir(char *str)
+{
+	int	len;
+	int	unprint_count;
+	char	*tmp;
+	
+	tmp = ft_strrchr(str, '>');
+	len = ft_strlen(tmp);
+	
+	return (1);
+}
+
 /* Returns 1 if valid */
 int	parse_and_execute(t_mini *mini, char *line)
 {
 	split_commands(mini, line);
+	invalid_output_redir(mini->commands[0].orig);
+	printf("%s %i %i\n", mini->commands[0].orig, NULL == mini->commands[0].orig, mini->commands[0].orig[0]);
 	expand_commands(mini);
+	printf("%s %i %i\n", mini->commands[0].orig, NULL == mini->commands[0].orig, mini->commands[0].orig[0]);
 	redirect_commands(mini);
+	printf("%s %i %i\n", mini->commands[0].orig, NULL == mini->commands[0].orig, mini->commands[0].orig[0]);
 	trim_outer_quotes(mini);
+	printf("%s %i %i\n", mini->commands[0].orig, NULL == mini->commands[0].orig, mini->commands[0].orig[0]);
 	if (1 == DEBUG)
 		check_commands(mini);
 	execute_commands(mini);
