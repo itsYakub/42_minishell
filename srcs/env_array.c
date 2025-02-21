@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 10:19:42 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/20 10:00:46 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/21 09:55:35 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,23 +72,17 @@ char	*env_value(char *var_name, t_mini *mini, int in_quote)
 {
 	char	**space_split;
 	char	**split;
-	int		i;
 	char	*out;
 
 	out = NULL;
 	space_split = ft_split(var_name, ' ');
 	split = ft_split(space_split[0], '$');
 	ft_free2d((void **) space_split);
-	i = 0;
-	while (i < count_array(split))
-	{
-		if (0 == ft_strcmp("?", split[i]))
-			out = join_and_free(out, ft_itoa(mini->exitcode));
-		else
-			out = join_and_free(out, single_env_value(split[i],
-						mini->env, in_quote));
-		i++;
-	}
+	if (0 == ft_strcmp("?", split[0]))
+		out = join_and_free(out, ft_itoa(mini->exitcode));
+	else
+		out = join_and_free(out, single_env_value(split[0],
+					mini->env, in_quote));
 	ft_free2d((void **) split);
 	return (out);
 }
