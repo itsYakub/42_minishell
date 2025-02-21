@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 11:05:50 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/21 10:23:46 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/21 10:57:05 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static int	env_length(char *str)
 {
 	int	i;
 
-	if (1 == ft_strlen(str) && '?' == str[0])
-		return (2);
+	if (str && '?' == str[0])
+		return (1);
 	i = 0;
 	while (str[i] && (ft_isalnum(str[i]) || '_' == str[i]))
 		i++;
