@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 10:19:42 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/21 10:52:39 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/21 14:11:49 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,11 @@ char	*env_value_from_index(int pos, char **env_vars)
 
 	result = NULL;
 	var = env_vars[pos];
+	if (!var)
+		return (NULL);
 	split = ft_split(var, '=');
 	if (2 == count_array(split))
-	{
-		if (!(2 == ft_strlen(split[1]) && 0 == ft_strncmp("''", split[1], 2)))
-			result = ft_strdup(split[1]);
-	}
+		result = ft_strdup(split[1]);
 	ft_free2d((void **) split);
 	return (result);
 }

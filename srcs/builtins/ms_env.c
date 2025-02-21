@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 11:04:28 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 10:57:02 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/21 13:23:15 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ void	ms_env(t_command *cmd)
 	char	*var;
 
 	if (1 != count_array(cmd->args))
+	{
+		cmd->mini->exitcode = 1;
 		return ;
+	}
 	i = -1;
 	while (cmd->mini->env[++i])
 	{
@@ -36,4 +39,5 @@ void	ms_env(t_command *cmd)
 		if ('\n' != cmd->mini->env[i][len - 1])
 			printf("\n");
 	}
+	cmd->mini->exitcode = 0;
 }

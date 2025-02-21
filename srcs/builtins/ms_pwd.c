@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 10:48:46 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/19 10:59:47 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/21 13:32:09 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@ void	ms_pwd(t_command *cmd)
 
 	pwd = env_value("PWD", cmd->mini, 0);
 	if (!pwd)
+	{
+		cmd->mini->exitcode = 1;
 		return ;
+	}
 	printf("%s\n", pwd);
 	free(pwd);
+	cmd->mini->exitcode = 0;
 }

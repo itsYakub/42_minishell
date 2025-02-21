@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:22:55 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/20 10:43:49 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/21 13:22:06 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,5 @@ void	ms_echo(t_command *cmd)
 	print_args(cmd, arg_count, skip_nl);
 	if (!skip_nl)
 		printf("\n");
+	cmd->mini->exitcode = 0;
 }

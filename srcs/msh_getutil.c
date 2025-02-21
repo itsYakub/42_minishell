@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 08:38:28 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/20 15:43:20 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/21 14:09:19 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ char	*msh_getutil(t_mini *mini, char **util)
 	if (var)
 	{
 		paths = __msh_creatpths(var, *util, 5);
+		free(var);
 		if (!paths)
 			return (*util);
 		i = -1;
@@ -87,6 +88,7 @@ static char	*__msh_creaturl(char *s1, char *s2)
 static char	**__msh_creatpths(char *var, char *util, size_t off)
 {
 	char	**paths;
+	char	*tmp;
 	size_t	iter;
 
 	paths = ft_split(var + off, ':');
@@ -94,6 +96,11 @@ static char	**__msh_creatpths(char *var, char *util, size_t off)
 		return (NULL);
 	iter = -1;
 	while (paths[++iter])
-		paths[iter] = __msh_creaturl(paths[iter], util);
+	{
+		tmp = ft_strdup(paths[iter]);
+		free(paths[iter]);
+		paths[iter] = __msh_creaturl(tmp, util);
+		free(tmp);
+	}
 	return (paths);
 }
