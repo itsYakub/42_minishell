@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:12:15 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/21 09:30:56 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/21 10:22:29 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,13 @@ int	valid_commands(t_mini *mini)
 		if ('>' == mini->cmds[i].orig[ft_strlen(mini->cmds[i].orig) - 1])
 		{
 			ft_putstr_fd("minishell: syntax error\n", 2);
+			mini->exitcode = 1;
 			return (0);
 		}
 		if (1 == bad_quotes(mini->cmds[i].orig))
 		{
 			ft_putstr_fd("minishell: syntax error\n", 2);
+			mini->exitcode = 1;
 			return (0);
 		}
 	}
