@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:59:53 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/20 14:21:56 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/21 14:43:19 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ char	*add_char_and_free(char *old, char new)
 
 	if (!new)
 		return (old);
-	i = -1;
 	if (!old)
 		old = ft_strdup("");
 	tmp = malloc(ft_strlen(old) + 2);
+	i = -1;
 	while (old[++i])
 		tmp[i] = old[i];
 	tmp[i] = new;

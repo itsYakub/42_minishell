@@ -5,3 +5,10 @@
     ...
     obj:*/libreadline.so.*
 }
+{
+    ignore_minishell_leaks
+    Memcheck:Leak
+	match-leak-kinds: reachable
+    ...
+    fun:main
+}

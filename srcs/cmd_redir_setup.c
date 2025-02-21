@@ -6,12 +6,45 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 15:17:42 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/20 15:44:50 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/21 14:51:18 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+	Treats the terminal as a file
+*/
+void	heredoc_loop(t_command *cmd)
+{
+	int		input_fd;
+	char	*line;
+
+	signal(SIGINT, SIG_DFL);
+	input_fd = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	while (1)
+	{
+		line = readline("> ");
+		if (0 == ft_strcmp(cmd->infilename, line))
+		{
+			free(line);
+			break ;
+		}
+		else
+		{
+			write(input_fd, line, ft_strlen(line));
+			write(input_fd, "\n", 1);
+			free(line);
+		}
+	}
+	close(input_fd);
+	free(cmd->infilename);
+	cmd->infilename = ".heredoc";
+}
+
+/*
+	Helps with multiple (ignored) output redirections
+*/
 static void	free_old_outfilename(t_command *cmd)
 {
 	if (cmd->outname)
@@ -51,6 +84,9 @@ int	set_output(t_command *cmd, int *start, int in_quote, int in_apo)
 	return (0);
 }
 
+/*
+	Helps with multiple (ignored) input redirections
+*/
 static void	free_old_infilename(t_command *cmd)
 {
 	if (cmd->infilename)

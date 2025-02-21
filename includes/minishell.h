@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/21 10:53:32 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/21 14:50:39 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ void	disable_ctrl_c(int sig);
 // cmd_redir_setup
 int		set_output(t_command *cmd, int *start, int in_quote, int in_apo);
 int		set_input(t_command *cmd, int *start, int in_quote, int in_apo);
+void	heredoc_loop(t_command *cmd);
 
 // cmd_printer
 void	print_commands(t_mini *mini);

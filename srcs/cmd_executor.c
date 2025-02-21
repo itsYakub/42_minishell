@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 15:38:58 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/21 14:06:07 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/21 14:50:21 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,9 @@
 static int	handle_cmd_input(t_command *cmd)
 {
 	int		input_fd;
-	char	*line;
 
 	if (1 == cmd->inputtype)
-	{
-		signal(SIGINT, SIG_DFL);
-		input_fd = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		while (1)
-		{
-			line = readline("> ");
-			if (!line || 0 == ft_strcmp(cmd->infilename, line))
-				break ;
-			write(input_fd, line, ft_strlen(line));
-			write(input_fd, "\n", 1);
-		}
-		close(input_fd);
-		cmd->infilename = ".heredoc";
-	}
+		heredoc_loop(cmd);
 	input_fd = open(cmd->infilename, O_RDONLY, 0644);
 	if (input_fd < 0)
 		return (print_error(cmd->infilename));
