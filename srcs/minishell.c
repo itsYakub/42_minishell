@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:57:34 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/21 14:47:51 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/21 15:01:33 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,10 @@ static void	loop(t_mini *mini)
 			exit(0);
 		}
 		if (is_unprintable(input))
+		{
+			free(input);
 			continue ;
+		}
 		add_history(input);
 		parse_and_execute(mini, input);
 		cleanup(mini);
