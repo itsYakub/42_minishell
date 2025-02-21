@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 12:02:40 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/21 08:24:50 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/21 09:15:26 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,6 @@ int	redirect_commands(t_mini *mini)
 
 	i = -1;
 	while (++i < mini->cmdc)
-		find_inputs(&mini->commands[i]);
+		find_inputs(&mini->cmds[i]);
 	return (1);
 }

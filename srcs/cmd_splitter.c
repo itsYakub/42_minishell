@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 10:56:04 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/20 14:54:42 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/21 09:15:26 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	extract_cmd(t_mini *mini, int count, char *line, int len)
 	sub = ft_substr(line, 0, len);
 	str = ft_strdup(sub);
 	free(sub);
-	mini->commands[count].orig = str;
+	mini->cmds[count].orig = str;
 	return (len + 1);
 }
 
@@ -80,7 +80,7 @@ static void	divide_commands(t_mini *mini, char *line)
 			count++;
 	}
 	count++;
-	mini->commands = malloc(sizeof(t_command) * count);
+	mini->cmds = malloc(sizeof(t_command) * count);
 	mini->cmdc = count;
 }
 
@@ -94,12 +94,13 @@ static void	init_commands(t_mini *mini)
 	i = -1;
 	while (++i < mini->cmdc)
 	{
-		mini->commands[i].infilename = NULL;
-		mini->commands[i].inputtype = 0;
-		mini->commands[i].outname = NULL;
-		mini->commands[i].other_outnames = NULL;
-		mini->commands[i].outputtype = 0;
-		mini->commands[i].mini = mini;
+		mini->cmds[i].infilename = NULL;
+		mini->cmds[i].inputtype = 0;
+		mini->cmds[i].outname = NULL;
+		mini->cmds[i].other_outnames = NULL;
+		mini->cmds[i].outputtype = 0;
+		mini->cmds[i].mini = mini;
+		mini->cmds[i].args = NULL;
 	}
 }
 

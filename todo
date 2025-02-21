@@ -1,5 +1,6 @@
 << cat
 echo $HOME/
 echo '$HOME
+
 echo > out >
 $ENV

@@ -6,49 +6,54 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:12:15 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/20 14:54:42 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/21 09:30:56 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 /*
-	Prints the redirection status
+	Checks if all quotes are closed
 */
-static void	print_redirection(t_command *cmd)
+static int	bad_quotes(char *orig)
 {
-	printf("intype: %i infile: %s outtype: %i outfile: %s\n",
-		cmd->inputtype, cmd->infilename,
-		cmd->outputtype, cmd->outname);
-	printf("others: %s\n", cmd->other_outnames);
+	int	in_quote;
+	int	in_apo;
+	int	i;
+
+	in_quote = 0;
+	in_apo = 0;
+	i = -1;
+	while (orig[++i])
+	{
+		if ('"' == orig[i] && 0 == in_apo)
+			in_quote = 1 - in_quote;
+		if ('\'' == orig[i] && 0 == in_quote)
+			in_apo = 1 - in_apo;
+	}
+	return (0 != in_quote + in_apo);
 }
 
 /*
-	Mainly for debug to make sure we're parsing what we should be
+	Checks a couple of bad inputs
 */
-void	check_commands(t_mini *mini)
+int	valid_commands(t_mini *mini)
 {
-	int		i;
-	int		j;
-	char	**split;
+	int	i;
 
 	i = -1;
-	printf("cmd count: %i\n", mini->cmdc);
 	while (++i < mini->cmdc)
 	{
-		print_redirection(&mini->commands[i]);
-		printf("orig: %s\n", mini->commands[i].orig);
-		j = -1;
-		while (mini->commands[i].args[++j])
-			printf("arg: %s (%i)\n", mini->commands[i].args[j],
-				ft_strlen(mini->commands[i].args[j]));
-		if (mini->commands[i].other_outnames)
+		if ('>' == mini->cmds[i].orig[ft_strlen(mini->cmds[i].orig) - 1])
 		{
-			j = -1;
-			split = ft_split(mini->commands[i].other_outnames, '\n');
-			while (split[++j])
-				printf("out filename: %s\n", split[j]);
-			ft_free2d((void **) split);
+			ft_putstr_fd("minishell: syntax error\n", 2);
+			return (0);
+		}
+		if (1 == bad_quotes(mini->cmds[i].orig))
+		{
+			ft_putstr_fd("minishell: syntax error\n", 2);
+			return (0);
 		}
 	}
+	return (1);
 }

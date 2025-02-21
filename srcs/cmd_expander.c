@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 11:05:50 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/21 08:23:04 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/21 09:15:54 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,7 @@ static char	*expand_cmd(t_command *cmd, t_mini *mini)
 			i += env_length(&cmd->orig[i + 1]) + 1;
 		}
 		else
-		{
 			str = add_char_and_free(str, cmd->orig[i]);
-		}
 	}
 	return (str);
 }
@@ -86,15 +84,15 @@ int	expand_commands(t_mini *mini)
 	i = -1;
 	while (++i < mini->cmdc)
 	{
-		str = expand_cmd(&mini->commands[i], mini);
-		free(mini->commands[i].orig);
+		str = expand_cmd(&mini->cmds[i], mini);
+		free(mini->cmds[i].orig);
 		if (str)
 		{
-			mini->commands[i].orig = ft_strdup(str);
+			mini->cmds[i].orig = ft_strdup(str);
 			free(str);
 		}
 		else
-			mini->commands[i].orig = ft_strdup("");
+			mini->cmds[i].orig = ft_strdup("");
 	}
 	return (1);
 }

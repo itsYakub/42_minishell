@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 15:38:58 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/20 14:54:16 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/21 09:15:26 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,23 +123,23 @@ int	execute_commands(t_mini *mini)
 	int	in;
 	int	out;
 
-	if (1 == mini->cmdc && msh_isbuiltin(&mini->commands[0]))
+	if (1 == mini->cmdc && msh_isbuiltin(&mini->cmds[0]))
 	{
 		in = dup(0);
 		out = dup(1);
-		if (mini->commands[0].infilename)
-			if (!handle_cmd_input(&mini->commands[0]))
+		if (mini->cmds[0].infilename)
+			if (!handle_cmd_input(&mini->cmds[0]))
 				return (0);
-		if (mini->commands[0].outname)
-			if (!handle_cmd_output(&mini->commands[0]))
+		if (mini->cmds[0].outname)
+			if (!handle_cmd_output(&mini->cmds[0]))
 				return (0);
-		msh_exec_builtin(&mini->commands[0]);
+		msh_exec_builtin(&mini->cmds[0]);
 		dup2(in, 0);
 		dup2(out, 1);
 		return (1);
 	}
 	i = -1;
 	while (++i < mini->cmdc)
-		execute_cmd(&mini->commands[i], i);
+		execute_cmd(&mini->cmds[i], i);
 	return (1);
 }

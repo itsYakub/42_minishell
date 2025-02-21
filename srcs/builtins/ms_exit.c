@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 10:42:31 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/20 14:54:42 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/21 09:15:26 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ void	ms_exit(t_command *cmd)
 		ft_putstr_fd(cmd->args[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
 	}
-	ft_free2d((void **)mini->commands->args);
+	ft_free2d((void **)mini->cmds->args);
 	ft_free2d((void **)mini->env);
-	free(mini->commands->orig);
-	free(mini->commands->infilename);
-	free(mini->commands->outname);
-	free(mini->commands->other_outnames);
-	free(mini->commands);
+	free(mini->cmds->orig);
+	free(mini->cmds->infilename);
+	free(mini->cmds->outname);
+	free(mini->cmds->other_outnames);
+	free(mini->cmds);
 	exit(0);
 }
