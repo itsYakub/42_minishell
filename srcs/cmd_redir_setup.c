@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 15:17:42 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/22 14:09:58 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/22 14:17:22 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	heredoc_loop(t_command *cmd)
 	while (1)
 	{
 		line = readline("> ");
+		if (!line)
+			break ;
 		if (0 == ft_strcmp(cmd->infilename, line))
 		{
 			free(line);
