@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 15:38:58 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/22 11:02:01 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/22 13:38:52 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,7 @@ static int	execute_cmd(t_command *cmd, int current_cmd)
 	cmd->mini->current_cmd = current_cmd;
 	pipe(pipes[CURRENT_CMD]);
 	if (0 == fork())
-	{
 		execute_child(cmd, pipes);
-	}
 	else if (current_cmd == cmd->mini->cmdc - 1)
 	{
 		i = -1;

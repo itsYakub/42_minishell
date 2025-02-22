@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:51:55 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/22 13:29:08 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/22 13:42:52 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ static void	sort_and_display(char **env)
 		if ('\n' != env[i][j])
 			write(1, "\n", 1);
 	}
+	ft_free2d((void **)env);
 }
 
 /*
