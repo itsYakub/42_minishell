@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:51:55 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/22 12:12:45 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/22 13:29:08 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,29 @@
 /*
 	Replaces an existing var value, but only if a new value is passed
 */
-void	update_var(int pos, char *var_name, char *var_val, t_mini *mini)
+static void	update_var(int pos, char *var, t_mini *mini)
 {
-	char	*temp;
+	int	i;
+	int	count;
 
+	count = 0;
+	i = -1;
+	while (var[++i])
+		if ('=' == var[i])
+			count++;
+	if (0 == count)
+		return ;
 	free(mini->env[pos]);
-	if (var_val)
-	{
-		mini->env[pos] = ft_strjoin(var_name, "=");
-		temp = ft_strjoin(mini->env[pos], var_val);
-		free(mini->env[pos]);
-		mini->env[pos] = ft_strdup(temp);
-		free(temp);
-	}
-	else
-		mini->env[pos] = ft_strdup(var_name);
+	mini->env[pos] = ft_strdup(var);
 }
 
 /*
 	Adds a new var and optional value
 */
-int	add_var(char *var_name, char *var_val, t_mini *mini)
+static int	add_var(char *var, t_mini *mini)
 {
 	int		count;
 	char	**copy;
-	char	*temp;
 
 	count = count_array(mini->env);
 	if (-1 == count)
@@ -48,16 +46,7 @@ int	add_var(char *var_name, char *var_val, t_mini *mini)
 	if (!copy)
 		return (1);
 	copy_env_array(mini->env, &copy);
-	if (!var_val)
-		copy[count] = ft_strdup(var_name);
-	else
-	{
-		copy[count] = ft_strjoin(var_name, "=");
-		temp = ft_strjoin(copy[count], var_val);
-		free(copy[count]);
-		copy[count] = ft_strdup(temp);
-		free(temp);
-	}
+	copy[count] = ft_strdup(var);
 	copy[count + 1] = NULL;
 	ft_free2d((void **) mini->env);
 	mini->env = copy;
@@ -68,24 +57,28 @@ int	add_var(char *var_name, char *var_val, t_mini *mini)
 static void	sort_and_display(char **env)
 {
 	int		i;
-	int		len;
-	char	**split;
+	int		j;
+	int		printed_equals;
 
 	i = -1;
 	while (env[++i])
 	{
 		if (0 == ft_strncmp("_=", env[i], 2))
 			continue ;
-		split = ft_split(env[i], '=');
-		printf("declare -x %s", split[0]);
-		if (split[1])
-			printf("=\"%s\"", split[1]);
-		ft_free2d((void **) split);
-		len = ft_strlen(env[i]);
-		if ('\n' != env[i][len - 1])
-			printf("\n");
+		write(1, "declare -x ", 11);
+		j = -1;
+		printed_equals = 0;
+		while (env[i][++j])
+		{
+			write(1, &env[i][j], 1);
+			if ('=' == env[i][j] && 0 == printed_equals)
+				printed_equals = write(1, "\"", 1);
+			if (j == ft_strlen(env[i]) - 1 && 1 == printed_equals)
+				write(1, "\"", 1);
+		}
+		if ('\n' != env[i][j])
+			write(1, "\n", 1);
 	}
-	ft_free2d((void **) env);
 }
 
 /*
@@ -122,6 +115,8 @@ void	ms_export(t_command *cmd)
 {
 	int		cmd_count;
 	int		i;
+	int		pos;
+	char	**split;
 
 	cmd_count = count_array(cmd->args);
 	if (1 == cmd_count)
@@ -133,33 +128,13 @@ void	ms_export(t_command *cmd)
 	if (1 == is_invalid_identifier(cmd))
 		return ;
 	while (cmd->args[++i])
-		export_vars(cmd->args[i], cmd->mini);
+	{
+		split = ft_split(cmd->args[i], '=');
+		pos = env_var_index(split[0], cmd->mini->env);
+		if (-1 == pos)
+			add_var(cmd->args[i], cmd->mini);
+		else
+			update_var(pos, cmd->args[i], cmd->mini);
+		ft_free2d((void **) split);
+	}
 }
-
-// void	ms_export(t_command *cmd)
-// {
-// 	int		cmd_count;
-// 	char	**split;
-// 	int		i;
-// 	int		pos;
-
-// 	cmd_count = count_array(cmd->args);
-// 	if (1 == cmd_count)
-// 	{
-// 		sort_and_display(sort_vars(cmd));
-// 		return ;
-// 	}
-// 	i = 0;
-// 	if (1 == is_invalid_identifier(cmd))
-// 		return ;
-// 	while (cmd->args[++i])
-// 	{
-// 		split = ft_split(cmd->args[i], '=');
-// 		pos = env_var_index(split[0], cmd->mini->env);
-// 		if (-1 == pos)
-// 			cmd->mini->exitcode = add_var(split[0], split[1], cmd);
-// 		else if (split[1])
-// 			update_var(pos, split[0], split[1], cmd);
-// 		ft_free2d((void **) split);
-// 	}
-// }

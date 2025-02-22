@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:29:21 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/22 12:11:24 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/22 13:05:33 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,33 +61,4 @@ char	**init_env_array(char **envp)
 	env_vars[pos] = ft_strjoin("OLDPWD=", pwd);
 	free(pwd);
 	return (env_vars);
-}
-
-void	export_vars(char *str, t_mini *mini)
-{
-	int		pos;
-	char	*var;
-	char	*val;
-	char	*tmp;
-
-	var = ft_strdup(str);
-	val = ft_strnstr(var, "=", ft_strlen(var));
-	if (val)
-	{
-		tmp = ft_substr(var, 0, val - var);
-		free(var);
-		var = ft_strdup(tmp);
-		free(tmp);
-	}
-	printf("here is %s\n", var);
-	pos = env_var_index(var, mini->env);
-	// if (-1 == pos)
-	// 	mini->exitcode = add_var(var, val, mini);
-	// else if (val)
-	// 	update_var(pos, var, val, mini);
-	
-	//if (var)
-	//	free(var);
-	//if (val)
-		//free(val);
 }
