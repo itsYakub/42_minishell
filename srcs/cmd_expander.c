@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 11:05:50 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/22 09:22:46 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/22 09:45:52 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static char	*replace_var(char *var_name, char *str, t_mini *mini, int in_quote)
 	j = -1;
 	real_in_quote = (in_quote - 2) == 1;
 	tmp = env_value(var_name, mini, real_in_quote);
-	printf("%s %s\n", var_name, tmp);
 	while (tmp && tmp[++j])
 		str = add_char_and_free(str, tmp[j]);
 	free(tmp);
