@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:51:55 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/20 10:01:52 by joleksia         ###   ########.fr       */
+/*   Updated: 2025/02/22 12:12:45 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,39 +15,39 @@
 /*
 	Replaces an existing var value, but only if a new value is passed
 */
-static void	update_var(int pos, char *var_name, char *var_val, t_command *cmd)
+void	update_var(int pos, char *var_name, char *var_val, t_mini *mini)
 {
 	char	*temp;
 
-	free(cmd->mini->env[pos]);
+	free(mini->env[pos]);
 	if (var_val)
 	{
-		cmd->mini->env[pos] = ft_strjoin(var_name, "=");
-		temp = ft_strjoin(cmd->mini->env[pos], var_val);
-		free(cmd->mini->env[pos]);
-		cmd->mini->env[pos] = ft_strdup(temp);
+		mini->env[pos] = ft_strjoin(var_name, "=");
+		temp = ft_strjoin(mini->env[pos], var_val);
+		free(mini->env[pos]);
+		mini->env[pos] = ft_strdup(temp);
 		free(temp);
 	}
 	else
-		cmd->mini->env[pos] = ft_strdup(var_name);
+		mini->env[pos] = ft_strdup(var_name);
 }
 
 /*
 	Adds a new var and optional value
 */
-static int	add_var(char *var_name, char *var_val, t_command *cmd)
+int	add_var(char *var_name, char *var_val, t_mini *mini)
 {
 	int		count;
 	char	**copy;
 	char	*temp;
 
-	count = count_array(cmd->mini->env);
+	count = count_array(mini->env);
 	if (-1 == count)
 		return (1);
 	copy = malloc(sizeof(char *) * (count + 2));
 	if (!copy)
 		return (1);
-	copy_env_array(cmd->mini->env, &copy);
+	copy_env_array(mini->env, &copy);
 	if (!var_val)
 		copy[count] = ft_strdup(var_name);
 	else
@@ -59,8 +59,8 @@ static int	add_var(char *var_name, char *var_val, t_command *cmd)
 		free(temp);
 	}
 	copy[count + 1] = NULL;
-	ft_free2d((void **) cmd->mini->env);
-	cmd->mini->env = copy;
+	ft_free2d((void **) mini->env);
+	mini->env = copy;
 	return (0);
 }
 
@@ -121,9 +121,7 @@ static int	is_invalid_identifier(t_command *cmd)
 void	ms_export(t_command *cmd)
 {
 	int		cmd_count;
-	char	**split;
 	int		i;
-	int		pos;
 
 	cmd_count = count_array(cmd->args);
 	if (1 == cmd_count)
@@ -135,13 +133,33 @@ void	ms_export(t_command *cmd)
 	if (1 == is_invalid_identifier(cmd))
 		return ;
 	while (cmd->args[++i])
-	{
-		split = ft_split(cmd->args[i], '=');
-		pos = env_var_index(split[0], cmd->mini->env);
-		if (-1 == pos)
-			cmd->mini->exitcode = add_var(split[0], split[1], cmd);
-		else if (split[1])
-			update_var(pos, split[0], split[1], cmd);
-		ft_free2d((void **) split);
-	}
+		export_vars(cmd->args[i], cmd->mini);
 }
+
+// void	ms_export(t_command *cmd)
+// {
+// 	int		cmd_count;
+// 	char	**split;
+// 	int		i;
+// 	int		pos;
+
+// 	cmd_count = count_array(cmd->args);
+// 	if (1 == cmd_count)
+// 	{
+// 		sort_and_display(sort_vars(cmd));
+// 		return ;
+// 	}
+// 	i = 0;
+// 	if (1 == is_invalid_identifier(cmd))
+// 		return ;
+// 	while (cmd->args[++i])
+// 	{
+// 		split = ft_split(cmd->args[i], '=');
+// 		pos = env_var_index(split[0], cmd->mini->env);
+// 		if (-1 == pos)
+// 			cmd->mini->exitcode = add_var(split[0], split[1], cmd);
+// 		else if (split[1])
+// 			update_var(pos, split[0], split[1], cmd);
+// 		ft_free2d((void **) split);
+// 	}
+// }

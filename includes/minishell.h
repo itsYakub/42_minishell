@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 09:12:07 by joleksia          #+#    #+#             */
-/*   Updated: 2025/02/22 09:43:15 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/22 11:57:49 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ int		handle_other_filenames(t_command *cmd);
 int		count_array(char **array);
 void	copy_env_array(char **original, char ***copy);
 char	**init_env_array(char **envp);
+void	export_vars(char *str, t_mini *mini);
 
 // signals
 void	enable_ctrl_c(int sig);
@@ -153,5 +154,9 @@ void	heredoc_loop(t_command *cmd);
 
 // cmd_printer
 void	print_commands(t_mini *mini);
+
+// ms_export
+void	update_var(int pos, char *var_name, char *var_val, t_mini *mini);
+int		add_var(char *var_name, char *var_val, t_mini *mini);
 
 #endif
