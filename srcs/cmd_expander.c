@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 11:05:50 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/21 10:57:05 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/22 09:22:46 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,12 @@ static char	*replace_var(char *var_name, char *str, t_mini *mini, int in_quote)
 {
 	char	*tmp;
 	int		j;
+	int		real_in_quote;
 
 	j = -1;
-	tmp = env_value(var_name, mini, in_quote);
+	real_in_quote = (in_quote - 2) == 1;
+	tmp = env_value(var_name, mini, real_in_quote);
+	printf("%s %s\n", var_name, tmp);
 	while (tmp && tmp[++j])
 		str = add_char_and_free(str, tmp[j]);
 	free(tmp);
@@ -60,13 +63,13 @@ static char	*expand_cmd(t_command *cmd, t_mini *mini)
 	while (cmd->orig[++i])
 	{
 		if ('\'' == cmd->orig[i] && 0 == in_quote)
-			in_apo = 1 - in_apo;
-		if ('"' == cmd->orig[i])
+			in_apo = 2 - in_apo;
+		if ('"' == cmd->orig[i] && 0 == in_apo)
 			in_quote = 1 - in_quote;
 		if ('$' == cmd->orig[i] && 0 == in_apo && SPACE != cmd->orig[i + 1]
 			&& '\0' != cmd->orig[i + 1])
 		{
-			str = replace_var(&cmd->orig[i + 1], str, mini, in_quote);
+			str = replace_var(&cmd->orig[i + 1], str, mini, in_quote + in_apo);
 			i += env_length(&cmd->orig[i + 1]);
 		}
 		else
