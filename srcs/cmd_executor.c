@@ -6,7 +6,7 @@
 /*   By: lwillis <lwillis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 15:38:58 by lwillis           #+#    #+#             */
-/*   Updated: 2025/02/22 09:44:49 by lwillis          ###   ########.fr       */
+/*   Updated: 2025/02/22 11:02:01 by lwillis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,19 +85,21 @@ static int	execute_child(t_command *cmd, t_pipe pipes[2])
 static int	execute_cmd(t_command *cmd, int current_cmd)
 {
 	static t_pipe	pipes[2];
-	int				pid;
+	int				i;
 
 	cmd->mini->current_cmd = current_cmd;
 	pipe(pipes[CURRENT_CMD]);
-	pid = fork();
-	if (0 == pid)
+	if (0 == fork())
+	{
 		execute_child(cmd, pipes);
-	else
-		waitpid(pid, &cmd->mini->exitcode, 0);
-	if (cmd->mini->exitcode != 0)
-		cmd->mini->exitcode = 1;
-	else
-		cmd->mini->exitcode = 0;
+	}
+	else if (current_cmd == cmd->mini->cmdc - 1)
+	{
+		i = -1;
+		while (++i < cmd->mini->cmdc)
+			wait(&cmd->mini->exitcode);
+		cmd->mini->exitcode = WEXITSTATUS(cmd->mini->exitcode);
+	}
 	close_pipes(cmd->mini, pipes);
 	swap_pipes((int **)pipes);
 	return (1);
